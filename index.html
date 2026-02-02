@@ -10,7 +10,7 @@
 <style>
 
 /* ==========================
-   🎯 DISEÑO (NO EDITAR)
+   🎨 DISEÑO GENERAL
 ========================== */
 
 html{
@@ -37,7 +37,6 @@ justify-content:center;
 gap:40px;
 padding:15px 0;
 z-index:1000;
-transition:0.3s;
 box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
@@ -52,16 +51,47 @@ nav a:hover{
 color:#3a7d44;
 }
 
-/* TITULO */
-header{
+/* HERO 80% */
+.hero{
+height:80vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:white;
+position:relative;
 text-align:center;
-padding:120px 20px 40px;
+padding-top:60px;
 }
-header h1{
+
+.hero::after{
+content:"";
+position:absolute;
+bottom:0;
+left:0;
+width:100%;
+height:150px;
+background:linear-gradient(to bottom, transparent, #f5f1e6);
+}
+
+.hero-content{
+animation:fadeHero 1.2s ease;
+}
+
+.hero h1{
 font-family:'Playfair Display', serif;
-font-size:3rem;
+font-size:3.5rem;
 color:#2f5d3a;
-letter-spacing:2px;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:1.2rem;
+color:#3a7d44;
+}
+
+@keyframes fadeHero{
+from{opacity:0; transform:translateY(30px);}
+to{opacity:1; transform:translateY(0);}
 }
 
 /* LED */
@@ -72,71 +102,60 @@ background:#2f5d3a;
 color:#fff;
 padding:10px 0;
 }
+
 .led-text{
 display:inline-block;
 white-space:nowrap;
 animation:scroll 15s linear infinite;
 font-weight:600;
 }
+
 @keyframes scroll{
 from{transform:translateX(100%);}
 to{transform:translateX(-100%);}
 }
 
-/* LOGO */
-.logo-section{
-text-align:center;
-margin:60px 0;
-}
-.logo-box{
-display:inline-block;
-background:#ffffff;
-padding:20px;
-border-radius:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-transition:0.4s;
-cursor:pointer;
-}
-.logo-box:hover{
-transform:scale(1.05);
-}
-.logo-box img{
-width:200px;
-border-radius:15px;
-}
-
-/* IMAGEN GRANDE */
-.fullscreen{
-position:fixed;
-top:0;
-left:0;
+/* CONOCENOS 100% */
+.conocenos{
 width:100%;
-height:100%;
-background:rgba(0,0,0,0.8);
-display:flex;
-justify-content:center;
-align-items:center;
-opacity:0;
-visibility:hidden;
-transition:0.4s;
-}
-.fullscreen img{
-width:60%;
-border-radius:20px;
-animation:fadeIn 0.4s ease;
-}
-@keyframes fadeIn{
-from{transform:scale(0.8); opacity:0;}
-to{transform:scale(1); opacity:1;}
-}
-.fullscreen.active{
-opacity:1;
-visibility:visible;
+padding:80px 20px;
+background:linear-gradient(135deg,#2f5d3a,#3a7d44);
+color:white;
+text-align:center;
 }
 
-/* SECCION PREMIUM */
+.conocenos h2{
+font-size:2.2rem;
+cursor:pointer;
+transition:0.3s;
+}
+
+.conocenos h2:hover{
+transform:scale(1.05);
+color:#e8d8b0;
+}
+
+.opciones{
+display:none;
+margin-top:25px;
+}
+
+.opciones div{
+margin:15px;
+cursor:pointer;
+font-weight:500;
+padding:10px;
+border-radius:12px;
+transition:0.3s;
+}
+
+.opciones div:hover{
+background:rgba(255,255,255,0.2);
+}
+
+/* PREMIUM SECTION */
 .premium-section{
-padding:80px 20px;
+padding:100px 20px;
 }
 
 .premium-layout{
@@ -163,7 +182,7 @@ transition:0.4s;
 }
 
 .card:hover{
-transform:translateY(-10px);
+transform:translateY(-12px);
 }
 
 .card img{
@@ -177,7 +196,7 @@ padding:20px;
 }
 
 .center-image img{
-width:380px;
+width:420px;
 border-radius:30px;
 box-shadow:0 20px 40px rgba(0,0,0,0.25);
 transition:0.4s;
@@ -187,19 +206,7 @@ transition:0.4s;
 transform:scale(1.05);
 }
 
-/* CONOCENOS */
-.conocenos{
-text-align:center;
-margin:60px 0;
-}
-.opciones{
-display:none;
-margin-top:15px;
-}
-.opciones div{
-margin:10px;
-cursor:pointer;
-}
+/* POPUP */
 .popup{
 position:fixed;
 top:0;
@@ -214,6 +221,7 @@ visibility:hidden;
 opacity:0;
 transition:0.3s;
 }
+
 .popup-content{
 background:#f5f1e6;
 padding:30px;
@@ -221,6 +229,7 @@ border-radius:20px;
 width:400px;
 text-align:center;
 }
+
 .popup.active{
 visibility:visible;
 opacity:1;
@@ -234,7 +243,7 @@ right:25px;
 width:65px;
 height:65px;
 border-radius:50%;
-background:rgba(47,93,58,0.8);
+background:rgba(47,93,58,0.85);
 display:flex;
 justify-content:center;
 align-items:center;
@@ -258,37 +267,38 @@ color:white;
 
 <body>
 
-<!-- ==========================
-   ✏️ EDITA SOLO ESTA PARTE
-========================== -->
-
 <nav>
 <a href="#inicio">Inicio</a>
-<a href="#servicio">Servicio</a>
 <a href="#conocenos">Conócenos</a>
+<a href="#servicio">Servicio</a>
 </nav>
 
-<header id="inicio">
+<!-- HERO -->
+<section class="hero" id="inicio">
+<div class="hero-content">
 <h1>Abarrotes San Juan</h1>
-</header>
+<p>Calidad y confianza en cada producto</p>
+</div>
+</section>
 
+<!-- LED -->
 <div class="led-container">
 <div class="led-text">
 ¡Ofertas todos los días! • Servicio rápido tipo Rappi • Productos frescos • Pedidos en línea •
 </div>
 </div>
 
-<section class="logo-section">
-<div class="logo-box" onclick="expandImage()">
-<img src="https://amexi.com.mx/wp-content/uploads/2025/07/penta-se-roba-el-show-de-wwe-en-mexico-lanza-emotivo-mensaje.jpg">
-<p>Calidad y confianza en cada producto</p>
+<!-- CONOCENOS ARRIBA -->
+<section class="conocenos" id="conocenos">
+<h2 onclick="toggleMenu()">Conócenos</h2>
+<div class="opciones" id="menu">
+<div onclick="showPopup('mision')">Misión</div>
+<div onclick="showPopup('vision')">Visión</div>
+<div onclick="showPopup('objetivo')">Objetivo</div>
 </div>
 </section>
 
-<div class="fullscreen" id="fullscreen" onclick="closeImage()">
-<img src="https://amexi.com.mx/wp-content/uploads/2025/07/penta-se-roba-el-show-de-wwe-en-mexico-lanza-emotivo-mensaje.jpg">
-</div>
-
+<!-- SERVICIO -->
 <section class="premium-section" id="servicio">
 <div class="premium-layout">
 
@@ -335,15 +345,6 @@ color:white;
 </div>
 </section>
 
-<section class="conocenos" id="conocenos">
-<h2 onclick="toggleMenu()">Conócenos</h2>
-<div class="opciones" id="menu">
-<div onclick="showPopup('mision')">Misión</div>
-<div onclick="showPopup('vision')">Visión</div>
-<div onclick="showPopup('objetivo')">Objetivo</div>
-</div>
-</section>
-
 <div class="popup" id="popup">
 <div class="popup-content">
 <h3 id="popup-title"></h3>
@@ -356,21 +357,12 @@ color:white;
 <span>🤖</span>
 </div>
 
-<!-- ==========================
-   🔒 FIN ZONA EDITABLE
-========================== -->
-
 <script>
 function toggleMenu(){
 const menu=document.getElementById("menu");
 menu.style.display=menu.style.display==="block"?"none":"block";
 }
-function expandImage(){
-document.getElementById("fullscreen").classList.add("active");
-}
-function closeImage(){
-document.getElementById("fullscreen").classList.remove("active");
-}
+
 function showPopup(type){
 const popup=document.getElementById("popup");
 const title=document.getElementById("popup-title");
@@ -391,6 +383,7 @@ text.innerText="Facilitar las compras diarias con rapidez.";
 
 popup.classList.add("active");
 }
+
 function closePopup(){
 document.getElementById("popup").classList.remove("active");
 }
