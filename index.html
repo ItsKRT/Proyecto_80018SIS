@@ -131,29 +131,40 @@ to{transform:scale(1); opacity:1;}
 
 /* LED */
 .led-container{
-width:100%;
-overflow:hidden;
-background:#2f5d3a;
-color:#fff;
-padding:10px 0;
+    width:100%;
+    overflow:hidden;
+    background:#2f5d3a;
+    color:#fff;
+    padding:10px 0;
+    position:relative;
+}
+
+.led-track{
+    display:flex;
+    width:max-content;
+    animation:scrollInfinite 15s linear infinite;
 }
 
 .led-text{
-display:inline-block;
-white-space:nowrap;
-animation:scroll 15s linear infinite;
-font-weight:600;
+    white-space:nowrap;
+    padding-right:50px;
+    font-weight:600;
 }
 
-@keyframes scroll{
-from{transform:translateX(100%);}
-to{transform:translateX(-100%);}
+@keyframes scrollInfinite{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(-50%);
+    }
 }
+
 
 /* CONOCENOS MÁS COMPACTO */
 .conocenos{
 width:100%;
-padding:55px 20px;
+padding:30px 20px;
 background:#6fbf9f; /* verde pastel llamativo */
 color:white;
 text-align:center;
@@ -321,9 +332,14 @@ color:white;
 
 <!-- LED -->
 <div class="led-container">
-<div class="led-text">
-¡Ofertas todos los días! • Servicio rápido tipo Rappi • Productos frescos • Pedidos en línea •
-</div>
+  <div class="led-track">
+    <div class="led-text">
+      ¡Ofertas todos los días! • Servicio rápido tipo Rappi • Productos frescos • Pedidos en línea •
+    </div>
+    <div class="led-text">
+      ¡Ofertas todos los días! • Servicio rápido tipo Rappi • Productos frescos • Pedidos en línea •
+    </div>
+  </div>
 </div>
 
 <!-- CONOCENOS -->
