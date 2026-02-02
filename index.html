@@ -9,10 +9,6 @@
 
 <style>
 
-/* ==========================
-   🎨 DISEÑO GENERAL
-========================== */
-
 html{
 scroll-behavior:smooth;
 }
@@ -51,47 +47,86 @@ nav a:hover{
 color:#3a7d44;
 }
 
-/* HERO 80% */
+/* HERO CON IMAGEN */
 .hero{
 height:80vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:white;
-position:relative;
 text-align:center;
-padding-top:60px;
+position:relative;
+background-image:url('https://amexi.com.mx/wp-content/uploads/2025/07/penta-se-roba-el-show-de-wwe-en-mexico-lanza-emotivo-mensaje.jpg');
+background-size:cover;
+background-position:center;
+cursor:pointer;
 }
 
-.hero::after{
+.hero::before{
 content:"";
 position:absolute;
-bottom:0;
+top:0;
 left:0;
 width:100%;
-height:150px;
-background:linear-gradient(to bottom, transparent, #f5f1e6);
+height:100%;
+background:rgba(0,0,0,0.45);
 }
 
 .hero-content{
+position:relative;
+z-index:2;
 animation:fadeHero 1.2s ease;
 }
 
 .hero h1{
 font-family:'Playfair Display', serif;
-font-size:3.5rem;
-color:#2f5d3a;
+font-size:3.8rem;
+color:white;
+text-shadow:2px 2px 8px rgba(0,0,0,0.6);
 margin-bottom:20px;
 }
 
 .hero p{
-font-size:1.2rem;
-color:#3a7d44;
+font-size:1.3rem;
+color:#f5f1e6;
+text-shadow:1px 1px 6px rgba(0,0,0,0.6);
 }
 
 @keyframes fadeHero{
 from{opacity:0; transform:translateY(30px);}
 to{opacity:1; transform:translateY(0);}
+}
+
+/* IMAGEN GRANDE */
+.fullscreen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+display:flex;
+justify-content:center;
+align-items:center;
+opacity:0;
+visibility:hidden;
+transition:0.4s;
+z-index:2000;
+}
+
+.fullscreen img{
+width:70%;
+border-radius:20px;
+animation:fadeIn 0.4s ease;
+}
+
+.fullscreen.active{
+opacity:1;
+visibility:visible;
+}
+
+@keyframes fadeIn{
+from{transform:scale(0.9); opacity:0;}
+to{transform:scale(1); opacity:1;}
 }
 
 /* LED */
@@ -115,42 +150,41 @@ from{transform:translateX(100%);}
 to{transform:translateX(-100%);}
 }
 
-/* CONOCENOS 100% */
+/* CONOCENOS MÁS COMPACTO */
 .conocenos{
 width:100%;
-padding:80px 20px;
-background:linear-gradient(135deg,#2f5d3a,#3a7d44);
+padding:55px 20px;
+background:#6fbf9f; /* verde pastel llamativo */
 color:white;
 text-align:center;
 }
 
 .conocenos h2{
-font-size:2.2rem;
+font-size:2rem;
 cursor:pointer;
 transition:0.3s;
 }
 
 .conocenos h2:hover{
 transform:scale(1.05);
-color:#e8d8b0;
+color:#f5f1e6;
 }
 
 .opciones{
 display:none;
-margin-top:25px;
+margin-top:20px;
 }
 
 .opciones div{
-margin:15px;
+margin:12px;
 cursor:pointer;
-font-weight:500;
-padding:10px;
-border-radius:12px;
+padding:8px;
+border-radius:10px;
 transition:0.3s;
 }
 
 .opciones div:hover{
-background:rgba(255,255,255,0.2);
+background:rgba(255,255,255,0.25);
 }
 
 /* PREMIUM SECTION */
@@ -273,13 +307,17 @@ color:white;
 <a href="#servicio">Servicio</a>
 </nav>
 
-<!-- HERO -->
-<section class="hero" id="inicio">
+<!-- HERO CON IMAGEN CLICKEABLE -->
+<section class="hero" id="inicio" onclick="expandHero()">
 <div class="hero-content">
 <h1>Abarrotes San Juan</h1>
 <p>Calidad y confianza en cada producto</p>
 </div>
 </section>
+
+<div class="fullscreen" id="heroFullscreen" onclick="closeHero()">
+<img src="https://amexi.com.mx/wp-content/uploads/2025/07/penta-se-roba-el-show-de-wwe-en-mexico-lanza-emotivo-mensaje.jpg">
+</div>
 
 <!-- LED -->
 <div class="led-container">
@@ -288,7 +326,7 @@ color:white;
 </div>
 </div>
 
-<!-- CONOCENOS ARRIBA -->
+<!-- CONOCENOS -->
 <section class="conocenos" id="conocenos">
 <h2 onclick="toggleMenu()">Conócenos</h2>
 <div class="opciones" id="menu">
@@ -361,6 +399,14 @@ color:white;
 function toggleMenu(){
 const menu=document.getElementById("menu");
 menu.style.display=menu.style.display==="block"?"none":"block";
+}
+
+function expandHero(){
+document.getElementById("heroFullscreen").classList.add("active");
+}
+
+function closeHero(){
+document.getElementById("heroFullscreen").classList.remove("active");
 }
 
 function showPopup(type){
