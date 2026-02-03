@@ -39,6 +39,7 @@ text-decoration:none;
 color:#2f5d3a;
 font-weight:500;
 transition:0.3s;
+position:relative;
 }
 
 nav a:hover{color:#3a7d44;}
@@ -161,7 +162,6 @@ padding:8px;
 border-radius:10px;
 transition:0.3s;
 }
-
 .opciones div:hover{background:rgba(255,255,255,0.25);}
 
 /* PREMIUM */
@@ -185,7 +185,6 @@ box-shadow:0 10px 25px rgba(0,0,0,0.15);
 overflow:hidden;
 transition:0.4s;
 }
-
 .card:hover{transform:translateY(-12px);}
 
 .card img{
@@ -202,13 +201,9 @@ border-radius:30px;
 box-shadow:0 20px 40px rgba(0,0,0,0.25);
 transition:0.4s;
 }
-
 .center-image img:hover{transform:scale(1.05);}
 
-/* ========================= */
-/* NUEVA SECCIÓN PASILLOS */
-/* ========================= */
-
+/* PASILLOS */
 .pasillos-section{
 padding:120px 20px;
 background:linear-gradient(to bottom,#ffffff,#f3ead7);
@@ -237,7 +232,6 @@ overflow:hidden;
 transition:0.4s;
 cursor:pointer;
 }
-
 .pasillo-card:hover{transform:translateY(-12px);}
 
 .pasillo-card img{
@@ -286,6 +280,44 @@ text-align:center;
 
 .popup.active{visibility:visible;opacity:1;}
 
+/* ICONOS IZQUIERDA */
+.whatsapp-float{
+position:fixed;
+left:20px;
+bottom:110px;
+width:60px;
+height:60px;
+border-radius:50%;
+background:#25D366;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+font-size:28px;
+box-shadow:0 8px 20px rgba(0,0,0,0.3);
+cursor:pointer;
+z-index:1000;
+}
+
+.cart-float{
+position:fixed;
+left:20px;
+bottom:40px;
+width:60px;
+height:60px;
+border-radius:50%;
+background:#2f5d3a;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+font-size:26px;
+box-shadow:0 8px 20px rgba(0,0,0,0.3);
+cursor:pointer;
+z-index:1000;
+}
+
+/* CHAT DERECHO */
 .chat-bubble{
 position:fixed;
 bottom:25px;right:25px;
@@ -300,7 +332,6 @@ box-shadow:0 10px 25px rgba(0,0,0,0.3);
 transition:0.3s;
 z-index:1000;
 }
-
 .chat-bubble:hover{transform:scale(1.1);}
 .chat-bubble span{font-size:28px;color:white;}
 
@@ -392,8 +423,6 @@ z-index:1000;
 </div>
 </section>
 
-<!-- NUEVA SECCIÓN PASILLOS -->
-
 <section class="pasillos-section">
 <h2>Nuestros Pasillos</h2>
 <div class="pasillos-grid">
@@ -434,6 +463,10 @@ z-index:1000;
 <button onclick="closePopup()">Cerrar</button>
 </div>
 </div>
+
+<!-- ICONOS IZQUIERDA -->
+<div class="whatsapp-float">🟢</div>
+<div class="cart-float">🛒</div>
 
 <div class="chat-bubble">
 <span>🤖</span>
