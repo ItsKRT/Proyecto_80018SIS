@@ -47,7 +47,7 @@ nav a:hover{
 color:#3a7d44;
 }
 
-/* HERO CON IMAGEN */
+/* HERO */
 .hero{
 height:80vh;
 display:flex;
@@ -96,7 +96,7 @@ from{opacity:0; transform:translateY(30px);}
 to{opacity:1; transform:translateY(0);}
 }
 
-/* IMAGEN GRANDE */
+/* FULLSCREEN */
 .fullscreen{
 position:fixed;
 top:0;
@@ -105,6 +105,242 @@ width:100%;
 height:100%;
 background:rgba(0,0,0,0.85);
 display:flex;
+justify-content:center;
+align-items:center;
+opacity:0;
+visibility:hidden;
+transition:0.4s;
+z-index:2000;
+}
+
+.fullscreen img{
+width:70%;
+border-radius:20px;
+animation:fadeIn 0.4s ease;
+}
+
+.fullscreen.active{
+opacity:1;
+visibility:visible;
+}
+
+/* CONOCENOS */
+.conocenos{
+width:100%;
+padding:30px 20px;
+background:#6fbf9f;
+color:white;
+text-align:center;
+}
+
+.opciones{
+display:none;
+margin-top:20px;
+}
+
+/* PREMIUM */
+.premium-section{
+padding:100px 20px;
+}
+
+.premium-layout{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:40px;
+flex-wrap:wrap;
+}
+
+.side-cards{
+display:flex;
+flex-direction:column;
+gap:30px;
+}
+
+.card{
+background:white;
+width:260px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+overflow:hidden;
+transition:0.4s;
+}
+
+.card:hover{
+transform:translateY(-12px);
+}
+
+.card img{
+width:100%;
+height:150px;
+object-fit:cover;
+}
+
+.card-content{
+padding:20px;
+}
+
+.center-image img{
+width:420px;
+border-radius:30px;
+box-shadow:0 20px 40px rgba(0,0,0,0.25);
+transition:0.4s;
+}
+
+.center-image img:hover{
+transform:scale(1.05);
+}
+
+/* PASILLOS */
+#pasillos button{
+padding:10px 18px;
+margin:5px;
+border:none;
+border-radius:20px;
+cursor:pointer;
+background:#2f5d3a;
+color:white;
+transition:0.3s;
+}
+
+#pasillos button:hover{
+background:#3a7d44;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<a href="#inicio">Inicio</a>
+<a href="#conocenos">Conócenos</a>
+<a href="#servicio">Servicio</a>
+<a href="#pasillos">Pasillos</a>
+</nav>
+
+<section class="hero" id="inicio" onclick="expandHero()">
+<div class="hero-content">
+<h1>Abarrotes San Juan</h1>
+<p>Calidad y confianza en cada producto</p>
+</div>
+</section>
+
+<div class="fullscreen" id="heroFullscreen" onclick="closeHero()">
+<img src="Gemini_Generated_Image_zeih6ezeih6ezeih.png">
+</div>
+
+<section class="conocenos" id="conocenos">
+<h2 onclick="toggleMenu()">Conócenos</h2>
+<div class="opciones" id="menu">
+<div onclick="showPopup('mision')">Misión</div>
+<div onclick="showPopup('vision')">Visión</div>
+<div onclick="showPopup('objetivo')">Objetivo</div>
+</div>
+</section>
+
+<section class="premium-section" id="servicio">
+<div class="premium-layout">
+<div class="side-cards">
+<div class="card">
+<img src="https://img.freepik.com/vector-gratis/pareja-fuera-supermercado-edificio-escena_24877-59347.jpg?semt=ais_hybrid&w=740&q=80">
+<div class="card-content">
+<h3>Entrega Rápida</h3>
+<p>Pedidos a domicilio eficientes y seguros.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- PASILLOS -->
+<section class="premium-section" id="pasillos">
+<h2 style="text-align:center; margin-bottom:40px;">Nuestros Pasillos</h2>
+
+<div style="text-align:center; margin-bottom:30px;">
+<button onclick="filtrarProductos('todos')">Todos</button>
+<button onclick="filtrarProductos('abarrotes')">Abarrotes</button>
+<button onclick="filtrarProductos('bebidas')">Bebidas</button>
+<button onclick="filtrarProductos('lacteos')">Lácteos</button>
+</div>
+
+<div id="contenedor-productos" style="
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:20px;
+"></div>
+</section>
+
+<script>
+
+function toggleMenu(){
+const menu=document.getElementById("menu");
+menu.style.display=menu.style.display==="block"?"none":"block";
+}
+
+function expandHero(){
+document.getElementById("heroFullscreen").classList.add("active");
+}
+
+function closeHero(){
+document.getElementById("heroFullscreen").classList.remove("active");
+}
+
+function showPopup(type){
+alert(type);
+}
+
+/* PRODUCTOS */
+
+const productos = [
+{nombre:"Arroz 1kg", categoria:"abarrotes", precio:"$22"},
+{nombre:"Frijol 1kg", categoria:"abarrotes", precio:"$28"},
+{nombre:"Coca-Cola 2L", categoria:"bebidas", precio:"$35"},
+{nombre:"Jugo Natural", categoria:"bebidas", precio:"$18"},
+{nombre:"Leche Entera", categoria:"lacteos", precio:"$25"},
+{nombre:"Queso Fresco", categoria:"lacteos", precio:"$40"}
+];
+
+const contenedor = document.getElementById("contenedor-productos");
+
+mostrarProductos(productos);
+
+function mostrarProductos(lista){
+contenedor.innerHTML="";
+
+lista.forEach(producto=>{
+const card=document.createElement("div");
+card.style.background="white";
+card.style.padding="20px";
+card.style.borderRadius="15px";
+card.style.boxShadow="0 5px 15px rgba(0,0,0,0.1)";
+card.style.width="200px";
+card.style.textAlign="center";
+
+card.innerHTML=`
+<h4>${producto.nombre}</h4>
+<p>${producto.precio}</p>
+`;
+
+contenedor.appendChild(card);
+});
+}
+
+function filtrarProductos(categoria){
+if(categoria==="todos"){
+mostrarProductos(productos);
+return;
+}
+
+const filtrados = productos.filter(p=>p.categoria===categoria);
+mostrarProductos(filtrados);
+}
+
+</script>
+
+</body>
+</html>
 justify-content:center;
 align-items:center;
 opacity:0;
