@@ -97,7 +97,7 @@ function enviarWhatsApp() {
     mensaje += `- ${item.nombre} ($${item.precio})%0A`;
   });
 
-  let numero = "521XXXXXXXXXX"; // ← CAMBIA POR TU NÚMERO
+  let numero = "5210000000000"; // ← CAMBIA POR TU NÚMERO
   let url = `https://wa.me/${numero}?text=${mensaje}`;
 
   window.open(url, "_blank");
