@@ -27,11 +27,10 @@
 </div>
 </div>
 
-<!-- CARRITO -->
-<div class="cart-icon" onclick="toggleCart()">
-🛒
-<span id="cart-count">0</span>
+<div class="carrito-icono" onclick="abrirCarrito()">
+🛒 <span id="contadorCarrito">0</span>
 </div>
+
 </nav>
 
 <section class="hero" id="inicio" onclick="expandHero()">
@@ -113,71 +112,37 @@
 
 <section class="pasillos-section" id="pasillos">
 <h2>Nuestros Pasillos</h2>
-<div class="pasillos-grid">
-
-<div class="pasillo-card" onclick="toggleProductos(this)">
-<img src="https://images.unsplash.com/photo-1586201375761-83865001e31c">
-<div class="pasillo-content"><h3>Bebidas</h3></div>
-<div class="productos">
-
-<div class="producto-card" onclick="openProduct(event,'Coca-Cola 2L',35,'Refresco clásico 2 litros','https://images.unsplash.com/photo-1629203432180-71e7a43a7e2e')">
-Coca-Cola 2L - $35
-</div>
-
-<div class="producto-card" onclick="openProduct(event,'Jugo Del Valle',28,'Jugo natural 1L','https://images.unsplash.com/photo-1580910051074-3eb694886505')">
-Jugo Del Valle - $28
-</div>
-
-<div class="producto-card" onclick="openProduct(event,'Agua Bonafont',18,'Agua purificada 1L','https://images.unsplash.com/photo-1526406915894-7bcd65f60845')">
-Agua Bonafont - $18
-</div>
-
-</div>
-</div>
-
-</div>
+<div class="pasillos-grid" id="contenedorPasillos"></div>
 </section>
 
-<!-- POPUP INFORMACIÓN -->
+<!-- MODAL PRODUCTO -->
+<div class="modal" id="modalProducto">
+<div class="modal-content">
+<img id="modal-img">
+<h3 id="modal-nombre"></h3>
+<p id="modal-desc"></p>
+<h4 id="modal-precio"></h4>
+<button onclick="agregarAlCarrito()">Agregar al carrito 🛒</button>
+<button onclick="cerrarModal()">Cerrar</button>
+</div>
+</div>
+
+<!-- MODAL CARRITO -->
+<div class="modal" id="modalCarrito">
+<div class="modal-content">
+<h3>Tu Carrito</h3>
+<div id="listaCarrito"></div>
+<button onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
+<button onclick="cerrarCarrito()">Cerrar</button>
+</div>
+</div>
+
 <div class="popup" id="popup">
 <div class="popup-content">
 <h3 id="popup-title"></h3>
 <p id="popup-text"></p>
 <button onclick="closePopup()">Cerrar</button>
 </div>
-</div>
-
-<!-- POPUP PRODUCTO -->
-<div class="popup" id="product-popup">
-<div class="popup-content">
-<img id="product-img" style="width:100%;border-radius:15px;margin-bottom:15px;">
-<h3 id="product-name"></h3>
-<p id="product-desc"></p>
-<h4 id="product-price"></h4>
-
-<button onclick="addCurrentProduct()">Agregar al carrito 🛒</button>
-<br><br>
-<button onclick="closeProductPopup()">Cerrar</button>
-</div>
-</div>
-
-<!-- PANEL CARRITO -->
-<div id="cart-panel" class="cart-panel">
-<div class="cart-header">
-<h3>Tu Carrito</h3>
-<button onclick="toggleCart()">✖</button>
-</div>
-
-<div id="cart-items" class="cart-items"></div>
-
-<div class="cart-footer">
-<h4>Total: $<span id="cart-total">0</span></h4>
-<button class="checkout-btn">Enviar Pedido por WhatsApp</button>
-</div>
-</div>
-
-<div class="chat-bubble">
-<span>🤖</span>
 </div>
 
 <script src="script.js"></script>
