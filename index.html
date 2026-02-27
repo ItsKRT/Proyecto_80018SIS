@@ -1,1 +1,487 @@
-.
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abarrotes San Juan — Tienda en línea</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<!-- ============ SPLASH / ANUNCIO INICIAL ============ -->
+<div class="splash" id="splash">
+  <div class="splash-bg"></div>
+  <div class="splash-content">
+    <div class="splash-badge">✦ NOVEDAD ✦</div>
+    <h1 class="splash-title">¡Bienvenido a<br><span>San Juan</span></h1>
+    <p class="splash-sub">Ahora con pedidos en línea, entrega a domicilio y pago por WhatsApp</p>
+    <div class="splash-offers">
+      <div class="splash-offer-card">
+        <span class="offer-emoji">🥤</span>
+        <strong>Bebidas 2x1</strong>
+        <small>Solo esta semana</small>
+      </div>
+      <div class="splash-offer-card featured">
+        <span class="offer-emoji">🛒</span>
+        <strong>Envío GRATIS</strong>
+        <small>En compras +$200</small>
+      </div>
+      <div class="splash-offer-card">
+        <span class="offer-emoji">🎁</span>
+        <strong>Puntos extra</strong>
+        <small>Por cada compra</small>
+      </div>
+    </div>
+    <button class="splash-btn" onclick="cerrarSplash()">Entrar a la tienda →</button>
+    <button class="splash-skip" onclick="cerrarSplash()">Omitir</button>
+  </div>
+</div>
+
+<!-- ============ NAVBAR ============ -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <span class="logo-icon">◈</span>
+    <span class="logo-text">San Juan</span>
+  </div>
+
+  <div class="nav-search-wrap" id="navSearchWrap">
+    <div class="search-box">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar productos..." oninput="buscarProductos(this.value)" onkeydown="if(event.key==='Escape')cerrarBusqueda()">
+      <button class="search-clear" id="searchClear" onclick="limpiarBusqueda()">✕</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+
+  <div class="nav-links">
+    <a href="#inicio" class="nav-link">Inicio</a>
+    <a href="#ofertas" class="nav-link">Ofertas</a>
+    <a href="#conocenos" class="nav-link">Conócenos</a>
+    <div class="dropdown">
+      <a href="#servicio" class="nav-link">Pasillos <span class="arrow">↓</span></a>
+      <div class="dropdown-content">
+        <a href="#pasillos">🥤 Bebidas</a>
+        <a href="#pasillos">🍿 Snacks</a>
+        <a href="#pasillos">🥛 Lácteos</a>
+        <a href="#pasillos">🧹 Limpieza</a>
+        <a href="#pasillos">🥫 Enlatados</a>
+        <a href="#pasillos">🍞 Panadería</a>
+        <a href="#pasillos">🥩 Carnes Frías</a>
+        <a href="#pasillos">🌿 Salud Natural</a>
+        <a href="#pasillos">🐾 Mascotas</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-actions">
+    <button class="nav-icon-btn dark-toggle" id="darkModeBtn" onclick="toggleDarkMode()" title="Modo oscuro">🌙</button>
+    <button class="nav-icon-btn" onclick="abrirLogin()" id="loginBtn" title="Iniciar sesión">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span id="loginLabel">Entrar</span>
+    </button>
+    <div class="carrito-icono" onclick="abrirCarrito()">
+      <div class="cart-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span id="contadorCarrito">0</span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="inicio" onclick="expandHero()">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <div class="hero-content">
+    <div class="hero-badge">✦ Desde 1995 · Tu tienda de confianza ✦</div>
+    <h1 class="hero-title">
+      <span class="title-line">Abarrotes</span>
+      <span class="title-line accent">San Juan</span>
+    </h1>
+    <p class="hero-sub">Calidad y confianza en cada producto</p>
+    <div class="hero-stats">
+      <div class="stat"><strong>+500</strong><span>productos</span></div>
+      <div class="stat-sep">|</div>
+      <div class="stat"><strong>30 min</strong><span>entrega</span></div>
+      <div class="stat-sep">|</div>
+      <div class="stat"><strong>9 pasillos</strong><span>categorías</span></div>
+    </div>
+    <div class="hero-cta"><span class="cta-text">Haz clic para explorar</span><div class="cta-arrow">↓</div></div>
+  </div>
+  <div class="hero-scroll-hint">scroll</div>
+</section>
+
+<div class="fullscreen" id="heroFullscreen" onclick="closeHero()">
+  <div class="fullscreen-inner">
+    <img src="Gemini_Generated_Image_zeih6ezeih6ezeih.png" alt="Abarrotes San Juan">
+    <p class="fullscreen-close">← Cerrar</p>
+  </div>
+</div>
+
+<!-- LED -->
+<div class="led-container">
+  <div class="led-label">NOVEDADES</div>
+  <div class="led-track-wrap">
+    <div class="led-track">
+      <div class="led-text">✦ ¡Bebidas 2x1 esta semana! &nbsp;&nbsp; ◈ Envío gratis en compras +$200 &nbsp;&nbsp; ✦ Productos frescos diariamente &nbsp;&nbsp; ◈ Pedidos por WhatsApp 24/7 &nbsp;&nbsp; ✦ ¡Nuevos productos en Panadería! &nbsp;&nbsp; ◈ Descuentos en Limpieza &nbsp;&nbsp;</div>
+      <div class="led-text">✦ ¡Bebidas 2x1 esta semana! &nbsp;&nbsp; ◈ Envío gratis en compras +$200 &nbsp;&nbsp; ✦ Productos frescos diariamente &nbsp;&nbsp; ◈ Pedidos por WhatsApp 24/7 &nbsp;&nbsp; ✦ ¡Nuevos productos en Panadería! &nbsp;&nbsp; ◈ Descuentos en Limpieza &nbsp;&nbsp;</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ OFERTAS DESTACADAS ============ -->
+<section class="ofertas-section" id="ofertas">
+  <div class="section-header">
+    <div class="section-tag">— Promociones activas</div>
+    <h2 class="section-title">Ofertas de la Semana</h2>
+  </div>
+  <div class="ofertas-grid" id="ofertasGrid"></div>
+</section>
+
+<!-- ============ CONOCENOS ============ -->
+<section class="conocenos" id="conocenos">
+  <div class="conocenos-inner">
+    <div class="section-tag">— Nuestra historia</div>
+    <h2 class="section-title" onclick="toggleMenu()">
+      Conócenos <span class="toggle-icon" id="toggleIcon">+</span>
+    </h2>
+    <div class="opciones" id="menu">
+      <div class="opcion-card" onclick="showPopup('mision')"><div class="opcion-num">01</div><div class="opcion-info"><h4>Misión</h4><p>Lo que nos mueve cada día</p></div><span class="opcion-arrow">→</span></div>
+      <div class="opcion-card" onclick="showPopup('vision')"><div class="opcion-num">02</div><div class="opcion-info"><h4>Visión</h4><p>Hacia dónde vamos</p></div><span class="opcion-arrow">→</span></div>
+      <div class="opcion-card" onclick="showPopup('objetivo')"><div class="opcion-num">03</div><div class="opcion-info"><h4>Objetivo</h4><p>Nuestro compromiso contigo</p></div><span class="opcion-arrow">→</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICIOS ============ -->
+<section class="premium-section" id="servicio">
+  <div class="premium-header"><div class="section-tag">— Por qué elegirnos</div><h2 class="section-title">Nuestro Servicio</h2></div>
+  <div class="premium-layout">
+    <div class="side-cards">
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400" alt="Entrega"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">01</span><h3>Entrega Rápida</h3><p>Pedidos a domicilio en menos de 30 minutos.</p><div class="card-line"></div></div></div>
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400" alt="Digital"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">02</span><h3>Menú Digital</h3><p>Explora +500 productos desde tu celular.</p><div class="card-line"></div></div></div>
+    </div>
+    <div class="center-image">
+      <div class="center-img-frame">
+        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=600" alt="Tienda">
+        <div class="center-img-badge">Premium</div>
+      </div>
+    </div>
+    <div class="side-cards">
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400" alt="Variedad"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">03</span><h3>Gran Variedad</h3><p>Abarrotes, bebidas, limpieza y más.</p><div class="card-line"></div></div></div>
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?w=400" alt="Atención"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">04</span><h3>Atención Premium</h3><p>Siempre cerca de nuestra comunidad.</p><div class="card-line"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LUCHA LIBRE BANNER ============ -->
+<section class="lucha-banner">
+  <div class="lucha-bg-pattern"></div>
+  <div class="lucha-content">
+    <div class="lucha-left">
+      <span class="lucha-tag">✦ SANGRE NUEVA · LUCHA 2026 ✦</span>
+      <h2 class="lucha-title">¡La Nueva<br><span>Generación!</span></h2>
+      <p class="lucha-sub">Vikingo, Místico, Penta Zero Miedo, Bandido y Dominik. Los que están rompiendo el ring en CMLL, AAA y WWE en 2026. 🔥</p>
+      <div class="lucha-badges">
+        <span>🎭 Máscaras oficiales</span>
+        <span>👕 Camisas 2026</span>
+        <span>🏆 Coleccionables</span>
+        <span>⚡ Ediciones limitadas</span>
+      </div>
+      <a href="#pasillos" class="lucha-cta" onclick="setTimeout(()=>{document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector('[onclick*=luchaLibre]');if(btn){btn.classList.add('active');aplicarFiltro('luchaLibre',btn);}},100)">
+        Ver colección completa →
+      </a>
+    </div>
+    <div class="lucha-right">
+      <div class="lucha-mask-grid">
+        <div class="lucha-mask-card" onclick="abrirModal('Máscara Hijo del Vikingo',220,270,'Réplica oficial máscara negra y dorada del rey del aire de AAA.','https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=300','Lucha Libre 2026')">
+          <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=300" alt="Vikingo">
+          <span>Hijo del Vikingo</span>
+          <strong>$220 <del style="font-size:.7rem;opacity:.5;font-weight:400">$270</del></strong>
+        </div>
+        <div class="lucha-mask-card featured" onclick="abrirModal('Máscara Penta Zero Miedo',240,null,'Réplica máscara negra Penta Zero Miedo. Ahora en WWE. ¡Cero Miedo!','https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300','Lucha Libre 2026')">
+          <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300" alt="Penta">
+          <span>Penta Zero Miedo</span>
+          <strong>$240 ⚡</strong>
+        </div>
+        <div class="lucha-mask-card" onclick="abrirModal('Máscara Místico Plata y Oro',210,null,'Réplica máscara Místico plateada y dorada. Campeón Grand Prix 2025.','https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=300','Lucha Libre 2026')">
+          <img src="https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=300" alt="Místico">
+          <span>Místico</span>
+          <strong>$210</strong>
+        </div>
+      </div>
+      <div class="lucha-fighters-strip">
+        <span>🔥 Vikingo · WWE AAA</span>
+        <span>⚡ Penta · WWE</span>
+        <span>✦ Místico · CMLL Top 10</span>
+        <span>🏆 Bandido · ROH Champ</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WWE 2K26 BANNER ============ -->
+<section class="wwe-banner">
+  <div class="wwe-bg"></div>
+  <div class="wwe-content">
+    <div class="wwe-left">
+      <span class="wwe-tag">⚡ YA DISPONIBLE · 13 MARZO 2026 ⚡</span>
+      <h2 class="wwe-title">WWE<br><span>2K26</span></h2>
+      <p class="wwe-sub">CM Punk en la portada. +400 luchadores. Nuevos modos: I Quit, Inferno, Dumpster. La franquicia más grande del wrestling regresa más brutal que nunca.</p>
+      <div class="wwe-editions">
+        <div class="wwe-ed"><strong>Standard</strong><span>$1,399</span></div>
+        <div class="wwe-ed hot"><strong>King of Kings</strong><span>$1,999</span></div>
+        <div class="wwe-ed"><strong>Attitude Era</strong><span>$2,599</span></div>
+        <div class="wwe-ed"><strong>Mon. Night War</strong><span>$2,999</span></div>
+      </div>
+      <div class="wwe-platforms">
+        <span>PS5</span><span>Xbox S|X</span><span>PC Steam</span><span>Switch 2</span>
+      </div>
+      <a href="#pasillos" class="wwe-cta" onclick="setTimeout(()=>{document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector('[onclick*=wwe2k26]');if(btn){btn.classList.add('active');aplicarFiltro('wwe2k26',btn);}},100)">
+        Comprar ahora →
+      </a>
+    </div>
+    <div class="wwe-right">
+      <div class="wwe-cover-wrap">
+        <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=500" alt="WWE 2K26" class="wwe-cover">
+        <div class="wwe-cover-badge">CM PUNK<br><small>Cover Star</small></div>
+        <div class="wwe-roster-strip">
+          <span>The Rock</span><span>Triple H</span><span>Penta</span><span>Rey Fénix</span><span>CM Punk</span><span>Seth Rollins</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PASILLOS ============ -->
+<section class="pasillos-section" id="pasillos">
+  <div class="pasillos-header">
+    <div class="section-tag">— Explorar categorías</div>
+    <h2 class="section-title">Nuestros Pasillos</h2>
+    <div class="filtros-categorias" id="filtrosCategorias"></div>
+  </div>
+  <div class="pasillos-grid" id="contenedorPasillos"></div>
+</section>
+
+<!-- ============ MODAL PRODUCTO ============ -->
+<div class="modal" id="modalProducto">
+  <div class="modal-content">
+    <button class="modal-close" onclick="cerrarModal()">✕</button>
+    <div class="modal-img-wrap"><img id="modal-img" alt="Producto"></div>
+    <div class="modal-body">
+      <div class="modal-tag" id="modal-tag">Categoría</div>
+      <h3 id="modal-nombre"></h3>
+      <p id="modal-desc"></p>
+      <div class="modal-price-row">
+        <div>
+          <span class="modal-precio-old" id="modal-precio-old"></span>
+          <h4 id="modal-precio"></h4>
+        </div>
+        <div class="modal-qty">
+          <button onclick="cambiarCantidadModal(-1)">−</button>
+          <span id="modal-qty-val">1</span>
+          <button onclick="cambiarCantidadModal(1)">+</button>
+        </div>
+      </div>
+      <button class="btn-primary btn-full" onclick="agregarAlCarrito()">Agregar al carrito ✦</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL CARRITO ============ -->
+<div class="modal" id="modalCarrito">
+  <div class="modal-content modal-cart">
+    <button class="modal-close" onclick="cerrarCarrito()">✕</button>
+    <div class="cart-header">
+      <h3>Tu Carrito</h3>
+      <button class="btn-vaciar" onclick="vaciarCarrito()">🗑 Vaciar</button>
+    </div>
+    <div id="listaCarrito" class="lista-carrito"></div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Subtotal</span><span id="cartSubtotal">$0</span>
+      </div>
+      <div class="cart-total-row cart-total-main">
+        <span>Total</span><span id="cartTotal">$0</span>
+      </div>
+      <div class="cart-actions">
+        <button class="btn-pdf" onclick="generarPDF()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Ticket PDF
+        </button>
+        <button class="btn-whatsapp" onclick="enviarWhatsApp()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.115 1.522 5.85L.057 23.867a.5.5 0 00.614.613l6.079-1.456A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.792 9.792 0 01-5.017-1.378l-.36-.213-3.712.89.917-3.638-.234-.375A9.795 9.795 0 012.182 12C2.182 6.574 6.574 2.182 12 2.182S21.818 6.574 21.818 12 17.426 21.818 12 21.818z"/></svg>
+          Pedir por WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MODAL LOGIN ============ -->
+<div class="modal" id="modalLogin">
+  <div class="modal-content modal-login">
+    <button class="modal-close" onclick="cerrarLogin()">✕</button>
+    <div class="login-icon">◈</div>
+    <h3>Iniciar Sesión</h3>
+    <p>Ingresa tu número de WhatsApp para recibir tu orden de compra</p>
+    <div class="login-form">
+      <div class="input-group">
+        <label>Nombre</label>
+        <input type="text" id="loginNombre" placeholder="Ej: María García">
+      </div>
+      <div class="input-group">
+        <label>Número WhatsApp</label>
+        <div class="phone-input">
+          <span class="phone-prefix">+52</span>
+          <input type="tel" id="loginTelefono" placeholder="55 1234 5678" maxlength="10">
+        </div>
+      </div>
+      <button class="btn-primary btn-full" onclick="iniciarSesion()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.115 1.522 5.85L.057 23.867a.5.5 0 00.614.613l6.079-1.456A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.792 9.792 0 01-5.017-1.378l-.36-.213-3.712.89.917-3.638-.234-.375A9.795 9.795 0 012.182 12C2.182 6.574 6.574 2.182 12 2.182S21.818 6.574 21.818 12 17.426 21.818 12 21.818z"/></svg>
+        Conectar con WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ POPUP INFO ============ -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <button class="modal-close" onclick="closePopup()">✕</button>
+    <div class="popup-icon">◈</div>
+    <h3 id="popup-title"></h3>
+    <p id="popup-text"></p>
+  </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast"></div>
+
+<!-- ============ CHATBOT ============ -->
+<div class="chatbot-fab" id="chatbotFab" onclick="toggleChatbot()">
+  <div class="chatbot-fab-icon">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+  </div>
+  <div class="chatbot-fab-pulse"></div>
+  <span class="chatbot-badge" id="chatbotBadge">1</span>
+</div>
+
+<div class="chatbot-window" id="chatbotWindow">
+  <div class="chatbot-header">
+    <div class="chatbot-avatar">SJ</div>
+    <div class="chatbot-info">
+      <strong>Asistente San Juan</strong>
+      <span>● En línea</span>
+    </div>
+    <button onclick="toggleChatbot()" class="chatbot-close">✕</button>
+  </div>
+  <div class="chatbot-messages" id="chatbotMessages"></div>
+  <div class="chatbot-suggestions" id="chatbotSuggestions"></div>
+  <div class="chatbot-input-area">
+    <input type="text" id="chatbotInput" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter')enviarMensaje()">
+    <button onclick="enviarMensaje()" class="chatbot-send">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ============ DRAGON BALL BANNER ============ -->
+<section class="db-banner">
+  <div class="db-bg-aura"></div>
+  <div class="db-content">
+    <div class="db-left">
+      <span class="db-tag">✦ TAMASHII NATIONS · BANDAI 2026 ✦</span>
+      <h2 class="db-title">S.H. Figuarts<br><span>Dragon Ball</span></h2>
+      <p class="db-sub">Las figuras articuladas más detalladas del mundo. Cuerpo 4.0, rostros y manos intercambiables. Colección 2026 con los lanzamientos más recientes de Tamashii Nations.</p>
+      <div class="db-badges">
+        <span>⚡ Cuerpo 4.0 nuevo</span>
+        <span>🎌 Tamashii Nations</span>
+        <span>🏆 Ediciones exclusivas</span>
+        <span>🐉 40 Aniversario</span>
+      </div>
+      <a href="#pasillos" class="db-cta" onclick="setTimeout(()=>{document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector('[onclick*=dragonball]');if(btn){btn.classList.add('active');aplicarFiltro('dragonball',btn);}},100)">
+        Ver colección completa →
+      </a>
+    </div>
+    <div class="db-right">
+      <div class="db-figures-grid">
+        <div class="db-fig-card" onclick="abrirModal('SHF Goku Kind-hearted Saiyan',950,null,'NUEVO 2026. Son Goku base saga Androides/Cell. Cuerpo 4.0. 2 cabelleras + rostros intercambiables.','https://images.unsplash.com/photo-1601043490925-d0e07de5d48d?w=300','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-orange"></div>
+          <img src="https://images.unsplash.com/photo-1601043490925-d0e07de5d48d?w=300" alt="Goku">
+          <div class="db-fig-info">
+            <span>Son Goku</span>
+            <small>Kind-hearted Saiyan · 2026</small>
+            <strong>$950</strong>
+          </div>
+        </div>
+        <div class="db-fig-card featured" onclick="abrirModal('SHF SSJ Goku Warrior of Rage',1150,1350,'NUEVO 2026. Goku SSJ primera transformación vs Freezer en Namek. Cuerpo 4.0.','https://images.unsplash.com/photo-1535189043414-47a3c49a0bed?w=300','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-gold"></div>
+          <div class="db-new-badge">🔥 NUEVO</div>
+          <img src="https://images.unsplash.com/photo-1535189043414-47a3c49a0bed?w=300" alt="SSJ Goku">
+          <div class="db-fig-info">
+            <span>SSJ Goku</span>
+            <small>Warrior of Rage · 4.0</small>
+            <strong>$1,150 <del>$1,350</del></strong>
+          </div>
+        </div>
+        <div class="db-fig-card" onclick="abrirModal('SHF Vegeta DAIMA Ver.',980,null,'Vegeta versión Dragon Ball DAIMA 14cm. Tamashii Nations.','https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-blue"></div>
+          <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300" alt="Vegeta">
+          <div class="db-fig-info">
+            <span>Vegeta</span>
+            <small>DAIMA Version</small>
+            <strong>$980</strong>
+          </div>
+        </div>
+        <div class="db-fig-card" onclick="abrirModal('SHF Bardock DBZ',1100,1299,'Bardock El padre de Goku Dragon Ball Z. Nuevo lanzamiento.','https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=300','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-orange"></div>
+          <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=300" alt="Bardock">
+          <div class="db-fig-info">
+            <span>Bardock</span>
+            <small>Dragon Ball Z</small>
+            <strong>$1,100</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOLVER ARRIBA -->
+<button class="back-to-top" id="backToTop" onclick="scrollTop()" title="Volver arriba">↑</button>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo"><span class="logo-icon">◈</span><span>Abarrotes San Juan</span></div>
+      <p>Calidad y confianza desde 1995</p>
+    </div>
+    <div class="footer-links">
+      <h4>Pasillos</h4>
+      <a href="#pasillos">Bebidas · Snacks · Lácteos</a>
+      <a href="#pasillos">Limpieza · Enlatados</a>
+      <a href="#pasillos">Panadería · Carnes Frías</a>
+    </div>
+    <div class="footer-contact">
+      <h4>Contacto</h4>
+      <p>📱 WhatsApp: +52 55 0000 0000</p>
+      <p>🕐 Lun–Sáb: 8am – 9pm</p>
+      <p>📍 Tu colonia, Ciudad</p>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 Abarrotes San Juan · Todos los derechos reservados</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
