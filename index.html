@@ -4,148 +4,259 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Abarrotes San Juan</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-<nav>
-<a href="#inicio">Inicio</a>
-<a href="#conocenos">Conócenos</a>
+<!-- CURSOR PERSONALIZADO -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
 
-<div class="dropdown">
-<a href="#servicio">Servicio ▾</a>
-<div class="dropdown-content">
-<a href="#pasillos">Bebidas</a>
-<a href="#pasillos">Snacks</a>
-<a href="#pasillos">Lácteos</a>
-<a href="#pasillos">Limpieza</a>
-<a href="#pasillos">Enlatados</a>
-</div>
-</div>
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <span class="logo-icon">◈</span>
+    <span class="logo-text">San Juan</span>
+  </div>
 
-<div class="carrito-icono" onclick="abrirCarrito()">
-🛒 <span id="contadorCarrito">0</span>
-</div>
+  <div class="nav-links">
+    <a href="#inicio" class="nav-link">Inicio</a>
+    <a href="#conocenos" class="nav-link">Conócenos</a>
 
+    <div class="dropdown">
+      <a href="#servicio" class="nav-link">Servicio <span class="arrow">↓</span></a>
+      <div class="dropdown-content">
+        <a href="#pasillos">Bebidas</a>
+        <a href="#pasillos">Snacks</a>
+        <a href="#pasillos">Lácteos</a>
+        <a href="#pasillos">Limpieza</a>
+        <a href="#pasillos">Enlatados</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="carrito-icono" onclick="abrirCarrito()">
+    <div class="cart-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span id="contadorCarrito">0</span>
+    </div>
+  </div>
 </nav>
 
+<!-- HERO -->
 <section class="hero" id="inicio" onclick="expandHero()">
-<div class="hero-content">
-<h1>Abarrotes San Juan</h1>
-<p>Calidad y confianza en cada producto</p>
-</div>
+  <div class="hero-bg-grid"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">✦ Desde 1995 ✦</div>
+    <h1 class="hero-title">
+      <span class="title-line">Abarrotes</span>
+      <span class="title-line accent">San Juan</span>
+    </h1>
+    <p class="hero-sub">Calidad y confianza en cada producto</p>
+    <div class="hero-cta">
+      <span class="cta-text">Haz clic para explorar</span>
+      <div class="cta-arrow">↓</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint">scroll</div>
 </section>
 
+<!-- FULLSCREEN -->
 <div class="fullscreen" id="heroFullscreen" onclick="closeHero()">
-<img src="Gemini_Generated_Image_zeih6ezeih6ezeih.png">
+  <div class="fullscreen-inner">
+    <img src="Gemini_Generated_Image_zeih6ezeih6ezeih.png" alt="Abarrotes San Juan">
+    <p class="fullscreen-close">← Cerrar</p>
+  </div>
 </div>
 
+<!-- LED TICKER -->
 <div class="led-container">
-<div class="led-track">
-<div class="led-text">
-¡Ofertas todos los días! • Servicio rápido tipo Rappi • Productos frescos • Pedidos en línea •
-</div>
-<div class="led-text">
-¡Ofertas todos los días! • Servicio rápido tipo Rappi • Productos frescos • Pedidos en línea •
-</div>
-</div>
+  <div class="led-label">NOVEDADES</div>
+  <div class="led-track-wrap">
+    <div class="led-track">
+      <div class="led-text">✦ ¡Ofertas todos los días! &nbsp;&nbsp; ◈ Servicio rápido tipo Rappi &nbsp;&nbsp; ✦ Productos frescos &nbsp;&nbsp; ◈ Pedidos en línea &nbsp;&nbsp;</div>
+      <div class="led-text">✦ ¡Ofertas todos los días! &nbsp;&nbsp; ◈ Servicio rápido tipo Rappi &nbsp;&nbsp; ✦ Productos frescos &nbsp;&nbsp; ◈ Pedidos en línea &nbsp;&nbsp;</div>
+    </div>
+  </div>
 </div>
 
+<!-- CONOCENOS -->
 <section class="conocenos" id="conocenos">
-<h2 onclick="toggleMenu()">Conócenos</h2>
-<div class="opciones" id="menu">
-<div onclick="showPopup('mision')">Misión</div>
-<div onclick="showPopup('vision')">Visión</div>
-<div onclick="showPopup('objetivo')">Objetivo</div>
-</div>
+  <div class="conocenos-inner">
+    <div class="section-tag">— Nuestra historia</div>
+    <h2 class="section-title" onclick="toggleMenu()">
+      Conócenos <span class="toggle-icon" id="toggleIcon">+</span>
+    </h2>
+    <div class="opciones" id="menu">
+      <div class="opcion-card" onclick="showPopup('mision')">
+        <div class="opcion-num">01</div>
+        <div class="opcion-info">
+          <h4>Misión</h4>
+          <p>Lo que nos mueve cada día</p>
+        </div>
+        <span class="opcion-arrow">→</span>
+      </div>
+      <div class="opcion-card" onclick="showPopup('vision')">
+        <div class="opcion-num">02</div>
+        <div class="opcion-info">
+          <h4>Visión</h4>
+          <p>Hacia dónde vamos</p>
+        </div>
+        <span class="opcion-arrow">→</span>
+      </div>
+      <div class="opcion-card" onclick="showPopup('objetivo')">
+        <div class="opcion-num">03</div>
+        <div class="opcion-info">
+          <h4>Objetivo</h4>
+          <p>Nuestro compromiso contigo</p>
+        </div>
+        <span class="opcion-arrow">→</span>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- PREMIUM SECTION -->
 <section class="premium-section" id="servicio">
-<div class="premium-layout">
+  <div class="premium-header">
+    <div class="section-tag">— Por qué elegirnos</div>
+    <h2 class="section-title">Nuestro Servicio</h2>
+  </div>
 
-<div class="side-cards">
-<div class="card">
-<img src="https://images.unsplash.com/photo-1580910051074-3eb694886505">
-<div class="card-content">
-<h3>Entrega Rápida</h3>
-<p>Pedidos a domicilio eficientes y seguros.</p>
-</div>
-</div>
+  <div class="premium-layout">
+    <div class="side-cards">
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1580910051074-3eb694886505" alt="Entrega rápida">
+          <div class="card-img-overlay"></div>
+        </div>
+        <div class="card-content">
+          <span class="card-num">01</span>
+          <h3>Entrega Rápida</h3>
+          <p>Pedidos a domicilio eficientes y seguros.</p>
+          <div class="card-line"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc" alt="Menú digital">
+          <div class="card-img-overlay"></div>
+        </div>
+        <div class="card-content">
+          <span class="card-num">02</span>
+          <h3>Menú Digital</h3>
+          <p>Explora nuestros productos y comidas.</p>
+          <div class="card-line"></div>
+        </div>
+      </div>
+    </div>
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc">
-<div class="card-content">
-<h3>Menú Digital</h3>
-<p>Explora nuestros productos y comidas.</p>
-</div>
-</div>
-</div>
+    <div class="center-image">
+      <div class="center-img-frame">
+        <img src="https://eldiariony.com/wp-content/uploads/sites/2/2025/04/supermercados-mas-baratos-estados-unidos-shutterstock_2511689847.jpg?w=2600" alt="Tienda">
+        <div class="center-img-badge">Premium</div>
+      </div>
+    </div>
 
-<div class="center-image">
-<img src="https://eldiariony.com/wp-content/uploads/sites/2/2025/04/supermercados-mas-baratos-estados-unidos-shutterstock_2511689847.jpg?w=2600">
-</div>
-
-<div class="side-cards">
-<div class="card">
-<img src="https://images.unsplash.com/photo-1590080877777-95a7a5a12f3b">
-<div class="card-content">
-<h3>Variedad</h3>
-<p>Abarrotes, bebidas y comida preparada.</p>
-</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
-<div class="card-content">
-<h3>Atención Premium</h3>
-<p>Siempre cerca de nuestra comunidad.</p>
-</div>
-</div>
-</div>
-
-</div>
+    <div class="side-cards">
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1590080877777-95a7a5a12f3b" alt="Variedad">
+          <div class="card-img-overlay"></div>
+        </div>
+        <div class="card-content">
+          <span class="card-num">03</span>
+          <h3>Variedad</h3>
+          <p>Abarrotes, bebidas y comida preparada.</p>
+          <div class="card-line"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092" alt="Atención premium">
+          <div class="card-img-overlay"></div>
+        </div>
+        <div class="card-content">
+          <span class="card-num">04</span>
+          <h3>Atención Premium</h3>
+          <p>Siempre cerca de nuestra comunidad.</p>
+          <div class="card-line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- PASILLOS -->
 <section class="pasillos-section" id="pasillos">
-<h2>Nuestros Pasillos</h2>
-<div class="pasillos-grid" id="contenedorPasillos"></div>
+  <div class="pasillos-header">
+    <div class="section-tag">— Explorar</div>
+    <h2 class="section-title">Nuestros Pasillos</h2>
+    <p class="section-sub">Selecciona un pasillo para ver sus productos</p>
+  </div>
+  <div class="pasillos-grid" id="contenedorPasillos"></div>
 </section>
 
 <!-- MODAL PRODUCTO -->
 <div class="modal" id="modalProducto">
-<div class="modal-content">
-<img id="modal-img">
-<h3 id="modal-nombre"></h3>
-<p id="modal-desc"></p>
-<h4 id="modal-precio"></h4>
-<button onclick="agregarAlCarrito()">Agregar al carrito 🛒</button>
-<button onclick="cerrarModal()">Cerrar</button>
-</div>
+  <div class="modal-content">
+    <button class="modal-close" onclick="cerrarModal()">✕</button>
+    <div class="modal-img-wrap">
+      <img id="modal-img" alt="Producto">
+    </div>
+    <div class="modal-body">
+      <h3 id="modal-nombre"></h3>
+      <p id="modal-desc"></p>
+      <div class="modal-price-row">
+        <h4 id="modal-precio"></h4>
+        <button class="btn-primary" onclick="agregarAlCarrito()">Agregar al carrito ✦</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- MODAL CARRITO -->
 <div class="modal" id="modalCarrito">
-<div class="modal-content">
-<h3>Tu Carrito</h3>
-<div id="listaCarrito"></div>
-<button onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
-<button onclick="cerrarCarrito()">Cerrar</button>
-</div>
+  <div class="modal-content modal-cart">
+    <button class="modal-close" onclick="cerrarCarrito()">✕</button>
+    <h3>Tu Carrito</h3>
+    <div id="listaCarrito" class="lista-carrito"></div>
+    <div class="cart-actions">
+      <button class="btn-whatsapp" onclick="enviarWhatsApp()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.115 1.522 5.85L.057 23.867a.5.5 0 00.614.613l6.079-1.456A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.792 9.792 0 01-5.017-1.378l-.36-.213-3.712.89.917-3.638-.234-.375A9.795 9.795 0 012.182 12C2.182 6.574 6.574 2.182 12 2.182S21.818 6.574 21.818 12 17.426 21.818 12 21.818z"/></svg>
+        Enviar por WhatsApp
+      </button>
+    </div>
+  </div>
 </div>
 
+<!-- POPUP -->
 <div class="popup" id="popup">
-<div class="popup-content">
-<h3 id="popup-title"></h3>
-<p id="popup-text"></p>
-<button onclick="closePopup()">Cerrar</button>
+  <div class="popup-content">
+    <button class="modal-close" onclick="closePopup()">✕</button>
+    <div class="popup-icon">◈</div>
+    <h3 id="popup-title"></h3>
+    <p id="popup-text"></p>
+  </div>
 </div>
-</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <span class="logo-icon">◈</span>
+      <span>Abarrotes San Juan</span>
+    </div>
+    <p class="footer-copy">© 2025 · Calidad y confianza en cada producto</p>
+  </div>
+</footer>
 
 <script src="script.js"></script>
-
 </body>
 </html>
