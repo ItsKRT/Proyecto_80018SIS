@@ -3,7 +3,7 @@
 ============================================ */
 
 // ─── CONFIG ───────────────────────────────
-const WHATSAPP_TIENDA = '525585853424'; // ← Cambia aquí tu número (sin +, sin espacios)
+const WHATSAPP_TIENDA = '5215500000000'; // ← Cambia aquí tu número (sin +, sin espacios)
 const NOMBRE_TIENDA   = 'Abarrotes San Juan';
 
 // ─── ESTADO GLOBAL ────────────────────────
@@ -253,8 +253,17 @@ function generarPasillos(filtro = 'todos') {
 
     card.onclick = function (e) {
       if (e.target.closest('.producto-card')) return;
-      const prodDiv  = card.querySelector('.productos');
-      const isOpen   = card.classList.contains('open');
+      const prodDiv = card.querySelector('.productos');
+      const isOpen  = card.classList.contains('open');
+
+      // Cerrar todos los demás pasillos (acordeón)
+      document.querySelectorAll('.pasillo-card.open').forEach(other => {
+        if (other !== card) {
+          other.classList.remove('open');
+          other.querySelector('.productos').style.display = 'none';
+        }
+      });
+
       card.classList.toggle('open', !isOpen);
       prodDiv.style.display = isOpen ? 'none' : 'flex';
 
@@ -597,7 +606,7 @@ function enviarMensaje() {
   const match = CHATBOT_RESPUESTAS.find(r => r.palabras.some(p => lower.includes(p)));
   const resp = match
     ? match.resp
-    : '🤔 No estoy seguro de eso. Puedes contactarnos directamente por WhatsApp al **+52 55 8585 3424** o explorar nuestros pasillos.';
+    : '🤔 No estoy seguro de eso. Puedes contactarnos directamente por WhatsApp al **+52 55 0000 0000** o explorar nuestros pasillos.';
 
   setTimeout(() => agregarMensajeBot(resp), 400);
 }
