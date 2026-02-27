@@ -80,6 +80,7 @@
   </div>
 
   <div class="nav-actions">
+    <button class="nav-icon-btn dark-toggle" id="darkModeBtn" onclick="toggleDarkMode()" title="Modo oscuro">🌙</button>
     <button class="nav-icon-btn" onclick="abrirLogin()" id="loginBtn" title="Iniciar sesión">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span id="loginLabel">Entrar</span>
@@ -227,6 +228,39 @@
   </div>
 </section>
 
+<!-- ============ WWE 2K26 BANNER ============ -->
+<section class="wwe-banner">
+  <div class="wwe-bg"></div>
+  <div class="wwe-content">
+    <div class="wwe-left">
+      <span class="wwe-tag">⚡ YA DISPONIBLE · 13 MARZO 2026 ⚡</span>
+      <h2 class="wwe-title">WWE<br><span>2K26</span></h2>
+      <p class="wwe-sub">CM Punk en la portada. +400 luchadores. Nuevos modos: I Quit, Inferno, Dumpster. La franquicia más grande del wrestling regresa más brutal que nunca.</p>
+      <div class="wwe-editions">
+        <div class="wwe-ed"><strong>Standard</strong><span>$1,399</span></div>
+        <div class="wwe-ed hot"><strong>King of Kings</strong><span>$1,999</span></div>
+        <div class="wwe-ed"><strong>Attitude Era</strong><span>$2,599</span></div>
+        <div class="wwe-ed"><strong>Mon. Night War</strong><span>$2,999</span></div>
+      </div>
+      <div class="wwe-platforms">
+        <span>PS5</span><span>Xbox S|X</span><span>PC Steam</span><span>Switch 2</span>
+      </div>
+      <a href="#pasillos" class="wwe-cta" onclick="setTimeout(()=>{document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector('[onclick*=wwe2k26]');if(btn){btn.classList.add('active');aplicarFiltro('wwe2k26',btn);}},100)">
+        Comprar ahora →
+      </a>
+    </div>
+    <div class="wwe-right">
+      <div class="wwe-cover-wrap">
+        <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=500" alt="WWE 2K26" class="wwe-cover">
+        <div class="wwe-cover-badge">CM PUNK<br><small>Cover Star</small></div>
+        <div class="wwe-roster-strip">
+          <span>The Rock</span><span>Triple H</span><span>Penta</span><span>Rey Fénix</span><span>CM Punk</span><span>Seth Rollins</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ PASILLOS ============ -->
 <section class="pasillos-section" id="pasillos">
   <div class="pasillos-header">
@@ -359,6 +393,71 @@
     </button>
   </div>
 </div>
+
+<!-- ============ DRAGON BALL BANNER ============ -->
+<section class="db-banner">
+  <div class="db-bg-aura"></div>
+  <div class="db-content">
+    <div class="db-left">
+      <span class="db-tag">✦ TAMASHII NATIONS · BANDAI 2026 ✦</span>
+      <h2 class="db-title">S.H. Figuarts<br><span>Dragon Ball</span></h2>
+      <p class="db-sub">Las figuras articuladas más detalladas del mundo. Cuerpo 4.0, rostros y manos intercambiables. Colección 2026 con los lanzamientos más recientes de Tamashii Nations.</p>
+      <div class="db-badges">
+        <span>⚡ Cuerpo 4.0 nuevo</span>
+        <span>🎌 Tamashii Nations</span>
+        <span>🏆 Ediciones exclusivas</span>
+        <span>🐉 40 Aniversario</span>
+      </div>
+      <a href="#pasillos" class="db-cta" onclick="setTimeout(()=>{document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector('[onclick*=dragonball]');if(btn){btn.classList.add('active');aplicarFiltro('dragonball',btn);}},100)">
+        Ver colección completa →
+      </a>
+    </div>
+    <div class="db-right">
+      <div class="db-figures-grid">
+        <div class="db-fig-card" onclick="abrirModal('SHF Goku Kind-hearted Saiyan',950,null,'NUEVO 2026. Son Goku base saga Androides/Cell. Cuerpo 4.0. 2 cabelleras + rostros intercambiables.','https://images.unsplash.com/photo-1601043490925-d0e07de5d48d?w=300','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-orange"></div>
+          <img src="https://images.unsplash.com/photo-1601043490925-d0e07de5d48d?w=300" alt="Goku">
+          <div class="db-fig-info">
+            <span>Son Goku</span>
+            <small>Kind-hearted Saiyan · 2026</small>
+            <strong>$950</strong>
+          </div>
+        </div>
+        <div class="db-fig-card featured" onclick="abrirModal('SHF SSJ Goku Warrior of Rage',1150,1350,'NUEVO 2026. Goku SSJ primera transformación vs Freezer en Namek. Cuerpo 4.0.','https://images.unsplash.com/photo-1535189043414-47a3c49a0bed?w=300','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-gold"></div>
+          <div class="db-new-badge">🔥 NUEVO</div>
+          <img src="https://images.unsplash.com/photo-1535189043414-47a3c49a0bed?w=300" alt="SSJ Goku">
+          <div class="db-fig-info">
+            <span>SSJ Goku</span>
+            <small>Warrior of Rage · 4.0</small>
+            <strong>$1,150 <del>$1,350</del></strong>
+          </div>
+        </div>
+        <div class="db-fig-card" onclick="abrirModal('SHF Vegeta DAIMA Ver.',980,null,'Vegeta versión Dragon Ball DAIMA 14cm. Tamashii Nations.','https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-blue"></div>
+          <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300" alt="Vegeta">
+          <div class="db-fig-info">
+            <span>Vegeta</span>
+            <small>DAIMA Version</small>
+            <strong>$980</strong>
+          </div>
+        </div>
+        <div class="db-fig-card" onclick="abrirModal('SHF Bardock DBZ',1100,1299,'Bardock El padre de Goku Dragon Ball Z. Nuevo lanzamiento.','https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=300','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-orange"></div>
+          <img src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=300" alt="Bardock">
+          <div class="db-fig-info">
+            <span>Bardock</span>
+            <small>Dragon Ball Z</small>
+            <strong>$1,100</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOLVER ARRIBA -->
+<button class="back-to-top" id="backToTop" onclick="scrollTop()" title="Volver arriba">↑</button>
 
 <!-- ============ FOOTER ============ -->
 <footer class="footer">
