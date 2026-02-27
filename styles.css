@@ -219,7 +219,8 @@ nav.scrolled{padding:10px 40px;background:rgba(248,244,235,.97);box-shadow:var(-
 .pasillo-content h3{font-family:var(--font-d);font-size:.95rem;font-weight:700;color:var(--g900);}
 .pasillo-toggle-icon{width:32px;height:32px;border-radius:50%;background:var(--g100);display:flex;align-items:center;justify-content:center;color:var(--g600);font-size:1rem;transition:all .3s var(--ease);flex-shrink:0;}
 .pasillo-card.open .pasillo-toggle-icon{background:var(--g700);color:white;transform:rotate(45deg);}
-.productos{padding:0 20px 20px;display:none;flex-direction:column;gap:8px;animation:fadeUp .3s var(--ease);}
+.productos{padding:0 20px 20px;display:none;flex-direction:column;gap:8px;animation:acordeonIn .35s var(--ease);}
+@keyframes acordeonIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 .producto-card{display:flex;align-items:center;gap:12px;background:var(--g100);padding:10px 14px;border-radius:12px;font-size:.85rem;font-weight:500;color:var(--g800);cursor:pointer;transition:all .25s var(--ease);border:1px solid transparent;}
 .producto-card:hover{background:var(--g700);color:var(--white);transform:translateX(4px);}
 .producto-card img{width:36px;height:36px;object-fit:cover;border-radius:8px;flex-shrink:0;}
