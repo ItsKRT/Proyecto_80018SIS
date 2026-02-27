@@ -230,6 +230,46 @@ const PASILLOS = [
       { nombre:'Llavero Penta "Cero Miedo"',    precio:55,  precioOld:null, desc:'Llavero metálico figura Penta Zero Miedo con detalle de calavera.',                      img:'https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=300', oferta:false },
       { nombre:'Máscara Niño Vikingo Talla S',  precio:110, precioOld:140,  desc:'Máscara Hijo del Vikingo para niño talla 4-10 años. La más pedida del momento.',         img:'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=300', oferta:true  },
     ]
+  },
+  // ════════════════════════════════════════════
+  // WWE 2K26 VIDEOJUEGO
+  // ════════════════════════════════════════════
+  {
+    id:'wwe2k26', nombre:'WWE 2K26', emoji:'🎮',
+    imagen:'https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=500',
+    productos:[
+      { nombre:'WWE 2K26 Standard – PS5',         precio:1399, precioOld:null, desc:'WWE 2K26 Edición Estándar PS5. Portada: CM Punk. +400 luchadores. Lanzamiento 13 marzo 2026.',   img:'https://images.unsplash.com/photo-1607016284318-d1384bf79e2e?w=300', oferta:false },
+      { nombre:'WWE 2K26 Standard – Xbox S/X',    precio:1399, precioOld:null, desc:'WWE 2K26 Edición Estándar Xbox Series X|S. Incluye Showcase CM Punk + nuevos modos.',           img:'https://images.unsplash.com/photo-1607016284318-d1384bf79e2e?w=300', oferta:false },
+      { nombre:'WWE 2K26 King of Kings – PS5',    precio:1999, precioOld:2299, desc:'Ed. King of Kings PS5. Triple H 98 + Stephanie McMahon, Acceso Anticipado 6 marzo + Season 1.',  img:'https://images.unsplash.com/photo-1486401899868-0e435ed85128?w=300', oferta:true  },
+      { nombre:'WWE 2K26 Attitude Era – PS5',     precio:2599, precioOld:2999, desc:'Ed. Attitude Era PS5. Stone Cold, The Rock, Undertaker eras clásicas + todo el contenido extra.', img:'https://images.unsplash.com/photo-1486401899868-0e435ed85128?w=300', oferta:true  },
+      { nombre:'WWE 2K26 Monday Night War',       precio:2999, precioOld:null, desc:'Edición Máxima: WWE vs WCW. Todo incluido: Season Pass, WrestleMania 42 Pack + Acceso Anticipado.',img:'https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=300', oferta:false },
+      { nombre:'WWE 2K26 Nintendo Switch 2',      precio:1399, precioOld:null, desc:'¡Primera WWE 2K en Switch 2! Edición Estándar portátil. CM Punk cover. Lanzamiento 13/03/2026.',  img:'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=300', oferta:false },
+      { nombre:'Ringside Pass Premium Season 1',  precio:199,  precioOld:null, desc:'Pase de temporada WWE 2K26 Season 1. Nuevos luchadores, contenido exclusivo y más. Digital.',    img:'https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=300', oferta:false },
+      { nombre:'Poster WWE 2K26 CM Punk 50x70',   precio:95,   precioOld:120,  desc:'Póster oficial WWE 2K26 portada CM Punk "Best in the World". Impresión premium 50x70cm.',       img:'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300', oferta:true  },
+    ]
+  },
+  // ════════════════════════════════════════════
+  // S.H. FIGUARTS DRAGON BALL
+  // ════════════════════════════════════════════
+  {
+    id:'dragonball', nombre:'S.H. Figuarts Dragon Ball', emoji:'🐉',
+    imagen:'https://images.unsplash.com/photo-1601043490925-d0e07de5d48d?w=500',
+    productos:[
+      // ── LANZAMIENTOS 2026 (CUERPO 4.0 — LOS MÁS NUEVOS)
+      { nombre:'SHF Goku "Kind-hearted Saiyan"',  precio:950,  precioOld:null, desc:'NUEVO 2026. Son Goku base saga Androides/Cell. Cuerpo 4.0. 2 cabelleras + rostros intercambiables.', img:'https://images.unsplash.com/photo-1601043490925-d0e07de5d48d?w=300', oferta:false },
+      { nombre:'SHF SSJ Goku "Warrior of Rage"',  precio:1150, precioOld:1350, desc:'NUEVO 2026. Goku SSJ primera transformación vs Freezer en Namek. Cuerpo 4.0. Ed. Tamashii Web.', img:'https://images.unsplash.com/photo-1535189043414-47a3c49a0bed?w=300', oferta:true  },
+      { nombre:'SHF Vegeta DAIMA Ver.',            precio:980,  precioOld:null, desc:'Vegeta versión Dragon Ball DAIMA 14cm. Tamashii Nations. Lanzamiento septiembre 2025.',            img:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300', oferta:false },
+      { nombre:'SHF Bardock DBZ',                  precio:1100, precioOld:1299, desc:'Bardock "El padre de Goku" Dragon Ball Z. S.H.Figuarts nuevo lanzamiento. Edición regular.',      img:'https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=300', oferta:true  },
+      { nombre:'SHF SSJ God Goku "Ki Divino"',     precio:1250, precioOld:null, desc:'Super Saiyan God Goku: Vestida con Ki Divino. Tamashii Nation 2025. Edición exclusiva.',           img:'https://images.unsplash.com/photo-1601043490925-d0e07de5d48d?w=300', oferta:false },
+      { nombre:'SHF SSGSS Goku "Poder Azur"',      precio:1250, precioOld:1450, desc:'Super Saiyan Blue Goku: Poder Azur Rompelímites. Tamashii Nation 2025. Ed. exclusiva evento.',   img:'https://images.unsplash.com/photo-1535189043414-47a3c49a0bed?w=300', oferta:true  },
+      { nombre:'SHF Goku & Dragón 40 Aniversario', precio:1800, precioOld:2100, desc:'Son Goku y Dragón Shenron Edición 40 Aniversario Dragon Ball. Set coleccionable premium.',        img:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300', oferta:true  },
+      { nombre:'SHF Giblet DBL Exclusivo',          precio:1350, precioOld:null, desc:'Giblet "El Hombre Encapuchado" DB Legends 7mo aniversario. Tamashii Web Exclusive. Con capa.', img:'https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=300', oferta:false },
+      // ── CLÁSICOS DISPONIBLES
+      { nombre:'SHF Goku SSJ Full Power DBZ',      precio:890,  precioOld:null, desc:'Super Saiyan Full Power Son Goku 14cm. Dragon Ball Z. Figura clásica disponible.',               img:'https://images.unsplash.com/photo-1601043490925-d0e07de5d48d?w=300', oferta:false },
+      { nombre:'SHF Vegeta Old Battle Clothes',    precio:920,  precioOld:1050, desc:'Vegeta con ropa de batalla clásica DBZ. Collector\'s Shop Edition. S.H.Figuarts.',               img:'https://images.unsplash.com/photo-1535189043414-47a3c49a0bed?w=300', oferta:true  },
+      { nombre:'Figuarts ZERO SSJ2 Gohan',         precio:1600, precioOld:null, desc:'Figuarts ZERO Extra Battle Super Saiyan 2 Son Gohan "Anger Exploding". Premium display.',        img:'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300', oferta:false },
+      { nombre:'Tamashii Effect Concrete Crash',   precio:450,  precioOld:null, desc:'Efecto Tamashii "Concrete Crash" para acompañar tus figuras S.H.Figuarts. Enero 2026.',          img:'https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=300', oferta:false },
+    ]
   }
 ];
 
@@ -654,6 +694,78 @@ revealEls.forEach(el => {
   el.style.transition='opacity .55s cubic-bezier(.23,1,.32,1), transform .55s cubic-bezier(.23,1,.32,1)';
   obs.observe(el);
 });
+
+// ─── MODO OSCURO ─────────────────────────
+function toggleDarkMode() {
+  const isDark = document.body.classList.toggle('dark');
+  localStorage.setItem('darkMode', isDark);
+  const btn = document.getElementById('darkModeBtn');
+  if (btn) btn.innerHTML = isDark ? '☀️' : '🌙';
+  mostrarToast(isDark ? '🌙 Modo oscuro activado' : '☀️ Modo claro activado');
+}
+
+// Aplicar modo oscuro guardado
+(function initDarkMode() {
+  if (localStorage.getItem('darkMode') === 'true') {
+    document.body.classList.add('dark');
+    const btn = document.getElementById('darkModeBtn');
+    if (btn) btn.innerHTML = '☀️';
+  }
+})();
+
+// ─── VOLVER ARRIBA ────────────────────────
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('backToTop');
+  if (btn) btn.classList.toggle('visible', window.scrollY > 500);
+});
+
+function scrollTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── CONFETTI ────────────────────────────
+function lanzarConfetti() {
+  const colores = ['#3a9e6a','#5dbf89','#8dd9ae','#b8eece','#f8f4eb','#ffd700','#ff6b6b'];
+  for (let i = 0; i < 80; i++) {
+    const conf = document.createElement('div');
+    conf.className = 'confetti-piece';
+    conf.style.cssText = `
+      left:${Math.random() * 100}vw;
+      background:${colores[Math.floor(Math.random() * colores.length)]};
+      width:${6 + Math.random() * 8}px;
+      height:${6 + Math.random() * 8}px;
+      animation-duration:${1 + Math.random() * 1.5}s;
+      animation-delay:${Math.random() * 0.4}s;
+      border-radius:${Math.random() > 0.5 ? '50%' : '2px'};
+      transform:rotate(${Math.random() * 360}deg);
+    `;
+    document.body.appendChild(conf);
+    conf.addEventListener('animationend', () => conf.remove());
+  }
+}
+
+// Llamar confetti al agregar al carrito (parchear función)
+const _agregarAlCarritoOriginal = agregarAlCarrito;
+// Ya está integrado abajo — reemplazamos agregarAlCarrito
+function agregarAlCarrito() {
+  if (!productoActual) return;
+  const existe = carrito.find(i => i.nombre === productoActual.nombre);
+  if (existe) existe.qty += cantidadModal;
+  else carrito.push({ ...productoActual, qty: cantidadModal });
+  actualizarContador();
+  cerrarModal();
+  mostrarToast(`✦ ${productoActual.nombre} agregado`);
+  animarContador();
+  lanzarConfetti();
+}
+
+// ─── CHATBOT RESPUESTAS EXTRA ─────────────
+// (ya inicializado arriba, solo añadimos al array en runtime)
+CHATBOT_RESPUESTAS.push(
+  { palabras:['wwe 2k26','2k26','videojuego','juego','cm punk','ps5','xbox','switch'], resp:'🎮 ¡Sí tenemos WWE 2K26! Salió el 13 de marzo 2026 con CM Punk de portada y +400 luchadores. Disponible en PS5, Xbox Series X|S y Nintendo Switch 2. ¡Busca el pasillo de WWE 2K26!' },
+  { palabras:['dragon ball','goku','vegeta','figuarts','figura','sh figuarts','coleccionable','bandai'], resp:'🐉 ¡Kamehameha! Tenemos S.H. Figuarts Dragon Ball: Goku "Kind-hearted Saiyan" 2026 con cuerpo 4.0, SSJ Goku "Warrior of Rage", Vegeta DAIMA, Bardock y más. ¡Pura colección de primera!' },
+  { palabras:['modo oscuro','oscuro','dark','claro','tema'], resp:'🌙 Puedes cambiar entre modo oscuro y claro con el botón de luna 🌙 en la esquina superior derecha del menú.' }
+);
 
 // ─── INIT ────────────────────────────────
 generarOfertas();
