@@ -181,6 +181,52 @@
   </div>
 </section>
 
+<!-- ============ LUCHA LIBRE BANNER ============ -->
+<section class="lucha-banner">
+  <div class="lucha-bg-pattern"></div>
+  <div class="lucha-content">
+    <div class="lucha-left">
+      <span class="lucha-tag">✦ SANGRE NUEVA · LUCHA 2026 ✦</span>
+      <h2 class="lucha-title">¡La Nueva<br><span>Generación!</span></h2>
+      <p class="lucha-sub">Vikingo, Místico, Penta Zero Miedo, Bandido y Dominik. Los que están rompiendo el ring en CMLL, AAA y WWE en 2026. 🔥</p>
+      <div class="lucha-badges">
+        <span>🎭 Máscaras oficiales</span>
+        <span>👕 Camisas 2026</span>
+        <span>🏆 Coleccionables</span>
+        <span>⚡ Ediciones limitadas</span>
+      </div>
+      <a href="#pasillos" class="lucha-cta" onclick="setTimeout(()=>{document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector('[onclick*=luchaLibre]');if(btn){btn.classList.add('active');aplicarFiltro('luchaLibre',btn);}},100)">
+        Ver colección completa →
+      </a>
+    </div>
+    <div class="lucha-right">
+      <div class="lucha-mask-grid">
+        <div class="lucha-mask-card" onclick="abrirModal('Máscara Hijo del Vikingo',220,270,'Réplica oficial máscara negra y dorada del rey del aire de AAA.','https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=300','Lucha Libre 2026')">
+          <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=300" alt="Vikingo">
+          <span>Hijo del Vikingo</span>
+          <strong>$220 <del style="font-size:.7rem;opacity:.5;font-weight:400">$270</del></strong>
+        </div>
+        <div class="lucha-mask-card featured" onclick="abrirModal('Máscara Penta Zero Miedo',240,null,'Réplica máscara negra Penta Zero Miedo. Ahora en WWE. ¡Cero Miedo!','https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300','Lucha Libre 2026')">
+          <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300" alt="Penta">
+          <span>Penta Zero Miedo</span>
+          <strong>$240 ⚡</strong>
+        </div>
+        <div class="lucha-mask-card" onclick="abrirModal('Máscara Místico Plata y Oro',210,null,'Réplica máscara Místico plateada y dorada. Campeón Grand Prix 2025.','https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=300','Lucha Libre 2026')">
+          <img src="https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=300" alt="Místico">
+          <span>Místico</span>
+          <strong>$210</strong>
+        </div>
+      </div>
+      <div class="lucha-fighters-strip">
+        <span>🔥 Vikingo · WWE AAA</span>
+        <span>⚡ Penta · WWE</span>
+        <span>✦ Místico · CMLL Top 10</span>
+        <span>🏆 Bandido · ROH Champ</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ PASILLOS ============ -->
 <section class="pasillos-section" id="pasillos">
   <div class="pasillos-header">
