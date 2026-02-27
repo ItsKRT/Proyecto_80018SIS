@@ -205,6 +205,32 @@ const PASILLOS = [
       { nombre:'Premio Snacks Perro',   precio:35, premioOld:null, desc:'Snacks masticables para perro bolsa 100g.',       img:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300', oferta:false },
     ]
   }
+  ,{
+    id:'luchaLibre', nombre:'Lucha Libre 2026', emoji:'🎭',
+    imagen:'https://images.unsplash.com/photo-1504450874802-0ba2bcd9b5ae?w=500',
+    productos:[
+      // ── HIJO DEL VIKINGO (figura AAA / estilo aéreo extremo)
+      { nombre:'Máscara Hijo del Vikingo',      precio:220, precioOld:270, desc:'Réplica oficial máscara negra y dorada del rey del aire de AAA. Talla adulto.',           img:'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=300', oferta:true  },
+      { nombre:'Camisa Vikingo "Rey del Aire"', precio:290, precioOld:null, desc:'Camiseta oficial Hijo del Vikingo edición 2026. 100% algodón tallas S-XL.',             img:'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300', oferta:false },
+      // ── MÍSTICO (CMLL, Top 10 PWI 500)
+      { nombre:'Máscara Místico Plata y Oro',   precio:210, precioOld:null, desc:'Réplica máscara Místico plateada y dorada. Campeón Grand Prix 2025. Talla adulto.',      img:'https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=300', oferta:false },
+      { nombre:'Camisa Místico CMLL 2026',      precio:280, precioOld:320,  desc:'Camiseta oficial Místico con estampado Grand Prix. Edición limitada.',                  img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=300', oferta:true  },
+      // ── PENTA ZERO MIEDO (WWE 2026)
+      { nombre:'Máscara Penta Zero Miedo',      precio:240, precioOld:null, desc:'Réplica máscara negra Penta Zero Miedo. Ahora en WWE. ¡Cero Miedo! Talla adulto.',       img:'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300', oferta:false },
+      { nombre:'Camisa Penta "Cero Miedo" M',   precio:310, precioOld:360,  desc:'Camiseta oficial Penta Zero Miedo WWE 2026 edición especial. Talla M.',                 img:'https://images.unsplash.com/photo-1562157873-818bc0726f68?w=300', oferta:true  },
+      // ── BANDIDO (ROH World Champion)
+      { nombre:'Máscara Bandido ROH Champ',     precio:200, precioOld:null, desc:'Réplica máscara Bandido, Campeón Mundial de ROH. Talla única adulto.',                   img:'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=300', oferta:false },
+      { nombre:'Camisa Bandido "Torreón"',      precio:270, precioOld:null, desc:'Camiseta oficial Bandido edición Torreón, Coahuila. 100% algodón.',                      img:'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300', oferta:false },
+      // ── DOMINIK MYSTERIO (WWE IC Champ + MegaCampeón AAA)
+      { nombre:'Camisa Dominik "Dirty Dom"',    precio:320, precioOld:380,  desc:'Camiseta oficial Dominik Mysterio WWE 2026, Campeón Intercontinental. Talla L.',         img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=300', oferta:true  },
+      // ── COLECCIONABLES
+      { nombre:'Set Figuras Big 4 x4',          precio:520, precioOld:650,  desc:'Set 4 mini figuras coleccionables: Vikingo, Místico, Penta y Bandido. Ed. 2026.',        img:'https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=300', oferta:true  },
+      { nombre:'Póster "Nueva Generación" 2026',precio:95,  precioOld:null, desc:'Póster oficial luchadores mexicanos 2026: Vikingo, Místico, Penta, Bandido. 50x70cm.',   img:'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300', oferta:false },
+      { nombre:'Taza Lucha Nueva Era 350ml',    precio:120, precioOld:null, desc:'Taza cerámica con diseño de los 4 grandes de la lucha libre mexicana 2026.',             img:'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=300', oferta:false },
+      { nombre:'Llavero Penta "Cero Miedo"',    precio:55,  precioOld:null, desc:'Llavero metálico figura Penta Zero Miedo con detalle de calavera.',                      img:'https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=300', oferta:false },
+      { nombre:'Máscara Niño Vikingo Talla S',  precio:110, precioOld:140,  desc:'Máscara Hijo del Vikingo para niño talla 4-10 años. La más pedida del momento.',         img:'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=300', oferta:true  },
+    ]
+  }
 ];
 
 // Índice plano de todos los productos
@@ -540,6 +566,7 @@ const CHATBOT_RESPUESTAS = [
   { palabras:['snack','botana','papas','galleta'],        resp:'🍿 Gran variedad de botanas: Sabritas, Doritos, Oreo, Ruffles y más. ¡Revisa el pasillo de Snacks!' },
   { palabras:['leche','yogurt','queso','lácteo'],         resp:'🥛 Contamos con leche, yogurt, queso, mantequilla y crema de las mejores marcas.' },
   { palabras:['mascota','perro','gato','alimento animal'],resp:'🐾 Tenemos croquetas, arena para gatos y snacks para mascotas. Revisa el pasillo de Mascotas.' },
+  { palabras:['lucha','máscara','mascara','vikingo','penta','mistico','místico','bandido','dominik','luchador','camisa','ring','aaa','cmll','wwe'], resp:'🎭 ¡Fuego puro! Tenemos la sección **Lucha Libre 2026** con la sangre nueva que está rompiendo el ring: Hijo del Vikingo (AAA), Penta Zero Miedo (WWE), Místico (CMLL Top 10), Bandido (Campeón ROH) y Dominik Mysterio. Máscaras, camisas y coleccionables edición 2026. ¡Busca el pasillo de Lucha Libre!' },
   { palabras:['gracias','thank','ok','perfecto'],         resp:'¡Con gusto! ¿Necesitas algo más? 😊' },
   { palabras:['pdf','ticket','recibo','comprobante'],     resp:'📄 Sí, puedes generar tu ticket en PDF desde el carrito. Solo haz clic en "Ticket PDF" al momento de revisar tu pedido.' },
   { palabras:['login','sesion','cuenta','registrar'],     resp:'👤 Puedes iniciar sesión con tu nombre y número de WhatsApp. Haz clic en "Entrar" en la parte superior derecha.' },
