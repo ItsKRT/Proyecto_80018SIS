@@ -108,13 +108,13 @@ function iniciarSesion() {
 const PASILLOS = [
   {
     id:'bebidas', nombre:'Bebidas', emoji:'🥤',
-    imagen:'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=500',
+    imagen:'https://images.unsplash.com/photo-1534353473418-4cfa0c2c6b83?w=500',
     productos:[
-      { nombre:'Coca-Cola 2L',          precio:35, precioOld:null, desc:'Refresco de cola icónico, botella 2 litros.',       img:'https://images.unsplash.com/photo-1629203432180-71e7a43a7e2e?w=300', oferta:false },
+      { nombre:'Coca-Cola 2L',          precio:35, precioOld:null, desc:'Refresco de cola icónico, botella 2 litros.',       img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300', oferta:false },
       { nombre:'Agua Bonafont 1.5L',    precio:18, precioOld:null, desc:'Agua purificada en botella de 1.5 litros.',        img:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=300', oferta:false },
-      { nombre:'Jugo Del Valle 1L',     precio:28, precioOld:35,   desc:'Jugo de naranja natural, 1 litro.',                img:'https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=300', oferta:true  },
-      { nombre:'Gatorade Limón',        precio:22, precioOld:null, desc:'Bebida isotónica sabor limón 600ml.',              img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=300', oferta:false },
-      { nombre:'Red Bull 250ml',        precio:38, precioOld:null, desc:'Bebida energizante lata 250ml.',                  img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=300', oferta:false },
+      { nombre:'Jugo Del Valle 1L',     precio:28, precioOld:35,   desc:'Jugo de naranja natural, 1 litro.',                img:'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=300', oferta:true  },
+      { nombre:'Gatorade Limón',        precio:22, precioOld:null, desc:'Bebida isotónica sabor limón 600ml.',              img:'https://images.unsplash.com/photo-1571748982800-fa51082c2224?w=300', oferta:false },
+      { nombre:'Red Bull 250ml',        precio:38, precioOld:null, desc:'Bebida energizante lata 250ml.',                  img:'https://images.unsplash.com/photo-1622543925917-763c34d1a86e?w=300', oferta:false },
       { nombre:'Café Nescafé Clásico',  precio:55, precioOld:65,   desc:'Café soluble instantáneo frasco 100g.',           img:'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=300', oferta:true  },
     ]
   },
@@ -122,12 +122,12 @@ const PASILLOS = [
     id:'snacks', nombre:'Snacks', emoji:'🍿',
     imagen:'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=500',
     productos:[
-      { nombre:'Sabritas Clásicas',     precio:20, precioOld:null, desc:'Papas fritas originales bolsa 45g.',              img:'https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=300', oferta:false },
-      { nombre:'Doritos Nacho',         precio:22, precioOld:null, desc:'Totopos con queso bolsa 65g.',                    img:'https://images.unsplash.com/photo-1613919113640-25732ec5e61f?w=300', oferta:false },
+      { nombre:'Sabritas Clásicas',     precio:20, precioOld:null, desc:'Papas fritas originales bolsa 45g.',              img:'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300', oferta:false },
+      { nombre:'Doritos Nacho',         precio:22, precioOld:null, desc:'Totopos con queso bolsa 65g.',                    img:'https://images.unsplash.com/photo-1601700109060-8f5e2e3c4b0a?w=300', oferta:false },
       { nombre:'Oreo Original',         precio:18, precioOld:22,   desc:'Galletas de chocolate con relleno 117g.',         img:'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300', oferta:true  },
-      { nombre:'Ruffles Queso',         precio:24, precioOld:null, desc:'Papas acanaladas sabor queso bolsa 45g.',         img:'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300', oferta:false },
+      { nombre:'Ruffles Queso',         precio:24, precioOld:null, desc:'Papas acanaladas sabor queso bolsa 45g.',         img:'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=300', oferta:false },
       { nombre:'Palomitas Crunch',      precio:15, precioOld:null, desc:'Palomitas de maíz con mantequilla 50g.',          img:'https://images.unsplash.com/photo-1585647347483-22b66260dfff?w=300', oferta:false },
-      { nombre:'Cacahuates Japoneses',  precio:16, precioOld:null, desc:'Cacahuates cubiertos de harina 100g.',            img:'https://images.unsplash.com/photo-1571218281820-4e886f6c1c15?w=300', oferta:false },
+      { nombre:'Cacahuates Japoneses',  precio:16, precioOld:null, desc:'Cacahuates cubiertos de harina 100g.',            img:'https://images.unsplash.com/photo-1567892737950-30c4db39a5d4?w=300', oferta:false },
     ]
   },
   {
@@ -138,14 +138,14 @@ const PASILLOS = [
       { nombre:'Yogurt Danone Natural', precio:12, precioOld:null, desc:'Yogurt natural sin azúcar 125g.',                 img:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300', oferta:false },
       { nombre:'Queso Oaxaca 400g',     precio:48, precioOld:55,   desc:'Queso de hebra artesanal 400g.',                  img:'https://images.unsplash.com/photo-1452195100486-9cc805987862?w=300', oferta:true  },
       { nombre:'Mantequilla Lala 200g', precio:32, precioOld:null, desc:'Mantequilla sin sal barra 200g.',                 img:'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=300', oferta:false },
-      { nombre:'Crema Lala 200ml',      precio:18, precioOld:null, desc:'Crema ácida lista para servir 200ml.',            img:'https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=300', oferta:false },
+      { nombre:'Crema Lala 200ml',      precio:18, precioOld:null, desc:'Crema ácida lista para servir 200ml.',            img:'https://images.unsplash.com/photo-1578020190125-f4f7c18bc9cb?w=300', oferta:false },
     ]
   },
   {
     id:'limpieza', nombre:'Limpieza', emoji:'🧹',
     imagen:'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=500',
     productos:[
-      { nombre:'Cloralex 950ml',        precio:30, precioOld:null, desc:'Blanqueador con aroma 950ml.',                    img:'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=300', oferta:false },
+      { nombre:'Cloralex 950ml',        precio:30, precioOld:null, desc:'Blanqueador con aroma 950ml.',                    img:'https://images.unsplash.com/photo-1609204782896-81c4a4e5b61f?w=300', oferta:false },
       { nombre:'Fabuloso Multiusos 1L', precio:32, precioOld:38,   desc:'Limpiador líquido lavanda 1 litro.',              img:'https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=300', oferta:true  },
       { nombre:'Ariel Polvo 1kg',       precio:55, precioOld:null, desc:'Detergente en polvo con suavizante 1kg.',         img:'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=300', oferta:false },
       { nombre:'Axion Lava Trastes',    precio:22, precioOld:null, desc:'Lavatrastes en pasta limón 500g.',                img:'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=300', oferta:false },
@@ -156,10 +156,10 @@ const PASILLOS = [
     id:'enlatados', nombre:'Enlatados', emoji:'🥫',
     imagen:'https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?w=500',
     productos:[
-      { nombre:'Atún Dolores Agua',     precio:20, precioOld:null, desc:'Atún en agua lata 140g.',                         img:'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=300', oferta:false },
-      { nombre:'Chícharos Herdez 400g', precio:15, precioOld:null, desc:'Chícharos en lata listos para servir 400g.',      img:'https://images.unsplash.com/photo-1617952236317-0bd127407984?w=300', oferta:false },
+      { nombre:'Atún Dolores Agua',     precio:20, precioOld:null, desc:'Atún en agua lata 140g.',                         img:'https://images.unsplash.com/photo-1534482421-64566f976cfa?w=300', oferta:false },
+      { nombre:'Chícharos Herdez 400g', precio:15, precioOld:null, desc:'Chícharos en lata listos para servir 400g.',      img:'https://images.unsplash.com/photo-1620706857370-e1b9770e8bb1?w=300', oferta:false },
       { nombre:'Frijoles Isadora 440g', precio:22, precioOld:28,   desc:'Frijoles refritos con manteca lata 440g.',        img:'https://images.unsplash.com/photo-1555244162-803834f70033?w=300', oferta:true  },
-      { nombre:'Sardinas Calmex',       precio:18, precioOld:null, desc:'Sardinas en tomate lata 215g.',                   img:'https://images.unsplash.com/photo-1600188769099-d25b4ec79659?w=300', oferta:false },
+      { nombre:'Sardinas Calmex',       precio:18, precioOld:null, desc:'Sardinas en tomate lata 215g.',                   img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300', oferta:false },
       { nombre:'Durazno en Almíbar',    precio:24, precioOld:null, desc:'Duraznos en almíbar lata 820g.',                  img:'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=300', oferta:false },
     ]
   },
@@ -169,7 +169,7 @@ const PASILLOS = [
     productos:[
       { nombre:'Pan de Caja Bimbo',     precio:38, precioOld:null, desc:'Pan de caja blanco grande 680g.',                 img:'https://images.unsplash.com/photo-1598373182133-52452f7691ef?w=300', oferta:false },
       { nombre:'Tortillas Maíz x30',    precio:22, precioOld:null, desc:'Tortillas de maíz empaque 30 piezas.',            img:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=300', oferta:false },
-      { nombre:'Conchas Marinela x6',   precio:32, precioOld:38,   desc:'Pan dulce tradicional paquete 6 piezas.',         img:'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?w=300', oferta:true  },
+      { nombre:'Conchas Marinela x6',   precio:32, precioOld:38,   desc:'Pan dulce tradicional paquete 6 piezas.',         img:'https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=300', oferta:true  },
       { nombre:'Gansitos Marinela',     precio:18, precioOld:null, desc:'Pastelito de chocolate con fresa 3 piezas.',      img:'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=300', oferta:false },
       { nombre:'Obleas Nestle x8',      precio:14, precioOld:null, desc:'Obleas con cajeta paquete 8 piezas.',             img:'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=300', oferta:false },
     ]
@@ -179,8 +179,8 @@ const PASILLOS = [
     imagen:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=500',
     productos:[
       { nombre:'Jamón Virginia FUD 200g',precio:42, precioOld:null, desc:'Jamón de pierna rebanado 200g.',                img:'https://images.unsplash.com/photo-1612103198005-b238a0fa5d45?w=300', oferta:false },
-      { nombre:'Salchicha FUD x8',      precio:36, precioOld:42,   desc:'Salchicha de pavo empaque 8 piezas.',            img:'https://images.unsplash.com/photo-1597733336794-12d05021d510?w=300', oferta:true  },
-      { nombre:'Chorizo San Manuel',    precio:55, precioOld:null, desc:'Chorizo rojo español artesanal 500g.',           img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300', oferta:false },
+      { nombre:'Salchicha FUD x8',      precio:36, precioOld:42,   desc:'Salchicha de pavo empaque 8 piezas.',            img:'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=300', oferta:true  },
+      { nombre:'Chorizo San Manuel',    precio:55, precioOld:null, desc:'Chorizo rojo español artesanal 500g.',           img:'https://images.unsplash.com/photo-1624623278313-a930126a11c3?w=300', oferta:false },
       { nombre:'Mortadela Zwan 200g',   precio:30, precioOld:null, desc:'Mortadela rebanada fina 200g.',                  img:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300', oferta:false },
     ]
   },
@@ -190,9 +190,9 @@ const PASILLOS = [
     productos:[
       { nombre:'Avena Quaker 1kg',      precio:45, precioOld:null, desc:'Avena en hojuelas integral 1kg.',                img:'https://images.unsplash.com/photo-1614961233913-a5113a4a34ed?w=300', oferta:false },
       { nombre:'Miel Carlota 500g',     precio:62, precioOld:75,   desc:'Miel de abeja pura de campo 500g.',              img:'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=300', oferta:true  },
-      { nombre:'Chía Orgánica 250g',    precio:38, precioOld:null, desc:'Semillas de chía orgánica 250g.',                img:'https://images.unsplash.com/photo-1599940824399-b87987ceb72a?w=300', oferta:false },
+      { nombre:'Chía Orgánica 250g',    precio:38, precioOld:null, desc:'Semillas de chía orgánica 250g.',                img:'https://images.unsplash.com/photo-1571051740689-2b90a25661e2?w=300', oferta:false },
       { nombre:'Granola Natural 500g',  precio:52, precioOld:null, desc:'Granola con frutos secos y miel 500g.',          img:'https://images.unsplash.com/photo-1517686469429-8bdb88b9f907?w=300', oferta:false },
-      { nombre:'Vitamina C 500mg x30',  precio:55, precioOld:null, desc:'Suplemento vitamina C tabletas frasco 30 pzs.',  img:'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=300', oferta:false },
+      { nombre:'Vitamina C 500mg x30',  precio:55, precioOld:null, desc:'Suplemento vitamina C tabletas frasco 30 pzs.',  img:'https://images.unsplash.com/photo-1616671276441-2f2c277b8bf6?w=300', oferta:false },
     ]
   },
   {
@@ -202,9 +202,9 @@ const PASILLOS = [
       { nombre:'Croquetas Pedigree 1kg',precio:95, precioOld:110,  desc:'Alimento seco para perro adulto 1kg.',           img:'https://images.unsplash.com/photo-1588943211346-0908a1fb0b01?w=300', oferta:true  },
       { nombre:'Croquetas Whiskas 500g',precio:55, precioOld:null, desc:'Alimento seco para gato adulto 500g.',           img:'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300', oferta:false },
       { nombre:'Arena para Gato 5kg',  precio:75, precioOld:null, desc:'Arena absorbente con control de olor 5kg.',       img:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=300', oferta:false },
-      { nombre:'Premio Snacks Perro',   precio:35, premioOld:null, desc:'Snacks masticables para perro bolsa 100g.',       img:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300', oferta:false },
+      { nombre:'Premio Snacks Perro',  precio:35, precioOld:null,  desc:'Snacks masticables para perro bolsa 100g.',      img:'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300', oferta:false },
     ]
-  }
+  },
   ,{
     id:'luchaLibre', nombre:'Lucha Libre 2026', emoji:'🎭',
     imagen:'https://images.unsplash.com/photo-1504450874802-0ba2bcd9b5ae?w=500',
