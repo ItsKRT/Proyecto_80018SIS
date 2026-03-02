@@ -81,10 +81,80 @@
 
   <div class="nav-actions">
     <button class="nav-icon-btn dark-toggle" id="darkModeBtn" onclick="toggleDarkMode()" title="Modo oscuro">🌙</button>
-    <button class="nav-icon-btn" onclick="abrirLogin()" id="loginBtn" title="Iniciar sesión">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span id="loginLabel">Entrar</span>
-    </button>
+    <div class="user-btn-wrap" id="userBtnWrap">
+      <button class="nav-icon-btn" onclick="toggleUserMenu()" id="loginBtn" title="Mi cuenta">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span id="loginLabel">Entrar</span>
+      </button>
+      <!-- MENÚ FLOTANTE USUARIO -->
+      <div class="user-menu" id="userMenu">
+        <!-- Sin sesión -->
+        <div id="userMenuGuest">
+          <div class="user-menu-header-guest">
+            <div class="user-menu-icon-big">◈</div>
+            <p>Inicia sesión para ver tu información y pedidos</p>
+          </div>
+          <div class="login-form" style="padding:0 0 4px;">
+            <div class="input-group">
+              <label>Nombre</label>
+              <input type="text" id="loginNombre" placeholder="Ej: María García">
+            </div>
+            <div class="input-group">
+              <label>WhatsApp</label>
+              <div class="phone-input">
+                <span class="phone-prefix">+52</span>
+                <input type="tel" id="loginTelefono" placeholder="55 1234 5678" maxlength="10">
+              </div>
+            </div>
+            <button class="btn-primary btn-full" onclick="iniciarSesion()">
+              Conectar con WhatsApp
+            </button>
+          </div>
+        </div>
+        <!-- Con sesión -->
+        <div id="userMenuLogged" style="display:none">
+          <div class="user-menu-profile">
+            <div class="user-menu-avatar" id="userAvatar">?</div>
+            <div class="user-menu-info">
+              <strong id="userMenuNombre">—</strong>
+              <span id="userMenuTel">—</span>
+            </div>
+          </div>
+          <div class="user-menu-divider"></div>
+          <div class="user-menu-stats">
+            <div class="user-stat">
+              <span id="userMenuItems">0</span>
+              <small>en carrito</small>
+            </div>
+            <div class="user-stat-sep"></div>
+            <div class="user-stat">
+              <span id="userMenuTotal">$0</span>
+              <small>total</small>
+            </div>
+          </div>
+          <div class="user-menu-divider"></div>
+          <div class="user-menu-actions">
+            <button class="user-menu-btn" onclick="abrirCarrito();cerrarUserMenu()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+              Ver mi carrito
+            </button>
+            <button class="user-menu-btn" onclick="generarPDF();cerrarUserMenu()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Descargar ticket PDF
+            </button>
+            <button class="user-menu-btn" onclick="enviarWhatsApp();cerrarUserMenu()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.115 1.522 5.85L.057 23.867a.5.5 0 00.614.613l6.079-1.456A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.792 9.792 0 01-5.017-1.378l-.36-.213-3.712.89.917-3.638-.234-.375A9.795 9.795 0 012.182 12C2.182 6.574 6.574 2.182 12 2.182S21.818 6.574 21.818 12 17.426 21.818 12 21.818z"/></svg>
+              Enviar pedido por WhatsApp
+            </button>
+          </div>
+          <div class="user-menu-divider"></div>
+          <button class="user-menu-btn-logout" onclick="cerrarSesion()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Cerrar sesión
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="carrito-icono" onclick="abrirCarrito()">
       <div class="cart-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
