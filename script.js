@@ -210,8 +210,8 @@ const PASILLOS = [
     imagen:'./img/mascaras.png',
     productos:[
       // ── HIJO DEL VIKINGO (figura AAA / estilo aéreo extremo)
-      { nombre:'Máscara Hijo del Vikingo',      precio:220, precioOld:270, desc:'Réplica oficial máscara negra y dorada del rey del aire de AAA. Talla adulto.',           img:'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=300', oferta:true  },
-      { nombre:'Camisa Vikingo "Rey del Aire"', precio:290, precioOld:null, desc:'Camiseta oficial Hijo del Vikingo edición 2026. 100% algodón tallas S-XL.',             img:'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=300', oferta:false },
+      { nombre:'Máscara Hijo del Vikingo',      precio:220, precioOld:270, desc:'Réplica oficial máscara negra y dorada del rey del aire de AAA. Talla adulto.',           img:'https://i.ebayimg.com/images/g/HYYAAeSwP4hoVhXH/s-l400.jpg?w=300', oferta:true  },
+      { nombre:'Camisa Vikingo "Rey del Aire"', precio:290, precioOld:null, desc:'Camiseta oficial Hijo del Vikingo edición 2026. 100% algodón tallas S-XL.',             img:'https://http2.mlstatic.com/D_NQ_NP_740751-MLM86004445809_062025-O-playera-el-hijo-del-vikingo-wwe-100-algodon-premium-hombre.webp?w=300', oferta:false },
       // ── MÍSTICO (CMLL, Top 10 PWI 500)
       { nombre:'Máscara Místico Plata y Oro',   precio:210, precioOld:null, desc:'Réplica máscara Místico plateada y dorada. Campeón Grand Prix 2025. Talla adulto.',      img:'https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=300', oferta:false },
       { nombre:'Camisa Místico CMLL 2026',      precio:280, precioOld:320,  desc:'Camiseta oficial Místico con estampado Grand Prix. Edición limitada.',                  img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=300', oferta:true  },
@@ -238,7 +238,7 @@ const PASILLOS = [
     id:'wwe2k26', nombre:'WWE 2K26', emoji:'🎮',
     imagen:'./img/juego.png',
     productos:[
-      { nombre:'WWE 2K26 Standard – PS5',         precio:1399, precioOld:null, desc:'WWE 2K26 Edición Estándar PS5. Portada: CM Punk. +400 luchadores. Lanzamiento 13 marzo 2026.',   img:'https://next-media.elkjop.com/image/dv_web_D1800013765782/1046798/wwe-2k26-ps5.jpg?w=300', oferta:false },
+      { nombre:'WWE 2K26 Standard – PS5',         precio:1399, precioOld:null, desc:'WWE 2K26 Edición Estándar PS5. Portada: CM Punk. +400 luchadores. Lanzamiento 13 marzo 2026.',   img:'https://juegosdigitalesmexico.mx/files/images/productos/1771026010-wwe-2k26-standard-edition-ps5-0.webp?w=300', oferta:false },
       { nombre:'WWE 2K26 Standard – Xbox S/X',    precio:1399, precioOld:null, desc:'WWE 2K26 Edición Estándar Xbox Series X|S. Incluye Showcase CM Punk + nuevos modos.',           img:'https://www.rarewaves.com/cdn/shop/files/orig_14721704_27268111_20260207074410_514x700.jpg?w=300', oferta:false },
       { nombre:'WWE 2K26 King of Kings – PS5',    precio:1999, precioOld:2299, desc:'Ed. King of Kings PS5. Triple H 98 + Stephanie McMahon, Acceso Anticipado 6 marzo + Season 1.',  img:'https://images.ctfassets.net/wn7ipiv9ue5v/69GFcZk9Llcq9QX8cCIpAS/45b8162441ae1a05b6d8c785678fec34/W26-DLX-ANNOUNCE-RETAIL_DIGITAL_BANNERS-D2C_V1-STATIC-ENUS-NO_RATING-AGN-600x850-R2.jpg?w=300', oferta:true  },
       { nombre:'WWE 2K26 Attitude Era – PS5',     precio:2599, precioOld:2999, desc:'Ed. Attitude Era PS5. Stone Cold, The Rock, Undertaker eras clásicas + todo el contenido extra.', img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYUYc6u4TnAMv7jpYU3YQJL2VUV6Z5c8gI0A&s?w=300', oferta:true  },
