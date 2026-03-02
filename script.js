@@ -108,7 +108,7 @@ function iniciarSesion() {
 const PASILLOS = [
   {
     id:'bebidas', nombre:'Bebidas', emoji:'🥤',
-    imagen:'https://images.unsplash.com/photo-1534353473418-4cfa0c2c6b83?w=500',
+    imagen:'./img/bebidas.png',
     productos:[
       { nombre:'Coca-Cola 2L',          precio:35, precioOld:null, desc:'Refresco de cola icónico, botella 2 litros.',       img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300', oferta:false },
       { nombre:'Agua Bonafont 1.5L',    precio:18, precioOld:null, desc:'Agua purificada en botella de 1.5 litros.',        img:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=300', oferta:false },
@@ -120,7 +120,7 @@ const PASILLOS = [
   },
   {
     id:'snacks', nombre:'Snacks', emoji:'🍿',
-    imagen:'https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=500',
+    imagen:'./img/snacks.png',
     productos:[
       { nombre:'Sabritas Clásicas',     precio:20, precioOld:null, desc:'Papas fritas originales bolsa 45g.',              img:'https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=300', oferta:false },
       { nombre:'Doritos Nacho',         precio:22, precioOld:null, desc:'Totopos con queso bolsa 65g.',                    img:'https://images.unsplash.com/photo-1601700109060-8f5e2e3c4b0a?w=300', oferta:false },
@@ -132,7 +132,7 @@ const PASILLOS = [
   },
   {
     id:'lacteos', nombre:'Lácteos', emoji:'🥛',
-    imagen:'https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=500',
+    imagen:'./img/lacteos.png',
     productos:[
       { nombre:'Leche Alpura Entera 1L',precio:25, precioOld:null, desc:'Leche entera pasteurizada 1 litro.',              img:'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300', oferta:false },
       { nombre:'Yogurt Danone Natural', precio:12, precioOld:null, desc:'Yogurt natural sin azúcar 125g.',                 img:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300', oferta:false },
@@ -143,7 +143,7 @@ const PASILLOS = [
   },
   {
     id:'limpieza', nombre:'Limpieza', emoji:'🧹',
-    imagen:'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=500',
+    imagen:'./img/limpieza.png',
     productos:[
       { nombre:'Cloralex 950ml',        precio:30, precioOld:null, desc:'Blanqueador con aroma 950ml.',                    img:'https://images.unsplash.com/photo-1609204782896-81c4a4e5b61f?w=300', oferta:false },
       { nombre:'Fabuloso Multiusos 1L', precio:32, precioOld:38,   desc:'Limpiador líquido lavanda 1 litro.',              img:'https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=300', oferta:true  },
@@ -154,7 +154,7 @@ const PASILLOS = [
   },
   {
     id:'enlatados', nombre:'Enlatados', emoji:'🥫',
-    imagen:'https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?w=500',
+    imagen:'./img/enlatados.png',
     productos:[
       { nombre:'Atún Dolores Agua',     precio:20, precioOld:null, desc:'Atún en agua lata 140g.',                         img:'https://images.unsplash.com/photo-1534482421-64566f976cfa?w=300', oferta:false },
       { nombre:'Chícharos Herdez 400g', precio:15, precioOld:null, desc:'Chícharos en lata listos para servir 400g.',      img:'https://images.unsplash.com/photo-1620706857370-e1b9770e8bb1?w=300', oferta:false },
@@ -165,7 +165,7 @@ const PASILLOS = [
   },
   {
     id:'panaderia', nombre:'Panadería', emoji:'🍞',
-    imagen:'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500',
+    imagen:'./img/panaderia.png',
     productos:[
       { nombre:'Pan de Caja Bimbo',     precio:38, precioOld:null, desc:'Pan de caja blanco grande 680g.',                 img:'https://images.unsplash.com/photo-1598373182133-52452f7691ef?w=300', oferta:false },
       { nombre:'Tortillas Maíz x30',    precio:22, precioOld:null, desc:'Tortillas de maíz empaque 30 piezas.',            img:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=300', oferta:false },
@@ -176,7 +176,7 @@ const PASILLOS = [
   },
   {
     id:'carnesfrías', nombre:'Carnes Frías', emoji:'🥩',
-    imagen:'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=500',
+    imagen:'./img/carnes.png',
     productos:[
       { nombre:'Jamón Virginia FUD 200g',precio:42, precioOld:null, desc:'Jamón de pierna rebanado 200g.',                img:'https://images.unsplash.com/photo-1612103198005-b238a0fa5d45?w=300', oferta:false },
       { nombre:'Salchicha FUD x8',      precio:36, precioOld:42,   desc:'Salchicha de pavo empaque 8 piezas.',            img:'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=300', oferta:true  },
@@ -186,7 +186,7 @@ const PASILLOS = [
   },
   {
     id:'salud', nombre:'Salud Natural', emoji:'🌿',
-    imagen:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500',
+    imagen:'./img/salud.png',
     productos:[
       { nombre:'Avena Quaker 1kg',      precio:45, precioOld:null, desc:'Avena en hojuelas integral 1kg.',                img:'https://images.unsplash.com/photo-1614961233913-a5113a4a34ed?w=300', oferta:false },
       { nombre:'Miel Carlota 500g',     precio:62, precioOld:75,   desc:'Miel de abeja pura de campo 500g.',              img:'https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=300', oferta:true  },
@@ -197,7 +197,7 @@ const PASILLOS = [
   },
   {
     id:'mascotas', nombre:'Mascotas', emoji:'🐾',
-    imagen:'https://images.unsplash.com/photo-1601758174114-e711c0cbaa69?w=500',
+    imagen:'./img/mascotas.png',
     productos:[
       { nombre:'Croquetas Pedigree 1kg',precio:95, precioOld:110,  desc:'Alimento seco para perro adulto 1kg.',           img:'https://images.unsplash.com/photo-1588943211346-0908a1fb0b01?w=300', oferta:true  },
       { nombre:'Croquetas Whiskas 500g',precio:55, precioOld:null, desc:'Alimento seco para gato adulto 500g.',           img:'https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300', oferta:false },
@@ -207,7 +207,7 @@ const PASILLOS = [
   },
   ,{
     id:'luchaLibre', nombre:'Lucha Libre 2026', emoji:'🎭',
-    imagen:'https://images.unsplash.com/photo-1504450874802-0ba2bcd9b5ae?w=500',
+    imagen:'./img/mascaras.png',
     productos:[
       // ── HIJO DEL VIKINGO (figura AAA / estilo aéreo extremo)
       { nombre:'Máscara Hijo del Vikingo',      precio:220, precioOld:270, desc:'Réplica oficial máscara negra y dorada del rey del aire de AAA. Talla adulto.',           img:'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=300', oferta:true  },
@@ -236,7 +236,7 @@ const PASILLOS = [
   // ════════════════════════════════════════════
   {
     id:'wwe2k26', nombre:'WWE 2K26', emoji:'🎮',
-    imagen:'https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=500',
+    imagen:'./img/juego.png',
     productos:[
       { nombre:'WWE 2K26 Standard – PS5',         precio:1399, precioOld:null, desc:'WWE 2K26 Edición Estándar PS5. Portada: CM Punk. +400 luchadores. Lanzamiento 13 marzo 2026.',   img:'https://images.unsplash.com/photo-1607016284318-d1384bf79e2e?w=300', oferta:false },
       { nombre:'WWE 2K26 Standard – Xbox S/X',    precio:1399, precioOld:null, desc:'WWE 2K26 Edición Estándar Xbox Series X|S. Incluye Showcase CM Punk + nuevos modos.',           img:'https://images.unsplash.com/photo-1607016284318-d1384bf79e2e?w=300', oferta:false },
@@ -253,7 +253,7 @@ const PASILLOS = [
   // ════════════════════════════════════════════
   {
     id:'dragonball', nombre:'S.H. Figuarts Dragon Ball', emoji:'🐉',
-    imagen:'https://images.unsplash.com/photo-1601043490925-d0e07de5d48d?w=500',
+    imagen:'./img/figuras.png',
     productos:[
       // ── LANZAMIENTOS 2026 (CUERPO 4.0 — LOS MÁS NUEVOS)
       { nombre:'SHF Goku "Kind-hearted Saiyan"',  precio:950,  precioOld:null, desc:'NUEVO 2026. Son Goku base saga Androides/Cell. Cuerpo 4.0. 2 cabelleras + rostros intercambiables.', img:'https://images.unsplash.com/photo-1601043490925-d0e07de5d48d?w=300', oferta:false },
