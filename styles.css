@@ -528,3 +528,97 @@ body.dark .wwe-banner{background:#0a1a0f;}
   .wwe-content{flex-direction:column;}
   .wwe-editions{grid-template-columns:1fr 1fr;}
 }
+
+/* ===== MENÚ FLOTANTE USUARIO ===== */
+.user-btn-wrap{position:relative;}
+.user-menu{position:absolute;top:calc(100% + 14px);right:0;width:300px;background:var(--white);border:1px solid var(--sand);border-radius:20px;box-shadow:0 20px 60px rgba(13,43,30,.18);z-index:2000;opacity:0;visibility:hidden;transform:translateY(10px) scale(.97);transition:all .35s cubic-bezier(.23,1,.32,1);transform-origin:top right;}
+.user-menu.open{opacity:1;visibility:visible;transform:translateY(0) scale(1);}
+.user-menu::before{content:'';position:absolute;top:-7px;right:22px;width:13px;height:13px;background:var(--white);border-left:1px solid var(--sand);border-top:1px solid var(--sand);transform:rotate(45deg);border-radius:2px 0 0 0;}
+
+/* Guest view */
+.user-menu-header-guest{text-align:center;padding:24px 20px 16px;}
+.user-menu-icon-big{font-size:2rem;color:var(--g500);margin-bottom:10px;animation:spin 6s linear infinite;display:block;}
+.user-menu-header-guest p{font-size:.82rem;color:var(--sage);line-height:1.5;}
+.user-menu .login-form{padding:0 20px 20px !important;}
+.user-menu .input-group label{font-size:.72rem;}
+.user-menu .input-group input{padding:10px 14px;font-size:.85rem;}
+.user-menu .btn-primary{padding:11px;font-size:.82rem;margin-top:4px;}
+
+/* Logged view */
+.user-menu-profile{display:flex;align-items:center;gap:14px;padding:20px 20px 16px;}
+.user-menu-avatar{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--g600),var(--g400));color:white;font-family:var(--font-d);font-size:1.1rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.user-menu-info{flex:1;overflow:hidden;}
+.user-menu-info strong{display:block;font-size:.95rem;color:var(--g900);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.user-menu-info span{font-size:.78rem;color:var(--sage);}
+.user-menu-divider{height:1px;background:var(--sand);margin:0 16px;}
+.user-menu-stats{display:flex;align-items:center;justify-content:center;gap:0;padding:14px 20px;}
+.user-stat{flex:1;text-align:center;}
+.user-stat span{display:block;font-family:var(--font-d);font-size:1.1rem;font-weight:700;color:var(--g700);}
+.user-stat small{font-size:.72rem;color:var(--sage);text-transform:uppercase;letter-spacing:.08em;}
+.user-stat-sep{width:1px;height:36px;background:var(--sand);}
+.user-menu-actions{padding:10px 12px;display:flex;flex-direction:column;gap:4px;}
+.user-menu-btn{display:flex;align-items:center;gap:10px;background:none;border:none;padding:10px 12px;border-radius:12px;font-size:.85rem;font-weight:500;color:var(--g800);cursor:pointer;transition:all .2s;width:100%;text-align:left;font-family:var(--font-b);}
+.user-menu-btn:hover{background:var(--g100);color:var(--g600);}
+.user-menu-btn svg{color:var(--g500);flex-shrink:0;}
+.user-menu-btn-logout{display:flex;align-items:center;gap:10px;background:none;border:none;padding:14px 20px;font-size:.85rem;font-weight:600;color:#e55;cursor:pointer;transition:all .2s;width:100%;text-align:left;font-family:var(--font-b);border-radius:0 0 20px 20px;}
+.user-menu-btn-logout:hover{background:#fff1f1;}
+.user-menu-btn-logout svg{flex-shrink:0;}
+
+/* Dark mode menú usuario */
+body.dark .user-menu{background:#162210;border-color:#243d2e;}
+body.dark .user-menu::before{background:#162210;border-color:#243d2e;}
+body.dark .user-menu-info strong{color:#e0f7ec;}
+body.dark .user-menu-btn{color:#b8eece;}
+body.dark .user-menu-btn:hover{background:#1a2e22;color:#5dbf89;}
+body.dark .user-menu-btn-logout:hover{background:rgba(230,85,85,.1);}
+body.dark .user-menu-divider{background:#243d2e;}
+
+/* ===== DARK MODE — TEXTOS MEJORADOS ===== */
+body.dark .nav-link{color:#b8eece;}
+body.dark .nav-logo{color:#e0f7ec;}
+body.dark .section-title{color:#e0f7ec;}
+body.dark .section-tag{color:#5dbf89;}
+body.dark h1,body.dark h2,body.dark h3,body.dark h4{color:#e0f7ec;}
+body.dark .card-content h3{color:#e0f7ec;}
+body.dark .card-content p{color:#7aab8a;}
+body.dark .oferta-info h4{color:#e0f7ec;}
+body.dark .oferta-info p{color:#7aab8a;}
+body.dark .pasillo-content h3{color:#e0f7ec;}
+body.dark .producto-card{color:#e0f7ec;}
+body.dark .producto-card-price{color:#5dbf89;}
+body.dark .modal-body h3{color:#e0f7ec;}
+body.dark .modal-tag{color:#5dbf89;}
+body.dark .modal-body p{color:#7aab8a;}
+body.dark #modal-precio{color:#5dbf89;}
+body.dark .cart-header h3{color:#e0f7ec;}
+body.dark .cart-item-info strong{color:#e0f7ec;}
+body.dark .cart-item-info span{color:#7aab8a;}
+body.dark .cart-item-price{color:#5dbf89;}
+body.dark .cart-total-row{color:#7aab8a;}
+body.dark .cart-total-main{color:#e0f7ec;}
+body.dark .cart-total-main span:last-child{color:#5dbf89;}
+body.dark .btn-pdf{background:#1a2e22;color:#b8eece;border-color:#3a6648;}
+body.dark .opcion-info p{color:#7aab8a;}
+body.dark .hero-badge{color:#8dd9ae;}
+body.dark .stat strong{color:#5dbf89;}
+body.dark .stat span{color:rgba(184,238,206,.5);}
+body.dark .footer-brand p{color:#7aab8a;}
+body.dark .footer-links a{color:#7aab8a;}
+body.dark .footer-contact p{color:#7aab8a;}
+body.dark .footer-links h4,body.dark .footer-contact h4{color:#5dbf89;}
+body.dark .footer-bottom{color:rgba(122,171,138,.4);}
+body.dark .lucha-sub{color:rgba(224,247,236,.6);}
+body.dark .lucha-fighters-strip span{color:#8dd9ae;}
+body.dark .search-result-info strong{color:#e0f7ec;}
+body.dark .search-result-info small{color:#7aab8a;}
+body.dark .chatbot-suggestions .sugg-btn{background:#1a2e22;border-color:#3a6648;color:#8dd9ae;}
+body.dark .nav-icon-btn{color:#b8eece;border-color:#3a6648;}
+body.dark #contadorCarrito{background:#3a9e6a;}
+body.dark .modal-qty button{color:#e0f7ec;}
+body.dark #modal-qty-val{color:#e0f7ec;}
+body.dark .input-group label{color:#8dd9ae;}
+body.dark .phone-input input{color:#e0f7ec;background:#1a2e22;}
+body.dark .cart-empty p{color:#7aab8a;}
+body.dark .user-menu-header-guest p{color:#7aab8a;}
+body.dark .user-stat span{color:#5dbf89;}
+body.dark .user-stat small{color:#7aab8a;}
