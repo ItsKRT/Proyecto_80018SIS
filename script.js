@@ -210,8 +210,8 @@ const PASILLOS = [
     imagen:'./img/mascaras.png',
     productos:[
       // ── HIJO DEL VIKINGO (figura AAA / estilo aéreo extremo)
-      { nombre:'Máscara Hijo del Vikingo',      precio:220, precioOld:270, desc:'Réplica oficial máscara negra y dorada del rey del aire de AAA. Talla adulto.',           img:'https://i.ebayimg.com/images/g/HYYAAeSwP4hoVhXH/s-l400.jpg?w=300', oferta:true  },
-      { nombre:'Camisa Vikingo "Rey del Aire"', precio:290, precioOld:null, desc:'Camiseta oficial Hijo del Vikingo edición 2026. 100% algodón tallas S-XL.',             img:'https://http2.mlstatic.com/D_NQ_NP_740751-MLM86004445809_062025-O-playera-el-hijo-del-vikingo-wwe-100-algodon-premium-hombre.webp?w=300', oferta:false },
+      { nombre:'Máscara Hijo del Vikingo',      precio:220, precioOld:270, desc:'Réplica oficial máscara negra y dorada del rey del aire de AAA. Talla adulto.',           img:'https://i.ebayimg.com/images/g/HYYAAeSwP4hoVhXH/s-l400.jpg', oferta:true  },
+      { nombre:'Camisa Vikingo "Rey del Aire"', precio:290, precioOld:null, desc:'Camiseta oficial Hijo del Vikingo edición 2026. 100% algodón tallas S-XL.',             img:'https://http2.mlstatic.com/D_NQ_NP_740751-MLM86004445809_062025-O-playera-el-hijo-del-vikingo-wwe-100-algodon-premium-hombre.webp', oferta:false },
       // ── MÍSTICO (CMLL, Top 10 PWI 500)
       { nombre:'Máscara Místico Plata y Oro',   precio:210, precioOld:null, desc:'Réplica máscara Místico plateada y dorada. Campeón Grand Prix 2025. Talla adulto.',      img:'https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?w=300', oferta:false },
       { nombre:'Camisa Místico CMLL 2026',      precio:280, precioOld:320,  desc:'Camiseta oficial Místico con estampado Grand Prix. Edición limitada.',                  img:'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=300', oferta:true  },
