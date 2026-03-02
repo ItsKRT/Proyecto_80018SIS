@@ -80,18 +80,57 @@ function mostrarToast(msg, dur = 2500) {
   setTimeout(() => t.classList.remove('show'), dur);
 }
 
-// ─── LOGIN ────────────────────────────────
-function abrirLogin() {
-  if (usuarioActual) {
-    usuarioActual = null;
-    document.getElementById('loginLabel').textContent = 'Entrar';
-    document.getElementById('loginBtn').classList.remove('logged');
-    mostrarToast('Sesión cerrada ✓');
-    return;
-  }
-  document.getElementById('modalLogin').style.display = 'flex';
+// ─── MENÚ FLOTANTE USUARIO ───────────────
+function toggleUserMenu() {
+  const menu = document.getElementById('userMenu');
+  const isOpen = menu.classList.contains('open');
+  if (isOpen) cerrarUserMenu();
+  else abrirUserMenu();
 }
-function cerrarLogin() { document.getElementById('modalLogin').style.display = 'none'; }
+
+function abrirUserMenu() {
+  actualizarUserMenu();
+  document.getElementById('userMenu').classList.add('open');
+  setTimeout(() => document.addEventListener('click', clickFueraUserMenu), 10);
+}
+
+function cerrarUserMenu() {
+  document.getElementById('userMenu').classList.remove('open');
+  document.removeEventListener('click', clickFueraUserMenu);
+}
+
+function clickFueraUserMenu(e) {
+  if (!e.target.closest('.user-btn-wrap')) cerrarUserMenu();
+}
+
+function actualizarUserMenu() {
+  const guest  = document.getElementById('userMenuGuest');
+  const logged = document.getElementById('userMenuLogged');
+  if (usuarioActual) {
+    guest.style.display  = 'none';
+    logged.style.display = 'block';
+    // Avatar con inicial
+    document.getElementById('userAvatar').textContent    = usuarioActual.nombre.charAt(0).toUpperCase();
+    document.getElementById('userMenuNombre').textContent = usuarioActual.nombre;
+    document.getElementById('userMenuTel').textContent   = '+52 ' + usuarioActual.telefono;
+    // Stats carrito
+    const items = carrito.reduce((a, i) => a + i.qty, 0);
+    const total = carrito.reduce((a, i) => a + i.precio * i.qty, 0);
+    document.getElementById('userMenuItems').textContent = items + (items === 1 ? ' producto' : ' productos');
+    document.getElementById('userMenuTotal').textContent = '$' + total;
+  } else {
+    guest.style.display  = 'block';
+    logged.style.display = 'none';
+  }
+}
+
+function cerrarSesion() {
+  usuarioActual = null;
+  document.getElementById('loginLabel').textContent = 'Entrar';
+  document.getElementById('loginBtn').classList.remove('logged');
+  cerrarUserMenu();
+  mostrarToast('Sesión cerrada ✓');
+}
 function iniciarSesion() {
   const nombre = document.getElementById('loginNombre').value.trim();
   const tel    = document.getElementById('loginTelefono').value.trim().replace(/\D/g,'');
@@ -100,7 +139,7 @@ function iniciarSesion() {
   usuarioActual = { nombre, telefono: tel };
   document.getElementById('loginLabel').textContent = nombre.split(' ')[0];
   document.getElementById('loginBtn').classList.add('logged');
-  cerrarLogin();
+  actualizarUserMenu();
   mostrarToast(`¡Hola, ${nombre.split(' ')[0]}! 👋`);
 }
 
