@@ -82,9 +82,14 @@
   <div class="nav-actions">
     <button class="nav-icon-btn dark-toggle" id="darkModeBtn" onclick="toggleDarkMode()" title="Modo oscuro">🌙</button>
     <div class="user-btn-wrap" id="userBtnWrap">
+      <!-- Botón SIN sesión -->
       <button class="nav-icon-btn" onclick="toggleUserMenu()" id="loginBtn" title="Mi cuenta">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span id="loginLabel">Entrar</span>
+      </button>
+      <!-- Botón CON sesión — círculo tipo Google -->
+      <button class="nav-avatar-btn" onclick="toggleUserMenu()" id="navAvatarBtn" title="Mi cuenta" style="display:none">
+        <div class="nav-avatar-circle" id="navAvatarCircle">?</div>
       </button>
       <!-- MENÚ FLOTANTE USUARIO -->
       <div class="user-menu" id="userMenu">
@@ -114,10 +119,15 @@
         <!-- Con sesión -->
         <div id="userMenuLogged" style="display:none">
           <div class="user-menu-profile">
-            <div class="user-menu-avatar" id="userAvatar">?</div>
+            <div class="user-avatar-wrap" onclick="document.getElementById('avatarInput').click()" title="Cambiar foto">
+              <div class="user-menu-avatar" id="userAvatar">?</div>
+              <div class="avatar-edit-overlay">📷</div>
+              <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="cambiarFotoPerfil(this)">
+            </div>
             <div class="user-menu-info">
               <strong id="userMenuNombre">—</strong>
               <span id="userMenuTel">—</span>
+              <small class="avatar-hint">Toca la foto para cambiarla</small>
             </div>
           </div>
           <div class="user-menu-divider"></div>
@@ -527,7 +537,7 @@
 </section>
 
 <!-- VOLVER ARRIBA -->
-<button class="back-to-top" id="backToTop" onclick="scrollTop()" title="Volver arriba">↑</button>
+<button class="back-to-top" id="backToTop" onclick="irArriba()" title="Volver arriba">↑</button>
 
 <!-- ============ FOOTER ============ -->
 <footer class="footer">
