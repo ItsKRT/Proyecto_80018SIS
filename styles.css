@@ -622,3 +622,22 @@ body.dark .cart-empty p{color:#7aab8a;}
 body.dark .user-menu-header-guest p{color:#7aab8a;}
 body.dark .user-stat span{color:#5dbf89;}
 body.dark .user-stat small{color:#7aab8a;}
+
+/* ===== AVATAR CON FOTO DE PERFIL ===== */
+.user-avatar-wrap{position:relative;cursor:pointer;flex-shrink:0;}
+.user-avatar-wrap .user-menu-avatar{transition:filter .3s;}
+.user-avatar-wrap:hover .user-menu-avatar{filter:brightness(.7);}
+.avatar-edit-overlay{position:absolute;inset:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;opacity:0;transition:opacity .3s;}
+.user-avatar-wrap:hover .avatar-edit-overlay{opacity:1;}
+.avatar-hint{font-size:.68rem;color:var(--sage);margin-top:3px;display:block;}
+.user-menu-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+
+/* ===== AVATAR CÍRCULO NAVBAR (tipo Google) ===== */
+.nav-avatar-btn{background:none;border:none;cursor:pointer;padding:0;border-radius:50%;transition:transform .3s var(--ease);}
+.nav-avatar-btn:hover{transform:scale(1.08);}
+.nav-avatar-circle{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--g600),var(--g400));color:white;font-family:var(--font-d);font-size:.95rem;font-weight:700;display:flex;align-items:center;justify-content:center;border:2.5px solid var(--g300);box-shadow:0 2px 10px rgba(58,158,106,.35);overflow:hidden;transition:all .3s var(--ease);}
+.nav-avatar-btn:hover .nav-avatar-circle{border-color:var(--g400);box-shadow:0 4px 18px rgba(58,158,106,.5);}
+.nav-avatar-circle img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+/* Animación de entrada al iniciar sesión */
+@keyframes avatarPop{0%{transform:scale(0);opacity:0}70%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+.nav-avatar-btn.pop{animation:avatarPop .4s cubic-bezier(.23,1,.32,1) forwards;}
