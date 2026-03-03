@@ -109,8 +109,15 @@ function actualizarUserMenu() {
   if (usuarioActual) {
     guest.style.display  = 'none';
     logged.style.display = 'block';
-    // Avatar con inicial
-    document.getElementById('userAvatar').textContent    = usuarioActual.nombre.charAt(0).toUpperCase();
+    // Avatar en menú — foto o inicial
+    const avatarEl = document.getElementById('userAvatar');
+    if (usuarioActual.foto) {
+      avatarEl.innerHTML = `<img src="${usuarioActual.foto}" alt="Foto de perfil">`;
+    } else {
+      avatarEl.textContent = usuarioActual.nombre.charAt(0).toUpperCase();
+    }
+    // Avatar en NAVBAR — foto o inicial
+    actualizarNavAvatar();
     document.getElementById('userMenuNombre').textContent = usuarioActual.nombre;
     document.getElementById('userMenuTel').textContent   = '+52 ' + usuarioActual.telefono;
     // Stats carrito
@@ -124,21 +131,50 @@ function actualizarUserMenu() {
   }
 }
 
+function actualizarNavAvatar() {
+  const navCircle = document.getElementById('navAvatarCircle');
+  if (!navCircle) return;
+  if (usuarioActual.foto) {
+    navCircle.innerHTML = `<img src="${usuarioActual.foto}" alt="Perfil">`;
+  } else {
+    navCircle.textContent = usuarioActual.nombre.charAt(0).toUpperCase();
+  }
+}
+
+function cambiarFotoPerfil(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    if (usuarioActual) {
+      usuarioActual.foto = e.target.result;
+      actualizarUserMenu();
+      mostrarToast('✦ Foto de perfil actualizada');
+    }
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
 function cerrarSesion() {
   usuarioActual = null;
-  document.getElementById('loginLabel').textContent = 'Entrar';
-  document.getElementById('loginBtn').classList.remove('logged');
+  // Mostrar botón Entrar, ocultar avatar
+  document.getElementById('loginBtn').style.display    = 'flex';
+  document.getElementById('navAvatarBtn').style.display = 'none';
   cerrarUserMenu();
   mostrarToast('Sesión cerrada ✓');
 }
+
 function iniciarSesion() {
   const nombre = document.getElementById('loginNombre').value.trim();
   const tel    = document.getElementById('loginTelefono').value.trim().replace(/\D/g,'');
   if (!nombre) { mostrarToast('⚠ Ingresa tu nombre'); return; }
   if (tel.length < 10) { mostrarToast('⚠ Número inválido (10 dígitos)'); return; }
   usuarioActual = { nombre, telefono: tel };
-  document.getElementById('loginLabel').textContent = nombre.split(' ')[0];
-  document.getElementById('loginBtn').classList.add('logged');
+  // Ocultar botón Entrar, mostrar avatar con animación
+  document.getElementById('loginBtn').style.display    = 'none';
+  const navBtn = document.getElementById('navAvatarBtn');
+  navBtn.style.display = 'flex';
+  navBtn.classList.remove('pop');
+  setTimeout(() => navBtn.classList.add('pop'), 10);
   actualizarUserMenu();
   mostrarToast(`¡Hola, ${nombre.split(' ')[0]}! 👋`);
 }
@@ -758,7 +794,7 @@ window.addEventListener('scroll', () => {
   if (btn) btn.classList.toggle('visible', window.scrollY > 500);
 });
 
-function scrollTop() {
+function irArriba() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
