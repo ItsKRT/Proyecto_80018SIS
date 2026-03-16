@@ -13,31 +13,201 @@ let cantidadModal  = 1;
 let usuarioActual  = null;    // {nombre, telefono}
 let chatbotAbierto = false;
 
-// ─── CURSOR ───────────────────────────────
+// ─── CARRUSEL DE PASILLOS ─────────────────
+const CARRUSEL_COLORES = {
+  bebidas:    'cpasillo-bebidas',
+  snacks:     'cpasillo-snacks',
+  lacteos:    'cpasillo-lacteos',
+  limpieza:   'cpasillo-limpieza',
+  enlatados:  'cpasillo-enlatados',
+  panaderia:  'cpasillo-panaderia',
+  'carnesfrías': 'cpasillo-carnes',
+  salud:      'cpasillo-salud',
+  mascotas:   'cpasillo-mascotas',
+  luchaLibre: 'cpasillo-lucha',
+  wwe2k26:    'cpasillo-wwe',
+  dragonball: 'cpasillo-dragon',
+};
+
+let carruselOffset = 0;
+const CARRUSEL_ITEM_W = 116; // approx width + gap
+
+function generarCarrusel() {
+  const track = document.getElementById('carruselTrack');
+  const dotsEl = document.getElementById('carruselDots');
+  if (!track) return;
+
+  // Filtrar pasillos válidos
+  const pasillosValidos = PASILLOS.filter(Boolean);
+
+  track.innerHTML = pasillosValidos.map((p, i) => {
+    const colorClass = CARRUSEL_COLORES[p.id] || 'cpasillo-default';
+    const ofertasCount = p.productos.filter(pr => pr.oferta).length;
+    return `
+      <div class="carrusel-item" id="citem-${p.id}" onclick="abrirPasilloView('${p.id}')">
+        <div class="carrusel-circle ${colorClass}">
+          <span>${p.emoji}</span>
+          ${ofertasCount > 0 ? `<span class="carrusel-badge">🔥 ${ofertasCount}</span>` : ''}
+        </div>
+        <span class="carrusel-label">${p.nombre}</span>
+      </div>
+    `;
+  }).join('');
+
+  // Dots
+  const totalDots = Math.ceil(pasillosValidos.length / 4);
+  dotsEl.innerHTML = Array.from({length: totalDots}, (_, i) =>
+    `<button class="carrusel-dot ${i===0?'active':''}" onclick="irDot(${i})"></button>`
+  ).join('');
+
+  actualizarFlechas();
+}
+
+function moverCarrusel(dir) {
+  const track = document.getElementById('carruselTrack');
+  const viewport = document.getElementById('carruselViewport');
+  const pasillosValidos = PASILLOS.filter(Boolean);
+  const maxOffset = Math.max(0, pasillosValidos.length - 4);
+  carruselOffset = Math.max(0, Math.min(carruselOffset + dir * 2, maxOffset));
+  track.style.transform = `translateX(-${carruselOffset * (CARRUSEL_ITEM_W + 28)}px)`;
+  actualizarFlechas();
+  actualizarDots();
+}
+
+function irDot(idx) {
+  const track = document.getElementById('carruselTrack');
+  const pasillosValidos = PASILLOS.filter(Boolean);
+  const maxOffset = Math.max(0, pasillosValidos.length - 4);
+  carruselOffset = Math.min(idx * 4, maxOffset);
+  track.style.transform = `translateX(-${carruselOffset * (CARRUSEL_ITEM_W + 28)}px)`;
+  actualizarFlechas();
+  actualizarDots();
+}
+
+function actualizarFlechas() {
+  const pasillosValidos = PASILLOS.filter(Boolean);
+  const maxOffset = Math.max(0, pasillosValidos.length - 4);
+  const prev = document.getElementById('carruselPrev');
+  const next = document.getElementById('carruselNext');
+  if (prev) prev.disabled = carruselOffset <= 0;
+  if (next) next.disabled = carruselOffset >= maxOffset;
+}
+
+function actualizarDots() {
+  const dots = document.querySelectorAll('.carrusel-dot');
+  const activeIdx = Math.floor(carruselOffset / 4);
+  dots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
+}
+
+// ─── VISTA PASILLO INDIVIDUAL ─────────────
+function abrirPasilloView(pasilloId) {
+  const pasillo = PASILLOS.find(p => p && p.id === pasilloId);
+  if (!pasillo) return;
+
+  const view = document.getElementById('pasilloView');
+  const grid = document.getElementById('pasilloViewGrid');
+  const title = document.getElementById('pasilloViewTitle');
+  const count = document.getElementById('pasilloViewCount');
+
+  title.textContent = `${pasillo.emoji} ${pasillo.nombre}`;
+  count.textContent = `${pasillo.productos.length} productos`;
+
+  grid.innerHTML = '';
+  pasillo.productos.forEach((prod, i) => {
+    const card = document.createElement('div');
+    card.className = 'pv-product-card';
+    card.style.animationDelay = `${i * 0.06}s`;
+    card.innerHTML = `
+      ${prod.oferta ? '<span class="pv-oferta-badge">🔥 Oferta</span>' : ''}
+      <img src="${prod.img}" alt="${prod.nombre}" loading="lazy">
+      <div class="pv-product-info">
+        <div class="pv-product-name">${prod.nombre}</div>
+        <div class="pv-product-desc">${prod.desc}</div>
+        <div class="pv-product-prices">
+          ${prod.precioOld ? `<span class="pv-price-old">$${prod.precioOld}</span>` : ''}
+          <span class="pv-price-new">$${prod.precio}</span>
+        </div>
+      </div>
+      <button class="pv-add-btn" onclick="event.stopPropagation();abrirModal('${prod.nombre.replace(/'/g,"\\'")}',${prod.precio},${prod.precioOld||'null'},'${prod.desc.replace(/'/g,"\\'")}','${prod.img}','${pasillo.nombre}')">Ver detalle ✦</button>
+    `;
+    grid.appendChild(card);
+  });
+
+  // Marcar activo en carrusel
+  document.querySelectorAll('.carrusel-item').forEach(el => el.classList.remove('active'));
+  const activeItem = document.getElementById(`citem-${pasilloId}`);
+  if (activeItem) activeItem.classList.add('active');
+
+  view.scrollTop = 0;
+  view.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarPasilloView() {
+  const view = document.getElementById('pasilloView');
+  view.classList.remove('open');
+  document.body.style.overflow = '';
+  document.querySelectorAll('.carrusel-item').forEach(el => el.classList.remove('active'));
+}
+
+// Cerrar con tecla Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const view = document.getElementById('pasilloView');
+    if (view && view.classList.contains('open')) cerrarPasilloView();
+  }
+});
+
 const cursor   = document.getElementById('cursor');
 const follower = document.getElementById('cursorFollower');
 let mouseX = 0, mouseY = 0, fX = 0, fY = 0;
 
+let rafPending = false;
 document.addEventListener('mousemove', e => {
   mouseX = e.clientX; mouseY = e.clientY;
-  cursor.style.left = mouseX + 'px';
-  cursor.style.top  = mouseY + 'px';
+  cursor.style.transform = `translate(${mouseX}px,${mouseY}px) translate(-50%,-50%)`;
+  if (!rafPending) { rafPending = true; requestAnimationFrame(animF); }
 });
-(function animF() {
-  fX += (mouseX - fX) * 0.12;
-  fY += (mouseY - fY) * 0.12;
-  follower.style.left = fX + 'px';
-  follower.style.top  = fY + 'px';
-  requestAnimationFrame(animF);
-})();
+function animF() {
+  rafPending = false;
+  const dx = mouseX - fX, dy = mouseY - fY;
+  if (Math.abs(dx) > 0.3 || Math.abs(dy) > 0.3) {
+    fX += dx * 0.12; fY += dy * 0.12;
+    follower.style.transform = `translate(${fX}px,${fY}px) translate(-50%,-50%)`;
+    rafPending = true;
+    requestAnimationFrame(animF);
+  }
+}
 
 document.querySelectorAll('a,button,.card,.pasillo-card,.opcion-card,.carrito-icono,.oferta-card').forEach(el => {
   el.addEventListener('mouseenter', () => { cursor.style.transform='translate(-50%,-50%) scale(2.5)'; cursor.style.background='var(--g300)'; follower.style.opacity='0'; });
-  el.addEventListener('mouseleave', () => { cursor.style.transform='translate(-50%,-50%) scale(1)'; cursor.style.background='var(--g500)'; follower.style.opacity='.6'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform=`translate(${mouseX}px,${mouseY}px) translate(-50%,-50%)`; cursor.style.background='var(--g500)'; follower.style.opacity='.6'; });
 });
 
-// ─── NAVBAR SCROLL ────────────────────────
-window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60));
+// Pausar animaciones del hero cuando no está en pantalla
+const heroEl = document.querySelector('.hero');
+if (heroEl) {
+  const heroObs = new IntersectionObserver(entries => {
+    entries[0].target.classList.toggle('in-viewport', entries[0].isIntersecting);
+  }, { threshold: 0 });
+  heroObs.observe(heroEl);
+}
+
+// ─── NAVBAR SCROLL + BACK-TO-TOP (throttled) ──
+let scrollTicking = false;
+function onScroll() {
+  if (!scrollTicking) {
+    requestAnimationFrame(() => {
+      const sy = window.scrollY;
+      document.getElementById('navbar').classList.toggle('scrolled', sy > 60);
+      const btn = document.getElementById('backToTop');
+      if (btn) btn.classList.toggle('visible', sy > 500);
+      scrollTicking = false;
+    });
+    scrollTicking = true;
+  }
+}
+window.addEventListener('scroll', onScroll, { passive: true });
 
 // ─── SPLASH ───────────────────────────────
 function cerrarSplash() {
@@ -753,22 +923,19 @@ function enviarMensaje() {
   setTimeout(() => agregarMensajeBot(resp), 400);
 }
 
-// ─── INTERSECTION OBSERVER ───────────────
+// ─── INTERSECTION OBSERVER (optimizado) ──
 const revealEls = document.querySelectorAll('.card,.pasillo-card,.opcion-card,.oferta-card');
+revealEls.forEach(el => { el.classList.add('reveal-hidden'); });
 const obs = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => {
+  entries.forEach(e => {
     if (e.isIntersecting) {
-      setTimeout(() => { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; }, i * 70);
+      e.target.classList.remove('reveal-hidden');
+      e.target.classList.add('reveal-done');
       obs.unobserve(e.target);
     }
   });
-}, { threshold: 0.12 });
-revealEls.forEach(el => {
-  el.style.opacity='0';
-  el.style.transform='translateY(28px)';
-  el.style.transition='opacity .55s cubic-bezier(.23,1,.32,1), transform .55s cubic-bezier(.23,1,.32,1)';
-  obs.observe(el);
-});
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+revealEls.forEach(el => obs.observe(el));
 
 // ─── MODO OSCURO ─────────────────────────
 function toggleDarkMode() {
@@ -788,12 +955,6 @@ function toggleDarkMode() {
   }
 })();
 
-// ─── VOLVER ARRIBA ────────────────────────
-window.addEventListener('scroll', () => {
-  const btn = document.getElementById('backToTop');
-  if (btn) btn.classList.toggle('visible', window.scrollY > 500);
-});
-
 function irArriba() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -801,22 +962,15 @@ function irArriba() {
 // ─── CONFETTI ────────────────────────────
 function lanzarConfetti() {
   const colores = ['#3a9e6a','#5dbf89','#8dd9ae','#b8eece','#f8f4eb','#ffd700','#ff6b6b'];
-  for (let i = 0; i < 80; i++) {
+  const frag = document.createDocumentFragment();
+  for (let i = 0; i < 40; i++) {
     const conf = document.createElement('div');
     conf.className = 'confetti-piece';
-    conf.style.cssText = `
-      left:${Math.random() * 100}vw;
-      background:${colores[Math.floor(Math.random() * colores.length)]};
-      width:${6 + Math.random() * 8}px;
-      height:${6 + Math.random() * 8}px;
-      animation-duration:${1 + Math.random() * 1.5}s;
-      animation-delay:${Math.random() * 0.4}s;
-      border-radius:${Math.random() > 0.5 ? '50%' : '2px'};
-      transform:rotate(${Math.random() * 360}deg);
-    `;
-    document.body.appendChild(conf);
-    conf.addEventListener('animationend', () => conf.remove());
+    conf.style.cssText = `left:${Math.random()*100}vw;background:${colores[i%colores.length]};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;animation-duration:${1+Math.random()*1.5}s;animation-delay:${Math.random()*0.4}s;border-radius:${Math.random()>.5?'50%':'2px'};`;
+    conf.addEventListener('animationend', () => conf.remove(), { once: true });
+    frag.appendChild(conf);
   }
+  document.body.appendChild(frag);
 }
 
 // Llamar confetti al agregar al carrito (parchear función)
@@ -846,3 +1000,4 @@ CHATBOT_RESPUESTAS.push(
 generarOfertas();
 generarFiltros();
 generarPasillos();
+generarCarrusel();
