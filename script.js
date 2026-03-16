@@ -15,32 +15,27 @@ let chatbotAbierto = false;
 
 // ─── CARRUSEL DE PASILLOS ─────────────────
 const CARRUSEL_COLORES = {
-  bebidas:    'cpasillo-bebidas',
-  snacks:     'cpasillo-snacks',
-  lacteos:    'cpasillo-lacteos',
-  limpieza:   'cpasillo-limpieza',
-  enlatados:  'cpasillo-enlatados',
-  panaderia:  'cpasillo-panaderia',
+  bebidas:       'cpasillo-bebidas',
+  snacks:        'cpasillo-snacks',
+  lacteos:       'cpasillo-lacteos',
+  limpieza:      'cpasillo-limpieza',
+  enlatados:     'cpasillo-enlatados',
+  panaderia:     'cpasillo-panaderia',
   'carnesfrías': 'cpasillo-carnes',
-  salud:      'cpasillo-salud',
-  mascotas:   'cpasillo-mascotas',
-  luchaLibre: 'cpasillo-lucha',
-  wwe2k26:    'cpasillo-wwe',
-  dragonball: 'cpasillo-dragon',
+  salud:         'cpasillo-salud',
+  mascotas:      'cpasillo-mascotas',
+  luchaLibre:    'cpasillo-lucha',
+  wwe2k26:       'cpasillo-wwe',
+  dragonball:    'cpasillo-dragon',
 };
-
-let carruselOffset = 0;
-const CARRUSEL_ITEM_W = 116; // approx width + gap
 
 function generarCarrusel() {
   const track = document.getElementById('carruselTrack');
-  const dotsEl = document.getElementById('carruselDots');
   if (!track) return;
 
-  // Filtrar pasillos válidos
   const pasillosValidos = PASILLOS.filter(Boolean);
 
-  track.innerHTML = pasillosValidos.map((p, i) => {
+  track.innerHTML = pasillosValidos.map(p => {
     const colorClass = CARRUSEL_COLORES[p.id] || 'cpasillo-default';
     const ofertasCount = p.productos.filter(pr => pr.oferta).length;
     return `
@@ -54,49 +49,76 @@ function generarCarrusel() {
     `;
   }).join('');
 
-  // Dots
-  const totalDots = Math.ceil(pasillosValidos.length / 4);
-  dotsEl.innerHTML = Array.from({length: totalDots}, (_, i) =>
-    `<button class="carrusel-dot ${i===0?'active':''}" onclick="irDot(${i})"></button>`
-  ).join('');
-
-  actualizarFlechas();
+  initCarruselScroll();
 }
 
-function moverCarrusel(dir) {
-  const track = document.getElementById('carruselTrack');
-  const viewport = document.getElementById('carruselViewport');
-  const pasillosValidos = PASILLOS.filter(Boolean);
-  const maxOffset = Math.max(0, pasillosValidos.length - 4);
-  carruselOffset = Math.max(0, Math.min(carruselOffset + dir * 2, maxOffset));
-  track.style.transform = `translateX(-${carruselOffset * (CARRUSEL_ITEM_W + 28)}px)`;
-  actualizarFlechas();
-  actualizarDots();
-}
+function initCarruselScroll() {
+  const wrap  = document.getElementById('carruselScrollWrap');
+  const thumb = document.getElementById('carruselScrollThumb');
+  const track = document.getElementById('carruselScrollTrack');
+  if (!wrap || !thumb || !track) return;
 
-function irDot(idx) {
-  const track = document.getElementById('carruselTrack');
-  const pasillosValidos = PASILLOS.filter(Boolean);
-  const maxOffset = Math.max(0, pasillosValidos.length - 4);
-  carruselOffset = Math.min(idx * 4, maxOffset);
-  track.style.transform = `translateX(-${carruselOffset * (CARRUSEL_ITEM_W + 28)}px)`;
-  actualizarFlechas();
-  actualizarDots();
-}
+  // Sincronizar thumb con scroll del contenedor
+  function syncThumb() {
+    const scrollRatio = wrap.scrollLeft / (wrap.scrollWidth - wrap.clientWidth);
+    const trackW      = track.clientWidth;
+    const thumbW      = Math.max(48, trackW * (wrap.clientWidth / wrap.scrollWidth));
+    const thumbLeft   = scrollRatio * (trackW - thumbW);
+    thumb.style.width = thumbW + 'px';
+    thumb.style.left  = thumbLeft + 'px';
+  }
 
-function actualizarFlechas() {
-  const pasillosValidos = PASILLOS.filter(Boolean);
-  const maxOffset = Math.max(0, pasillosValidos.length - 4);
-  const prev = document.getElementById('carruselPrev');
-  const next = document.getElementById('carruselNext');
-  if (prev) prev.disabled = carruselOffset <= 0;
-  if (next) next.disabled = carruselOffset >= maxOffset;
-}
+  wrap.addEventListener('scroll', syncThumb, { passive: true });
+  window.addEventListener('resize', syncThumb);
+  setTimeout(syncThumb, 100); // esperar render inicial
 
-function actualizarDots() {
-  const dots = document.querySelectorAll('.carrusel-dot');
-  const activeIdx = Math.floor(carruselOffset / 4);
-  dots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
+  // Clic en el track para saltar
+  track.addEventListener('click', e => {
+    if (e.target === thumb) return;
+    const rect       = track.getBoundingClientRect();
+    const clickRatio = (e.clientX - rect.left) / rect.width;
+    wrap.scrollLeft  = clickRatio * (wrap.scrollWidth - wrap.clientWidth);
+  });
+
+  // Drag del thumb
+  let dragStartX = 0, dragStartScroll = 0, isDragging = false;
+
+  thumb.addEventListener('pointerdown', e => {
+    isDragging     = true;
+    dragStartX     = e.clientX;
+    dragStartScroll = wrap.scrollLeft;
+    thumb.setPointerCapture(e.pointerId);
+    e.stopPropagation();
+  });
+
+  thumb.addEventListener('pointermove', e => {
+    if (!isDragging) return;
+    const trackW    = track.clientWidth;
+    const thumbW    = thumb.clientWidth;
+    const delta     = e.clientX - dragStartX;
+    const scrollMax = wrap.scrollWidth - wrap.clientWidth;
+    wrap.scrollLeft = dragStartScroll + (delta / (trackW - thumbW)) * scrollMax;
+  });
+
+  thumb.addEventListener('pointerup', () => { isDragging = false; });
+  thumb.addEventListener('pointercancel', () => { isDragging = false; });
+
+  // Drag del contenedor (mouse)
+  let isMouseDragging = false, startX = 0, startScrollLeft = 0;
+  wrap.addEventListener('mousedown', e => {
+    isMouseDragging = true;
+    startX          = e.pageX - wrap.offsetLeft;
+    startScrollLeft = wrap.scrollLeft;
+    wrap.style.cursor = 'grabbing';
+  });
+  wrap.addEventListener('mouseleave', () => { isMouseDragging = false; wrap.style.cursor = 'grab'; });
+  wrap.addEventListener('mouseup',    () => { isMouseDragging = false; wrap.style.cursor = 'grab'; });
+  wrap.addEventListener('mousemove',  e => {
+    if (!isMouseDragging) return;
+    e.preventDefault();
+    const x = e.pageX - wrap.offsetLeft;
+    wrap.scrollLeft = startScrollLeft - (x - startX) * 1.4;
+  });
 }
 
 // ─── VISTA PASILLO INDIVIDUAL ─────────────
@@ -104,8 +126,8 @@ function abrirPasilloView(pasilloId) {
   const pasillo = PASILLOS.find(p => p && p.id === pasilloId);
   if (!pasillo) return;
 
-  const view = document.getElementById('pasilloView');
-  const grid = document.getElementById('pasilloViewGrid');
+  const view  = document.getElementById('pasilloView');
+  const grid  = document.getElementById('pasilloViewGrid');
   const title = document.getElementById('pasilloViewTitle');
   const count = document.getElementById('pasilloViewCount');
 
