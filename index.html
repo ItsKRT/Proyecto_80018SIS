@@ -247,16 +247,17 @@
     <div class="section-tag">— Acceso rápido</div>
     <h2 class="section-title">Explorar Pasillos</h2>
   </div>
-  <div class="carrusel-track-wrap">
-    <button class="carrusel-arrow carrusel-prev" id="carruselPrev" onclick="moverCarrusel(-1)">‹</button>
-    <div class="carrusel-viewport" id="carruselViewport">
-      <div class="carrusel-track" id="carruselTrack">
-        <!-- Generado por JS -->
-      </div>
+  <div class="carrusel-scroll-wrap" id="carruselScrollWrap">
+    <div class="carrusel-track" id="carruselTrack">
+      <!-- Generado por JS -->
     </div>
-    <button class="carrusel-arrow carrusel-next" id="carruselNext" onclick="moverCarrusel(1)">›</button>
   </div>
-  <div class="carrusel-dots" id="carruselDots"></div>
+  <!-- Barra deslizadora custom -->
+  <div class="carrusel-scrollbar-wrap">
+    <div class="carrusel-scrollbar-track" id="carruselScrollTrack">
+      <div class="carrusel-scrollbar-thumb" id="carruselScrollThumb"></div>
+    </div>
+  </div>
 </section>
 
 <!-- ============ VISTA PASILLO INDIVIDUAL ============ -->
@@ -272,6 +273,11 @@
   <div class="pasillo-view-grid" id="pasilloViewGrid">
     <!-- Productos generados por JS -->
   </div>
+  <!-- Botón flotante volver al menú principal -->
+  <button class="pv-fab-back" onclick="cerrarPasilloView()" title="Volver al menú principal">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span class="pv-fab-label">Menú principal</span>
+  </button>
 </div>
 
 <!-- ============ SERVICIOS ============ -->
@@ -279,18 +285,18 @@
   <div class="premium-header"><div class="section-tag">— Por qué elegirnos</div><h2 class="section-title">Nuestro Servicio</h2></div>
   <div class="premium-layout">
     <div class="side-cards">
-      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400" alt="Entrega"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">01</span><h3>Entrega Rápida</h3><p>Pedidos a domicilio en menos de 30 minutos.</p><div class="card-line"></div></div></div>
-      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400" alt="Digital"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">02</span><h3>Menú Digital</h3><p>Explora +500 productos desde tu celular.</p><div class="card-line"></div></div></div>
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400" alt="Entrega" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">01</span><h3>Entrega Rápida</h3><p>Pedidos a domicilio en menos de 30 minutos.</p><div class="card-line"></div></div></div>
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400" alt="Digital" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">02</span><h3>Menú Digital</h3><p>Explora +500 productos desde tu celular.</p><div class="card-line"></div></div></div>
     </div>
     <div class="center-image">
       <div class="center-img-frame">
-        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=600" alt="Tienda">
+        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=600" alt="Tienda" loading="lazy">
         <div class="center-img-badge">Premium</div>
       </div>
     </div>
     <div class="side-cards">
-      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400" alt="Variedad"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">03</span><h3>Gran Variedad</h3><p>Abarrotes, bebidas, limpieza y más.</p><div class="card-line"></div></div></div>
-      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?w=400" alt="Atención"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">04</span><h3>Atención Premium</h3><p>Siempre cerca de nuestra comunidad.</p><div class="card-line"></div></div></div>
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400" alt="Variedad" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">03</span><h3>Gran Variedad</h3><p>Abarrotes, bebidas, limpieza y más.</p><div class="card-line"></div></div></div>
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?w=400" alt="Atención" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">04</span><h3>Atención Premium</h3><p>Siempre cerca de nuestra comunidad.</p><div class="card-line"></div></div></div>
     </div>
   </div>
 </section>
@@ -316,17 +322,17 @@
     <div class="lucha-right">
       <div class="lucha-mask-grid">
         <div class="lucha-mask-card" onclick="abrirModal('Máscara Bandido ROH Champ',220,270,'Réplica oficial máscara negra y dorada del most wanted Bandido.','https://i.etsystatic.com/15460636/r/il/c53666/3920765830/il_794xN.3920765830_soyy.jpg','Lucha Libre 2026')">
-          <img src="https://i.etsystatic.com/15460636/r/il/c53666/3920765830/il_794xN.3920765830_soyy.jpg" alt="Vikingo">
+          <img src="https://i.etsystatic.com/15460636/r/il/c53666/3920765830/il_794xN.3920765830_soyy.jpg" alt="Vikingo" loading="lazy">
           <span>Bandido ROH</span>
           <strong>$220 <del style="font-size:.7rem;opacity:.5;font-weight:400">$270</del></strong>
         </div>
         <div class="lucha-mask-card featured" onclick="abrirModal('Máscara Penta Zero Miedo',240,null,'Réplica máscara WM 41 Penta Zero Miedo. Ahora en WWE. ¡Zero Miedo!','https://i.etsystatic.com/15460636/r/il/7ff2d0/6943465808/il_794xN.6943465808_5thw.jpg','Lucha Libre 2026')">
-          <img src="https://i.etsystatic.com/15460636/r/il/7ff2d0/6943465808/il_794xN.6943465808_5thw.jpg" alt="Penta">
+          <img src="https://i.etsystatic.com/15460636/r/il/7ff2d0/6943465808/il_794xN.6943465808_5thw.jpg" alt="Penta" loading="lazy">
           <span>Penta Zero Miedo Edicion Wrestlemania 41</span>
           <strong>$240 ⚡</strong>
         </div>
         <div class="lucha-mask-card" onclick="abrirModal('Máscara Místico Edicion Dark & Golden',210,null,'Réplica máscara Místico negra y dorada. Campeón Grand Prix 2025.','https://i.etsystatic.com/15460636/r/il/be01c0/3787898033/il_794xN.3787898033_cuhs.jpg','Lucha Libre 2026')">
-          <img src="https://i.etsystatic.com/15460636/r/il/be01c0/3787898033/il_794xN.3787898033_cuhs.jpg" alt="Místico">
+          <img src="https://i.etsystatic.com/15460636/r/il/be01c0/3787898033/il_794xN.3787898033_cuhs.jpg" alt="Místico" loading="lazy">
           <span>Místico</span>
           <strong>$210</strong>
         </div>
@@ -364,7 +370,7 @@
     </div>
     <div class="wwe-right">
       <div class="wwe-cover-wrap">
-        <img src="https://assets.2k.com/1a6ngf98576c/7FH3LtoKMvnjI01P2eDT4X/8d67be3e99321723c420ffe233967b1d/WWE_Mobile_Cover-Superstar_Standard_1920x1080__1_.jpg" alt="WWE 2K26" class="wwe-cover">
+        <img src="https://assets.2k.com/1a6ngf98576c/7FH3LtoKMvnjI01P2eDT4X/8d67be3e99321723c420ffe233967b1d/WWE_Mobile_Cover-Superstar_Standard_1920x1080__1_.jpg" alt="WWE 2K26" class="wwe-cover" loading="lazy">
         <div class="wwe-cover-badge">CM PUNK<br><small>Cover Star</small></div>
         <div class="wwe-roster-strip">
           <span>The Rock</span><span>Triple H</span><span>Penta</span><span>Rey Fénix</span><span>CM Punk</span><span>Seth Rollins</span>
@@ -529,7 +535,7 @@
       <div class="db-figures-grid">
         <div class="db-fig-card" onclick="abrirModal('SHF Goku Kind-hearted Saiyan',950,null,'NUEVO 2026. Son Goku base saga Androides/Cell. Cuerpo 4.0. 2 cabelleras + rostros intercambiables.','https://p-bandai.com/files/seller-products/FSP0002842001/1IalnL2NS8WmJMJ5fJBW.webp?w=1440&h=1440','S.H. Figuarts Dragon Ball')">
           <div class="db-fig-glow glow-orange"></div>
-          <img src="https://p-bandai.com/files/seller-products/FSP0002842001/1IalnL2NS8WmJMJ5fJBW.webp?w=1440&h=1440" alt="Goku">
+          <img src="https://p-bandai.com/files/seller-products/FSP0002842001/1IalnL2NS8WmJMJ5fJBW.webp?w=1440&h=1440" alt="Goku" loading="lazy">
           <div class="db-fig-info">
             <span>Son Goku</span>
             <small>Kind-hearted Saiyan · 2026</small>
@@ -539,7 +545,7 @@
         <div class="db-fig-card featured" onclick="abrirModal('SHF SSJ Goku Warrior of Rage',1150,1350,'NUEVO 2026. Goku SSJ primera transformación vs Freezer en Namek. Cuerpo 4.0.','https://p-bandai.com/files/seller-products/FSP0002658001/YYZPDAh3Uof8RH4Ede9c.webp?w=1440&h=1440','S.H. Figuarts Dragon Ball')">
           <div class="db-fig-glow glow-gold"></div>
           <div class="db-new-badge">🔥 NUEVO</div>
-          <img src="https://p-bandai.com/files/seller-products/FSP0002658001/YYZPDAh3Uof8RH4Ede9c.webp?w=1440&h=1440" alt="SSJ Goku">
+          <img src="https://p-bandai.com/files/seller-products/FSP0002658001/YYZPDAh3Uof8RH4Ede9c.webp?w=1440&h=1440" alt="SSJ Goku" loading="lazy">
           <div class="db-fig-info">
             <span>SSJ Goku</span>
             <small>Warrior of Rage · 4.0</small>
@@ -548,7 +554,7 @@
         </div>
         <div class="db-fig-card" onclick="abrirModal('SHF Vegeta SSj Ver.',980,null,'Vegeta versión Dragon Ball Z 14cm. Tamashii Nations.','https://p-bandai.com/files/seller-products/FSP0002871001/vzryuOimyZ4rxVeBgXx5.webp?w=1440&h=1440','S.H. Figuarts Dragon Ball')">
           <div class="db-fig-glow glow-blue"></div>
-          <img src="https://p-bandai.com/files/seller-products/FSP0002871001/vzryuOimyZ4rxVeBgXx5.webp?w=1440&h=1440" alt="Vegeta">
+          <img src="https://p-bandai.com/files/seller-products/FSP0002871001/vzryuOimyZ4rxVeBgXx5.webp?w=1440&h=1440" alt="Vegeta" loading="lazy">
           <div class="db-fig-info">
             <span>SSJ Vegeta</span>
             <small>Dangerous Pride</small>
@@ -557,7 +563,7 @@
         </div>
         <div class="db-fig-card" onclick="abrirModal('SHF Bardock DBZ',1100,1299,'Bardock El padre de Goku Dragon Ball Z. Nuevo lanzamiento.','https://p-bandai.com/files/seller-products/FSP0002661001/KWvWpRNc9gbKsccWrlPb.webp','S.H. Figuarts Dragon Ball')">
           <div class="db-fig-glow glow-orange"></div>
-          <img src="https://p-bandai.com/files/seller-products/FSP0002661001/KWvWpRNc9gbKsccWrlPb.webp" alt="Bardock">
+          <img src="https://p-bandai.com/files/seller-products/FSP0002661001/KWvWpRNc9gbKsccWrlPb.webp" alt="Bardock" loading="lazy">
           <div class="db-fig-info">
             <span>Bardock</span>
             <small>Dragon Ball Z</small>
