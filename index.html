@@ -241,6 +241,39 @@
   </div>
 </section>
 
+<!-- ============ CARRUSEL PASILLOS RÁPIDO ============ -->
+<section class="carrusel-pasillos-section" id="carruselPasillos">
+  <div class="carrusel-header">
+    <div class="section-tag">— Acceso rápido</div>
+    <h2 class="section-title">Explorar Pasillos</h2>
+  </div>
+  <div class="carrusel-track-wrap">
+    <button class="carrusel-arrow carrusel-prev" id="carruselPrev" onclick="moverCarrusel(-1)">‹</button>
+    <div class="carrusel-viewport" id="carruselViewport">
+      <div class="carrusel-track" id="carruselTrack">
+        <!-- Generado por JS -->
+      </div>
+    </div>
+    <button class="carrusel-arrow carrusel-next" id="carruselNext" onclick="moverCarrusel(1)">›</button>
+  </div>
+  <div class="carrusel-dots" id="carruselDots"></div>
+</section>
+
+<!-- ============ VISTA PASILLO INDIVIDUAL ============ -->
+<div class="pasillo-view" id="pasilloView">
+  <div class="pasillo-view-header">
+    <button class="pasillo-view-back" onclick="cerrarPasilloView()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Volver
+    </button>
+    <div class="pasillo-view-title" id="pasilloViewTitle">Pasillo</div>
+    <div class="pasillo-view-count" id="pasilloViewCount"></div>
+  </div>
+  <div class="pasillo-view-grid" id="pasilloViewGrid">
+    <!-- Productos generados por JS -->
+  </div>
+</div>
+
 <!-- ============ SERVICIOS ============ -->
 <section class="premium-section" id="servicio">
   <div class="premium-header"><div class="section-tag">— Por qué elegirnos</div><h2 class="section-title">Nuestro Servicio</h2></div>
