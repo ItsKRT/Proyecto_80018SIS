@@ -273,12 +273,13 @@
   <div class="pasillo-view-grid" id="pasilloViewGrid">
     <!-- Productos generados por JS -->
   </div>
-  <!-- Botón flotante volver al menú principal -->
-  <button class="pv-fab-back" onclick="cerrarPasilloView()" title="Volver al menú principal">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    <span class="pv-fab-label">Menú principal</span>
-  </button>
 </div>
+
+<!-- Botón FAB fuera del pasillo-view para evitar stacking context del transform -->
+<button class="pv-fab-back" id="pvFabBack" onclick="cerrarPasilloView()" title="Volver al menú principal">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+  <span class="pv-fab-label">Menú principal</span>
+</button>
 
 <!-- ============ SERVICIOS ============ -->
 <section class="premium-section" id="servicio">
