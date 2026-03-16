@@ -163,10 +163,14 @@ function abrirPasilloView(pasilloId) {
   view.scrollTop = 0;
   view.classList.add('open');
   document.body.style.overflow = 'hidden';
+  // Mostrar FAB con pequeño delay para que entre con la animación del pasillo
+  setTimeout(() => { const fab = document.getElementById('pvFabBack'); if (fab) fab.classList.add('visible'); }, 300);
 }
 
 function cerrarPasilloView() {
   const view = document.getElementById('pasilloView');
+  const fab  = document.getElementById('pvFabBack');
+  if (fab) fab.classList.remove('visible');
   view.classList.remove('open');
   document.body.style.overflow = '';
   document.querySelectorAll('.carrusel-item').forEach(el => el.classList.remove('active'));
