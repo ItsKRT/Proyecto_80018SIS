@@ -43,57 +43,22 @@
   </div>
 </div>
 
-<!-- ============ NAVBAR ============ -->
+<!-- ============ NAVBAR — NMHP Layout ============ -->
+<!-- Izquierda: Usuario + Carrito | Centro: Logo + Links | Derecha: San Juan badge + Buscador icono -->
 <nav id="navbar">
-  <div class="nav-logo">
-    <span class="logo-icon">◈</span>
-    <span class="logo-text">San Juan</span>
-  </div>
 
-  <div class="nav-search-wrap" id="navSearchWrap">
-    <div class="search-box">
-      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" id="searchInput" placeholder="Buscar productos..." oninput="buscarProductos(this.value)" onkeydown="if(event.key==='Escape')cerrarBusqueda()">
-      <button class="search-clear" id="searchClear" onclick="limpiarBusqueda()">✕</button>
-    </div>
-    <div class="search-results" id="searchResults"></div>
-  </div>
-
-  <div class="nav-links">
-    <a href="#inicio" class="nav-link">Inicio</a>
-    <a href="#ofertas" class="nav-link">Ofertas</a>
-    <a href="#conocenos" class="nav-link">Conócenos</a>
-    <div class="dropdown">
-      <a href="#servicio" class="nav-link">Pasillos <span class="arrow">↓</span></a>
-      <div class="dropdown-content">
-        <a href="#pasillos">🥤 Bebidas</a>
-        <a href="#pasillos">🍿 Snacks</a>
-        <a href="#pasillos">🥛 Lácteos</a>
-        <a href="#pasillos">🧹 Limpieza</a>
-        <a href="#pasillos">🥫 Enlatados</a>
-        <a href="#pasillos">🍞 Panadería</a>
-        <a href="#pasillos">🥩 Carnes Frías</a>
-        <a href="#pasillos">🌿 Salud Natural</a>
-        <a href="#pasillos">🐾 Mascotas</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="nav-actions">
-    <button class="nav-icon-btn dark-toggle" id="darkModeBtn" onclick="toggleDarkMode()" title="Modo oscuro">🌙</button>
+  <!-- LADO IZQUIERDO: Usuario + Carrito -->
+  <div class="nav-left">
     <div class="user-btn-wrap" id="userBtnWrap">
-      <!-- Botón SIN sesión -->
       <button class="nav-icon-btn" onclick="toggleUserMenu()" id="loginBtn" title="Mi cuenta">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span id="loginLabel">Entrar</span>
       </button>
-      <!-- Botón CON sesión — círculo tipo Google -->
       <button class="nav-avatar-btn" onclick="toggleUserMenu()" id="navAvatarBtn" title="Mi cuenta" style="display:none">
         <div class="nav-avatar-circle" id="navAvatarCircle">?</div>
       </button>
       <!-- MENÚ FLOTANTE USUARIO -->
       <div class="user-menu" id="userMenu">
-        <!-- Sin sesión -->
         <div id="userMenuGuest">
           <div class="user-menu-header-guest">
             <div class="user-menu-icon-big">◈</div>
@@ -111,12 +76,9 @@
                 <input type="tel" id="loginTelefono" placeholder="55 1234 5678" maxlength="10">
               </div>
             </div>
-            <button class="btn-primary btn-full" onclick="iniciarSesion()">
-              Conectar con WhatsApp
-            </button>
+            <button class="btn-primary btn-full" onclick="iniciarSesion()">Conectar con WhatsApp</button>
           </div>
         </div>
-        <!-- Con sesión -->
         <div id="userMenuLogged" style="display:none">
           <div class="user-menu-profile">
             <div class="user-avatar-wrap" onclick="document.getElementById('avatarInput').click()" title="Cambiar foto">
@@ -132,15 +94,9 @@
           </div>
           <div class="user-menu-divider"></div>
           <div class="user-menu-stats">
-            <div class="user-stat">
-              <span id="userMenuItems">0</span>
-              <small>en carrito</small>
-            </div>
+            <div class="user-stat"><span id="userMenuItems">0</span><small>en carrito</small></div>
             <div class="user-stat-sep"></div>
-            <div class="user-stat">
-              <span id="userMenuTotal">$0</span>
-              <small>total</small>
-            </div>
+            <div class="user-stat"><span id="userMenuTotal">$0</span><small>total</small></div>
           </div>
           <div class="user-menu-divider"></div>
           <div class="user-menu-actions">
@@ -165,10 +121,65 @@
         </div>
       </div>
     </div>
+
+    <!-- CARRITO - posición izquierda según NMHP -->
     <div class="carrito-icono" onclick="abrirCarrito()">
       <div class="cart-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         <span id="contadorCarrito">0</span>
+      </div>
+    </div>
+
+    <!-- DARK MODE -->
+    <button class="nav-icon-btn dark-toggle" id="darkModeBtn" onclick="toggleDarkMode()" title="Modo oscuro">🌙</button>
+  </div>
+
+  <!-- CENTRO: Logo + Links -->
+  <div class="nav-center">
+    <div class="nav-logo" onclick="irArriba()" style="cursor:pointer;">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">San Juan</span>
+    </div>
+    <div class="nav-links">
+      <a href="#inicio" class="nav-link">Inicio</a>
+      <a href="#ofertas" class="nav-link">Ofertas</a>
+      <a href="#conocenos" class="nav-link">Conócenos</a>
+      <div class="dropdown">
+        <a href="#servicio" class="nav-link">Pasillos <span class="arrow">↓</span></a>
+        <div class="dropdown-content">
+          <a href="#pasillos">🥤 Bebidas</a>
+          <a href="#pasillos">🍿 Snacks</a>
+          <a href="#pasillos">🥛 Lácteos</a>
+          <a href="#pasillos">🧹 Limpieza</a>
+          <a href="#pasillos">🥫 Enlatados</a>
+          <a href="#pasillos">🍞 Panadería</a>
+          <a href="#pasillos">🥩 Carnes Frías</a>
+          <a href="#pasillos">🌿 Salud Natural</a>
+          <a href="#pasillos">🐾 Mascotas</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LADO DERECHO: Badge San Juan + Buscador icono -->
+  <div class="nav-right">
+    <div class="nav-brand-badge">
+      <span class="brand-badge-icon">◈</span>
+      <span class="brand-badge-text">Abarrotes San Juan</span>
+    </div>
+
+    <!-- BUSCADOR como icono con expansión al hover -->
+    <div class="nav-search-wrap" id="navSearchWrap">
+      <div class="search-trigger" id="searchTrigger">
+        <svg class="search-trigger-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <div class="search-expand" id="searchExpand">
+        <div class="search-box">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="searchInput" placeholder="Buscar productos..." oninput="buscarProductos(this.value)" onkeydown="if(event.key==='Escape')cerrarBusqueda()">
+          <button class="search-clear" id="searchClear" onclick="limpiarBusqueda()">✕</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
       </div>
     </div>
   </div>
@@ -180,6 +191,11 @@
   <div class="hero-orb hero-orb-1"></div>
   <div class="hero-orb hero-orb-2"></div>
   <div class="hero-orb hero-orb-3"></div>
+  <!-- Partículas flotantes NMHP -->
+  <div class="hero-particle p1"></div>
+  <div class="hero-particle p2"></div>
+  <div class="hero-particle p3"></div>
+  <div class="hero-particle p4"></div>
   <div class="hero-content">
     <div class="hero-badge">✦ Desde 1995 · Tu tienda de confianza ✦</div>
     <h1 class="hero-title">
@@ -193,6 +209,16 @@
       <div class="stat"><strong>30 min</strong><span>entrega</span></div>
       <div class="stat-sep">|</div>
       <div class="stat"><strong>9 pasillos</strong><span>categorías</span></div>
+    </div>
+    <!-- CTA guiado NMHP con flecha verde neón -->
+    <div class="hero-cta-nmhp">
+      <a href="#pasillos" class="hero-cta-btn" onclick="event.stopPropagation()">
+        <span>Ver todos los pasillos</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#ofertas" class="hero-cta-btn-outline" onclick="event.stopPropagation()">
+        🔥 Ver ofertas
+      </a>
     </div>
     <div class="hero-cta"><span class="cta-text">Haz clic para explorar</span><div class="cta-arrow">↓</div></div>
   </div>
@@ -216,6 +242,63 @@
     </div>
   </div>
 </div>
+
+<!-- ============ GUÍA VISUAL NMHP - ACCESOS RÁPIDOS ============ -->
+<section class="nmhp-quickaccess" id="quickAccess">
+  <div class="nmhp-qa-inner">
+    <div class="nmhp-qa-title">¿Qué buscas hoy?</div>
+    <div class="nmhp-qa-grid">
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('bebidas')">
+        <span class="nmhp-qa-emoji">🥤</span>
+        <span>Bebidas</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('snacks')">
+        <span class="nmhp-qa-emoji">🍿</span>
+        <span>Snacks</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('lacteos')">
+        <span class="nmhp-qa-emoji">🥛</span>
+        <span>Lácteos</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('limpieza')">
+        <span class="nmhp-qa-emoji">🧹</span>
+        <span>Limpieza</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('enlatados')">
+        <span class="nmhp-qa-emoji">🥫</span>
+        <span>Enlatados</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('panaderia')">
+        <span class="nmhp-qa-emoji">🍞</span>
+        <span>Panadería</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('carnesfrías')">
+        <span class="nmhp-qa-emoji">🥩</span>
+        <span>Carnes Frías</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('salud')">
+        <span class="nmhp-qa-emoji">🌿</span>
+        <span>Salud</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('mascotas')">
+        <span class="nmhp-qa-emoji">🐾</span>
+        <span>Mascotas</span>
+      </button>
+      <button class="nmhp-qa-card nmhp-qa-special" onclick="scrollToAndOpen('luchaLibre')">
+        <span class="nmhp-qa-emoji">🎭</span>
+        <span>Lucha Libre</span>
+      </button>
+      <button class="nmhp-qa-card nmhp-qa-special" onclick="scrollToAndOpen('wwe2k26')">
+        <span class="nmhp-qa-emoji">🎮</span>
+        <span>WWE 2K26</span>
+      </button>
+      <button class="nmhp-qa-card nmhp-qa-special" onclick="scrollToAndOpen('dragonball')">
+        <span class="nmhp-qa-emoji">🐉</span>
+        <span>Dragon Ball</span>
+      </button>
+    </div>
+  </div>
+</section>
 
 <!-- ============ OFERTAS DESTACADAS ============ -->
 <section class="ofertas-section" id="ofertas">
@@ -248,11 +331,8 @@
     <h2 class="section-title">Explorar Pasillos</h2>
   </div>
   <div class="carrusel-scroll-wrap" id="carruselScrollWrap">
-    <div class="carrusel-track" id="carruselTrack">
-      <!-- Generado por JS -->
-    </div>
+    <div class="carrusel-track" id="carruselTrack"></div>
   </div>
-  <!-- Barra deslizadora custom -->
   <div class="carrusel-scrollbar-wrap">
     <div class="carrusel-scrollbar-track" id="carruselScrollTrack">
       <div class="carrusel-scrollbar-thumb" id="carruselScrollThumb"></div>
@@ -270,12 +350,9 @@
     <div class="pasillo-view-title" id="pasilloViewTitle">Pasillo</div>
     <div class="pasillo-view-count" id="pasilloViewCount"></div>
   </div>
-  <div class="pasillo-view-grid" id="pasilloViewGrid">
-    <!-- Productos generados por JS -->
-  </div>
+  <div class="pasillo-view-grid" id="pasilloViewGrid"></div>
 </div>
 
-<!-- Botón FAB fuera del pasillo-view para evitar stacking context del transform -->
 <button class="pv-fab-back" id="pvFabBack" onclick="cerrarPasilloView()" title="Volver al menú principal">
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
   <span class="pv-fab-label">Menú principal</span>
@@ -287,34 +364,36 @@
   <div class="premium-layout">
     <div class="side-cards">
       <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400" alt="Entrega" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">01</span><h3>Entrega Rápida</h3><p>Pedidos a domicilio en menos de 30 minutos.</p><div class="card-line"></div></div></div>
-      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400" alt="Digital" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">02</span><h3>Menú Digital</h3><p>Explora +500 productos desde tu celular.</p><div class="card-line"></div></div></div>
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400" alt="WhatsApp" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">02</span><h3>Pedidos WhatsApp</h3><p>Ordena fácil y rápido desde tu celular.</p><div class="card-line"></div></div></div>
     </div>
-    <div class="center-image">
-      <div class="center-img-frame">
-        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=600" alt="Tienda" loading="lazy">
-        <div class="center-img-badge">Premium</div>
+    <div class="main-feature">
+      <div class="main-feature-inner">
+        <span class="main-feature-tag">✦ Nuestra promesa</span>
+        <h2 class="main-feature-title">Calidad que se<br>siente en cada compra</h2>
+        <p>Más de 30 años llevando lo mejor de la tienda a tu hogar. Productos frescos, precios justos y atención personalizada.</p>
+        <a href="#pasillos" class="main-feature-cta">Explorar productos →</a>
       </div>
     </div>
     <div class="side-cards">
-      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400" alt="Variedad" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">03</span><h3>Gran Variedad</h3><p>Abarrotes, bebidas, limpieza y más.</p><div class="card-line"></div></div></div>
-      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?w=400" alt="Atención" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">04</span><h3>Atención Premium</h3><p>Siempre cerca de nuestra comunidad.</p><div class="card-line"></div></div></div>
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=400" alt="Frescura" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">03</span><h3>Productos Frescos</h3><p>Surtido diario con los mejores proveedores locales.</p><div class="card-line"></div></div></div>
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400" alt="Pago" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">04</span><h3>Pago Fácil</h3><p>Efectivo, transferencia o WhatsApp Pay.</p><div class="card-line"></div></div></div>
     </div>
   </div>
 </section>
 
 <!-- ============ LUCHA LIBRE BANNER ============ -->
-<section class="lucha-banner">
-  <div class="lucha-bg-pattern"></div>
-  <div class="lucha-content">
+<section class="lucha-banner" id="luchaBanner">
+  <div class="lucha-bg-fire"></div>
+  <div class="lucha-inner">
     <div class="lucha-left">
-      <span class="lucha-tag">✦ SANGRE NUEVA · LUCHA 2026 ✦</span>
-      <h2 class="lucha-title">¡La Nueva<br><span>Generación!</span></h2>
-      <p class="lucha-sub">Vikingo, Místico, Penta Zero Miedo, Bandido y Dominik. Los que están rompiendo el ring en CMLL, AAA y WWE en 2026. 🔥</p>
-      <div class="lucha-badges">
-        <span>🎭 Máscaras oficiales</span>
-        <span>👕 Camisas 2026</span>
-        <span>🏆 Coleccionables</span>
-        <span>⚡ Ediciones limitadas</span>
+      <span class="lucha-tag">🎭 LUCHA LIBRE · COLECCIÓN 2026 🎭</span>
+      <h2 class="lucha-title">La Nueva Era<br><span>del Ring</span></h2>
+      <p class="lucha-sub">Hijo del Vikingo, Penta Zero Miedo, Místico y más. Máscaras, camisas y coleccionables edición 2026. La sangre nueva que está cambiando el mundo de la lucha libre.</p>
+      <div class="lucha-tags">
+        <span>🦅 Vikingo · AAA Rey del Aire</span>
+        <span>💀 Penta · WWE Zero Miedo</span>
+        <span>✨ Místico · CMLL</span>
+        <span>🏆 Bandido · ROH Champ</span>
       </div>
       <a href="#pasillos" class="lucha-cta" onclick="setTimeout(()=>{document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector('[onclick*=luchaLibre]');if(btn){btn.classList.add('active');aplicarFiltro('luchaLibre',btn);}},100)">
         Ver colección completa →
@@ -323,7 +402,7 @@
     <div class="lucha-right">
       <div class="lucha-mask-grid">
         <div class="lucha-mask-card" onclick="abrirModal('Máscara Bandido ROH Champ',220,270,'Réplica oficial máscara negra y dorada del most wanted Bandido.','https://i.etsystatic.com/15460636/r/il/c53666/3920765830/il_794xN.3920765830_soyy.jpg','Lucha Libre 2026')">
-          <img src="https://i.etsystatic.com/15460636/r/il/c53666/3920765830/il_794xN.3920765830_soyy.jpg" alt="Vikingo" loading="lazy">
+          <img src="https://i.etsystatic.com/15460636/r/il/c53666/3920765830/il_794xN.3920765830_soyy.jpg" alt="Bandido" loading="lazy">
           <span>Bandido ROH</span>
           <strong>$220 <del style="font-size:.7rem;opacity:.5;font-weight:400">$270</del></strong>
         </div>
@@ -381,6 +460,52 @@
   </div>
 </section>
 
+<!-- ============ DRAGON BALL BANNER ============ -->
+<section class="db-banner">
+  <div class="db-bg-aura"></div>
+  <div class="db-content">
+    <div class="db-left">
+      <span class="db-tag">✦ TAMASHII NATIONS · BANDAI 2026 ✦</span>
+      <h2 class="db-title">S.H. Figuarts<br><span>Dragon Ball</span></h2>
+      <p class="db-sub">Las figuras articuladas más detalladas del mundo. Cuerpo 4.0, rostros y manos intercambiables. Colección 2026 con los lanzamientos más recientes de Tamashii Nations.</p>
+      <div class="db-badges">
+        <span>⚡ Cuerpo 4.0 nuevo</span>
+        <span>🎌 Tamashii Nations</span>
+        <span>🏆 Ediciones exclusivas</span>
+        <span>🐉 40 Aniversario</span>
+      </div>
+      <a href="#pasillos" class="db-cta" onclick="setTimeout(()=>{document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector('[onclick*=dragonball]');if(btn){btn.classList.add('active');aplicarFiltro('dragonball',btn);}},100)">
+        Ver colección completa →
+      </a>
+    </div>
+    <div class="db-right">
+      <div class="db-figures-grid">
+        <div class="db-fig-card" onclick="abrirModal('SHF Goku Kind-hearted Saiyan',950,null,'NUEVO 2026. Son Goku base saga Androides/Cell. Cuerpo 4.0. 2 cabelleras + rostros intercambiables.','https://p-bandai.com/files/seller-products/FSP0002842001/1IalnL2NS8WmJMJ5fJBW.webp?w=1440&h=1440','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-orange"></div>
+          <img src="https://p-bandai.com/files/seller-products/FSP0002842001/1IalnL2NS8WmJMJ5fJBW.webp?w=1440&h=1440" alt="Goku" loading="lazy">
+          <div class="db-fig-info"><span>Son Goku</span><small>Kind-hearted Saiyan · 2026</small><strong>$950</strong></div>
+        </div>
+        <div class="db-fig-card featured" onclick="abrirModal('SHF SSJ Goku Warrior of Rage',1150,1350,'NUEVO 2026. Goku SSJ primera transformación vs Freezer en Namek. Cuerpo 4.0.','https://p-bandai.com/files/seller-products/FSP0002658001/YYZPDAh3Uof8RH4Ede9c.webp?w=1440&h=1440','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-gold"></div>
+          <div class="db-new-badge">🔥 NUEVO</div>
+          <img src="https://p-bandai.com/files/seller-products/FSP0002658001/YYZPDAh3Uof8RH4Ede9c.webp?w=1440&h=1440" alt="SSJ Goku" loading="lazy">
+          <div class="db-fig-info"><span>SSJ Goku</span><small>Warrior of Rage · 4.0</small><strong>$1,150 <del>$1,350</del></strong></div>
+        </div>
+        <div class="db-fig-card" onclick="abrirModal('SHF Vegeta SSj Ver.',980,null,'Vegeta versión Dragon Ball Z 14cm. Tamashii Nations.','https://p-bandai.com/files/seller-products/FSP0002871001/vzryuOimyZ4rxVeBgXx5.webp?w=1440&h=1440','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-blue"></div>
+          <img src="https://p-bandai.com/files/seller-products/FSP0002871001/vzryuOimyZ4rxVeBgXx5.webp?w=1440&h=1440" alt="Vegeta" loading="lazy">
+          <div class="db-fig-info"><span>SSJ Vegeta</span><small>Dangerous Pride</small><strong>$980</strong></div>
+        </div>
+        <div class="db-fig-card" onclick="abrirModal('SHF Bardock DBZ',1100,1299,'Bardock El padre de Goku Dragon Ball Z. Nuevo lanzamiento.','https://p-bandai.com/files/seller-products/FSP0002661001/KWvWpRNc9gbKsccWrlPb.webp','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-orange"></div>
+          <img src="https://p-bandai.com/files/seller-products/FSP0002661001/KWvWpRNc9gbKsccWrlPb.webp" alt="Bardock" loading="lazy">
+          <div class="db-fig-info"><span>Bardock</span><small>Dragon Ball Z</small><strong>$1,100</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ PASILLOS ============ -->
 <section class="pasillos-section" id="pasillos">
   <div class="pasillos-header">
@@ -426,15 +551,11 @@
     </div>
     <div id="listaCarrito" class="lista-carrito"></div>
     <div class="cart-footer">
-      <div class="cart-total-row">
-        <span>Subtotal</span><span id="cartSubtotal">$0</span>
-      </div>
-      <div class="cart-total-row cart-total-main">
-        <span>Total</span><span id="cartTotal">$0</span>
-      </div>
+      <div class="cart-total-row"><span>Subtotal</span><span id="cartSubtotal">$0</span></div>
+      <div class="cart-total-row cart-total-main"><span>Total</span><span id="cartTotal">$0</span></div>
       <div class="cart-actions">
         <button class="btn-pdf" onclick="generarPDF()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           Ticket PDF
         </button>
         <button class="btn-whatsapp" onclick="enviarWhatsApp()">
@@ -456,13 +577,13 @@
     <div class="login-form">
       <div class="input-group">
         <label>Nombre</label>
-        <input type="text" id="loginNombre" placeholder="Ej: María García">
+        <input type="text" id="loginNombreModal" placeholder="Ej: María García">
       </div>
       <div class="input-group">
         <label>Número WhatsApp</label>
         <div class="phone-input">
           <span class="phone-prefix">+52</span>
-          <input type="tel" id="loginTelefono" placeholder="55 1234 5678" maxlength="10">
+          <input type="tel" id="loginTelefonoModal" placeholder="55 1234 5678" maxlength="10">
         </div>
       </div>
       <button class="btn-primary btn-full" onclick="iniciarSesion()">
@@ -498,10 +619,7 @@
 <div class="chatbot-window" id="chatbotWindow">
   <div class="chatbot-header">
     <div class="chatbot-avatar">SJ</div>
-    <div class="chatbot-info">
-      <strong>Asistente San Juan</strong>
-      <span>● En línea</span>
-    </div>
+    <div class="chatbot-info"><strong>Asistente San Juan</strong><span>● En línea</span></div>
     <button onclick="toggleChatbot()" class="chatbot-close">✕</button>
   </div>
   <div class="chatbot-messages" id="chatbotMessages"></div>
@@ -513,68 +631,6 @@
     </button>
   </div>
 </div>
-
-<!-- ============ DRAGON BALL BANNER ============ -->
-<section class="db-banner">
-  <div class="db-bg-aura"></div>
-  <div class="db-content">
-    <div class="db-left">
-      <span class="db-tag">✦ TAMASHII NATIONS · BANDAI 2026 ✦</span>
-      <h2 class="db-title">S.H. Figuarts<br><span>Dragon Ball</span></h2>
-      <p class="db-sub">Las figuras articuladas más detalladas del mundo. Cuerpo 4.0, rostros y manos intercambiables. Colección 2026 con los lanzamientos más recientes de Tamashii Nations.</p>
-      <div class="db-badges">
-        <span>⚡ Cuerpo 4.0 nuevo</span>
-        <span>🎌 Tamashii Nations</span>
-        <span>🏆 Ediciones exclusivas</span>
-        <span>🐉 40 Aniversario</span>
-      </div>
-      <a href="#pasillos" class="db-cta" onclick="setTimeout(()=>{document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector('[onclick*=dragonball]');if(btn){btn.classList.add('active');aplicarFiltro('dragonball',btn);}},100)">
-        Ver colección completa →
-      </a>
-    </div>
-    <div class="db-right">
-      <div class="db-figures-grid">
-        <div class="db-fig-card" onclick="abrirModal('SHF Goku Kind-hearted Saiyan',950,null,'NUEVO 2026. Son Goku base saga Androides/Cell. Cuerpo 4.0. 2 cabelleras + rostros intercambiables.','https://p-bandai.com/files/seller-products/FSP0002842001/1IalnL2NS8WmJMJ5fJBW.webp?w=1440&h=1440','S.H. Figuarts Dragon Ball')">
-          <div class="db-fig-glow glow-orange"></div>
-          <img src="https://p-bandai.com/files/seller-products/FSP0002842001/1IalnL2NS8WmJMJ5fJBW.webp?w=1440&h=1440" alt="Goku" loading="lazy">
-          <div class="db-fig-info">
-            <span>Son Goku</span>
-            <small>Kind-hearted Saiyan · 2026</small>
-            <strong>$950</strong>
-          </div>
-        </div>
-        <div class="db-fig-card featured" onclick="abrirModal('SHF SSJ Goku Warrior of Rage',1150,1350,'NUEVO 2026. Goku SSJ primera transformación vs Freezer en Namek. Cuerpo 4.0.','https://p-bandai.com/files/seller-products/FSP0002658001/YYZPDAh3Uof8RH4Ede9c.webp?w=1440&h=1440','S.H. Figuarts Dragon Ball')">
-          <div class="db-fig-glow glow-gold"></div>
-          <div class="db-new-badge">🔥 NUEVO</div>
-          <img src="https://p-bandai.com/files/seller-products/FSP0002658001/YYZPDAh3Uof8RH4Ede9c.webp?w=1440&h=1440" alt="SSJ Goku" loading="lazy">
-          <div class="db-fig-info">
-            <span>SSJ Goku</span>
-            <small>Warrior of Rage · 4.0</small>
-            <strong>$1,150 <del>$1,350</del></strong>
-          </div>
-        </div>
-        <div class="db-fig-card" onclick="abrirModal('SHF Vegeta SSj Ver.',980,null,'Vegeta versión Dragon Ball Z 14cm. Tamashii Nations.','https://p-bandai.com/files/seller-products/FSP0002871001/vzryuOimyZ4rxVeBgXx5.webp?w=1440&h=1440','S.H. Figuarts Dragon Ball')">
-          <div class="db-fig-glow glow-blue"></div>
-          <img src="https://p-bandai.com/files/seller-products/FSP0002871001/vzryuOimyZ4rxVeBgXx5.webp?w=1440&h=1440" alt="Vegeta" loading="lazy">
-          <div class="db-fig-info">
-            <span>SSJ Vegeta</span>
-            <small>Dangerous Pride</small>
-            <strong>$980</strong>
-          </div>
-        </div>
-        <div class="db-fig-card" onclick="abrirModal('SHF Bardock DBZ',1100,1299,'Bardock El padre de Goku Dragon Ball Z. Nuevo lanzamiento.','https://p-bandai.com/files/seller-products/FSP0002661001/KWvWpRNc9gbKsccWrlPb.webp','S.H. Figuarts Dragon Ball')">
-          <div class="db-fig-glow glow-orange"></div>
-          <img src="https://p-bandai.com/files/seller-products/FSP0002661001/KWvWpRNc9gbKsccWrlPb.webp" alt="Bardock" loading="lazy">
-          <div class="db-fig-info">
-            <span>Bardock</span>
-            <small>Dragon Ball Z</small>
-            <strong>$1,100</strong>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- VOLVER ARRIBA -->
 <button class="back-to-top" id="backToTop" onclick="irArriba()" title="Volver arriba">↑</button>
