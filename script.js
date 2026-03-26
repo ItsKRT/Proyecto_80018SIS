@@ -1013,10 +1013,19 @@ function limpiarBusqueda() {
   document.getElementById('searchInput').value = '';
   buscarProductos('');
 }
+function abrirBuscador() {
+  const wrap = document.getElementById('navSearchWrap');
+  wrap.classList.add('search-open');
+  setTimeout(() => {
+    const inp = document.getElementById('searchInput');
+    if (inp) inp.focus();
+  }, 350);
+}
 function cerrarBusqueda() {
   document.getElementById('searchResults').style.display = 'none';
   document.getElementById('searchInput').value = '';
   document.getElementById('searchClear').style.display = 'none';
+  document.getElementById('navSearchWrap').classList.remove('search-open');
 }
 document.addEventListener('click', e => {
   if (!e.target.closest('.nav-search-wrap')) cerrarBusqueda();
