@@ -212,7 +212,7 @@
     </div>
     <!-- CTA guiado NMHP con flecha verde neón -->
     <div class="hero-cta-nmhp">
-      <a href="#pasillos" class="hero-cta-btn" onclick="event.stopPropagation()">
+      <a href="#carruselPasillos" class="hero-cta-btn" onclick="event.stopPropagation();setTimeout(()=>{document.getElementById('carruselPasillos').scrollIntoView({behavior:'smooth'})},50)">
         <span>Ver todos los pasillos</span>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
@@ -367,12 +367,10 @@
       <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400" alt="WhatsApp" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">02</span><h3>Pedidos WhatsApp</h3><p>Ordena fácil y rápido desde tu celular.</p><div class="card-line"></div></div></div>
     </div>
     <div class="main-feature">
-      <div class="main-feature-inner">
-        <span class="main-feature-tag">✦ Nuestra promesa</span>
-        <h2 class="main-feature-title">Calidad que se<br>siente en cada compra</h2>
-        <p>Más de 30 años llevando lo mejor de la tienda a tu hogar. Productos frescos, precios justos y atención personalizada.</p>
-        <a href="#pasillos" class="main-feature-cta">Explorar productos →</a>
-      </div>
+      <span class="main-feature-tag">✦ Nuestra promesa</span>
+      <h2 class="main-feature-title">Calidad que se<br>siente en cada compra</h2>
+      <p>Más de 30 años llevando lo mejor de la tienda a tu hogar. Productos frescos, precios justos y atención personalizada.</p>
+      <a href="#pasillos" class="main-feature-cta">Explorar productos →</a>
     </div>
     <div class="side-cards">
       <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=400" alt="Frescura" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">03</span><h3>Productos Frescos</h3><p>Surtido diario con los mejores proveedores locales.</p><div class="card-line"></div></div></div>
