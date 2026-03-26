@@ -802,6 +802,12 @@ function animarContador() {
   const c = document.getElementById('contadorCarrito');
   c.style.transform = 'scale(1.7)';
   setTimeout(() => c.style.transform = 'scale(1)', 300);
+  // Neon green glow on cart icon
+  const cartBtn = document.querySelector('.cart-btn');
+  if (cartBtn) {
+    cartBtn.classList.add('cart-neon');
+    setTimeout(() => cartBtn.classList.remove('cart-neon'), 1400);
+  }
 }
 function actualizarContador() {
   document.getElementById('contadorCarrito').innerText = carrito.reduce((a, i) => a + i.qty, 0);
@@ -945,20 +951,38 @@ function buscarProductos(q) {
   clear.style.display = q ? 'block' : 'none';
 
   if (!q.trim()) { res.style.display = 'none'; return; }
-  const found = TODOS_PRODUCTOS.filter(p =>
-    p.nombre.toLowerCase().includes(q.toLowerCase()) ||
-    p.desc.toLowerCase().includes(q.toLowerCase()) ||
-    p.categoria.toLowerCase().includes(q.toLowerCase())
+
+  const qLow = q.toLowerCase().trim();
+
+  // Resultados exactos/directos: nombre, descripción o categoría contiene la query
+  const exactos = TODOS_PRODUCTOS.filter(p =>
+    p.nombre.toLowerCase().includes(qLow) ||
+    p.desc.toLowerCase().includes(qLow) ||
+    p.categoria.toLowerCase().includes(qLow)
   ).slice(0, 8);
 
-  if (!found.length) {
+  // Algoritmo de Similares: busca por palabras clave individuales y por categoría de los exactos
+  const categoriasEncontradas = [...new Set(exactos.map(p => p.categoriaId))];
+  const palabras = qLow.split(/\s+/).filter(w => w.length > 2);
+
+  const similares = TODOS_PRODUCTOS.filter(p => {
+    // No mostrar si ya está en exactos
+    if (exactos.some(e => e.nombre === p.nombre)) return false;
+    const textoP = (p.nombre + ' ' + p.desc + ' ' + p.categoria).toLowerCase();
+    // Mismo pasillo que algún resultado exacto
+    if (categoriasEncontradas.includes(p.categoriaId)) return true;
+    // Comparte alguna palabra clave de peso
+    return palabras.some(w => textoP.includes(w));
+  }).slice(0, 5);
+
+  if (!exactos.length && !similares.length) {
     res.style.display = 'block';
     res.innerHTML = `<div class="search-no-results">Sin resultados para "<strong>${q}</strong>"</div>`;
     return;
   }
-  res.style.display = 'block';
-  res.innerHTML = found.map(p => `
-    <div class="search-result-item" onclick="abrirModal('${p.nombre}',${p.precio},${p.precioOld||'null'},'${p.desc}','${p.img}','${p.categoria}'); cerrarBusqueda();">
+
+  const renderItem = p => `
+    <div class="search-result-item" onclick="abrirModal('${p.nombre.replace(/'/g,"\\'")}',${p.precio},${p.precioOld||'null'},'${p.desc.replace(/'/g,"\\'")}','${p.img}','${p.categoria}'); cerrarBusqueda();">
       <img src="${p.img}" alt="${p.nombre}" loading="lazy">
       <div class="search-result-info">
         <strong>${p.nombre}</strong>
@@ -966,7 +990,24 @@ function buscarProductos(q) {
         <span>$${p.precio}</span>
       </div>
     </div>
-  `).join('');
+  `;
+
+  res.style.display = 'block';
+  let html = '';
+
+  if (exactos.length) {
+    html += `<div class="search-section-label">Resultados para "${q}"</div>`;
+    html += exactos.map(renderItem).join('');
+  } else {
+    html += `<div class="search-no-results">Sin resultados exactos para "<strong>${q}</strong>"</div>`;
+  }
+
+  if (similares.length) {
+    html += `<div class="search-section-label search-section-similares">✦ Similares</div>`;
+    html += similares.map(renderItem).join('');
+  }
+
+  res.innerHTML = html;
 }
 function limpiarBusqueda() {
   document.getElementById('searchInput').value = '';
