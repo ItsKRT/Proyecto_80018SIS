@@ -137,7 +137,7 @@ nav.scrolled{padding:8px 32px;background:rgba(248,244,235,.98);box-shadow:0 4px 
 
 /* El panel expandido */
 .search-expand{position:absolute;top:50%;right:0;transform:translate(0,-50%) scaleX(0);transform-origin:right center;width:0;overflow:hidden;transition:width .4s var(--ease), transform .4s var(--ease), opacity .3s;opacity:0;pointer-events:none;z-index:300;}
-.nav-search-wrap:hover .search-expand,.nav-search-wrap:focus-within .search-expand{width:320px;transform:translate(0,-50%) scaleX(1);opacity:1;pointer-events:all;}
+.nav-search-wrap:hover .search-expand,.nav-search-wrap:focus-within .search-expand,.nav-search-wrap.search-open .search-expand{width:360px;transform:translate(0,-50%) scaleX(1);opacity:1;pointer-events:all;}
 .search-box{display:flex;align-items:center;background:var(--white);border:1.5px solid var(--sand);border-radius:50px;padding:8px 16px;gap:10px;transition:border-color .3s;box-shadow:0 4px 20px rgba(13,43,30,.1);margin-right:44px;}
 .search-box:focus-within{border-color:var(--g400);box-shadow:0 0 0 3px rgba(93,191,137,.15);}
 .search-icon{color:var(--sage);flex-shrink:0;}
