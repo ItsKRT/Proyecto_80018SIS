@@ -101,6 +101,27 @@ nav.scrolled{padding:8px 32px;background:rgba(248,244,235,.98);box-shadow:0 4px 
 .nav-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:var(--g500);transition:width .35s var(--ease);}
 .nav-link:hover{color:var(--g500);}
 .nav-link:hover::after{width:100%;}
+
+/* CONÓCENOS — link neón especial */
+.nav-link-neon{
+  color:#39ff14 !important;
+  text-shadow:0 0 8px rgba(57,255,20,.6), 0 0 16px rgba(57,255,20,.3);
+  font-weight:700 !important;
+  letter-spacing:.08em;
+  animation:neonLinkFlicker 4s ease-in-out infinite;
+}
+.nav-link-neon::after{background:#39ff14 !important;}
+.nav-link-neon:hover{
+  color:#39ff14 !important;
+  text-shadow:0 0 12px rgba(57,255,20,.9), 0 0 28px rgba(57,255,20,.55), 0 0 48px rgba(57,255,20,.25) !important;
+}
+@keyframes neonLinkFlicker{
+  0%,100%{text-shadow:0 0 8px rgba(57,255,20,.6),0 0 16px rgba(57,255,20,.3);}
+  45%{text-shadow:0 0 10px rgba(57,255,20,.7),0 0 22px rgba(57,255,20,.4),0 0 40px rgba(57,255,20,.15);}
+  47%{text-shadow:0 0 4px rgba(57,255,20,.3),0 0 8px rgba(57,255,20,.15);}
+  49%{text-shadow:0 0 10px rgba(57,255,20,.7),0 0 22px rgba(57,255,20,.4);}
+  80%{text-shadow:0 0 8px rgba(57,255,20,.6),0 0 16px rgba(57,255,20,.3);}
+}
 .arrow{display:inline-block;font-size:.7em;transition:transform .3s;}
 .dropdown{position:relative;}
 .dropdown:hover .arrow{transform:rotate(180deg);}
