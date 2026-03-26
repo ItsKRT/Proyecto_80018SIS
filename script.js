@@ -428,26 +428,28 @@ const PASILLOS = [
   {
     id:'bebidas', nombre:'Bebidas', emoji:'🥤',
     imagen:'./img/bebidas.png',
-    productos:[
-      { nombre:'Coca-Cola 2L',              precio:35, precioOld:null, desc:'Refresco de cola icónico, botella 2 litros.',                  img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300', oferta:false },
-      { nombre:'Coca-Cola Zero 600ml',      precio:20, precioOld:null, desc:'Refresco de cola sin azúcar lata 355ml.',                      img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300', oferta:false },
-      { nombre:'Agua Bonafont 1.5L',        precio:18, precioOld:null, desc:'Agua purificada en botella de 1.5 litros.',                    img:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=300', oferta:false },
-      { nombre:'Agua Ciel 500ml x6',        precio:55, precioOld:65,   desc:'Pack de 6 botellas de agua purificada 500ml.',                 img:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=300', oferta:true  },
-      { nombre:'Jugo Del Valle 1L',         precio:28, precioOld:35,   desc:'Jugo de naranja natural, 1 litro.',                            img:'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=300', oferta:true  },
-      { nombre:'Jugo Jumex Mango 1L',       precio:26, precioOld:null, desc:'Jugo de mango natural sin conservadores 1 litro.',             img:'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=300', oferta:false },
-      { nombre:'Gatorade Limón',            precio:22, precioOld:null, desc:'Bebida isotónica sabor limón 600ml.',                          img:'https://images.unsplash.com/photo-1571748982800-fa51082c2224?w=300', oferta:false },
-      { nombre:'Gatorade Tropical',         precio:22, precioOld:null, desc:'Bebida isotónica sabor tropical 600ml.',                       img:'https://images.unsplash.com/photo-1571748982800-fa51082c2224?w=300', oferta:false },
-      { nombre:'Red Bull 250ml',            precio:38, precioOld:null, desc:'Bebida energizante lata 250ml.',                               img:'https://images.unsplash.com/photo-1622543925917-763c34d1a86e?w=300', oferta:false },
-      { nombre:'Monster Energy Verde',      precio:42, precioOld:null, desc:'Bebida energizante Monster Original lata 473ml.',              img:'https://images.unsplash.com/photo-1622543925917-763c34d1a86e?w=300', oferta:false },
-      { nombre:'Café Nescafé Clásico',      precio:55, precioOld:65,   desc:'Café soluble instantáneo frasco 100g.',                       img:'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=300', oferta:true  },
-      { nombre:'Café Dolca 200g',           precio:75, precioOld:null, desc:'Café molido tostado mediano bolsa 200g.',                      img:'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=300', oferta:false },
-      { nombre:'Pepsi 2L',                  precio:33, precioOld:null, desc:'Refresco de cola Pepsi botella 2 litros.',                     img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300', oferta:false },
-      { nombre:'Sprite 1.5L',               precio:30, precioOld:null, desc:'Refresco de limón sin cafeína botella 1.5L.',                  img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300', oferta:false },
-      { nombre:'Leche con Chocolate Nesquik',precio:22, precioOld:null, desc:'Bebida de leche con chocolate Nesquik 1 litro.',              img:'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=300', oferta:false },
-      { nombre:'Té Lipton Durazno 500ml',   precio:18, precioOld:22,   desc:'Bebida de té helado sabor durazno botella 500ml.',             img:'https://images.unsplash.com/photo-1571748982800-fa51082c2224?w=300', oferta:true  },
-      { nombre:'Agua de Jamaica 1L',        precio:25, precioOld:null, desc:'Agua fresca de jamaica lista para servir 1 litro.',            img:'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=300', oferta:false },
-      { nombre:'Sangría Señorial 355ml',    precio:15, precioOld:null, desc:'Refresco sabor sangría lata 355ml. Clásico mexicano.',         img:'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=300', oferta:false },
-    ]
+    productos:
+   [
+  { nombre:'Coca-Cola 2L',              precio:35, precioOld:null, desc:'Refresco de cola icónico, botella 2 litros.',                  img:'https://m.media-amazon.com/images/I/71wWKpuFjdL._AC_UF894,1000_QL80_.jpg', oferta:false },
+  { nombre:'Coca-Cola Zero 600ml',      precio:20, precioOld:null, desc:'Refresco de cola sin azúcar lata 355ml.',                      img:'https://resources.coca-colaentuhogar.com/media/catalog/product/c/o/coccolsinazu-sinazuc-nor-pet-600ml-4pz_4.png?quality=100&fit=bounds&height=550&width=550&format=webp', oferta:false },
+  { nombre:'Agua Bonafont 1.5L',        precio:18, precioOld:null, desc:'Agua purificada en botella de 1.5 litros.',                    img:'https://lagranbodega.vteximg.com.br/arquivos/ids/281012-1000-1000/758104000159.jpg?v=637438353438500000', oferta:false },
+  { nombre:'Agua Ciel 500ml x6',        precio:55, precioOld:65,   desc:'Pack de 6 botellas de agua purificada 500ml.',                 img:'https://i5.walmartimages.com.mx/mg/gm/3pp/asr/dc881d8c-1280-4c82-b490-eea5e1a72da2.01b8a9de0902063a2421a46f99c584e7.jpeg?odnHeight=2000&odnWidth=2000&odnBg=ffffff', oferta:true  },
+  { nombre:'Jugo Del Valle 1L',         precio:28, precioOld:35,   desc:'Jugo de naranja natural, 1 litro.',                            img:'https://anyhow.mx/wp-content/uploads/2021/07/Jugo-del-Valle-sabor-Manzana-Clarificada-1Lt.webp', oferta:true  },
+  { nombre:'Jugo Jumex Mango 1L',       precio:26, precioOld:null, desc:'Jugo de mango natural sin conservadores 1 litro.',             img:'https://i5.walmartimages.com.mx/gr/images/product-images/img_large/00750101310279L.jpg?odnHeight=612&odnWidth=612&odnBg=FFFFFF&format=avif', oferta:false },
+  { nombre:'Gatorade Moras Freeze',     precio:22, precioOld:null, desc:'Bebida isotónica sabor limón 600ml.',                          img:'https://i5.walmartimages.com.mx/mg/gm/3pp/asr/75e3bede-0fe5-4791-8ec6-96600a07d96e.c94082c4e5c97fdcb63f8c7a19d6f42d.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF', oferta:false },
+  { nombre:'Gatorade Tropical',         precio:22, precioOld:null, desc:'Bebida isotónica sabor tropical 600ml.',                       img:'https://www.crackerjack.co.nz/content/products/gatorade-tropical-fruit-500ml-FD0182-13258.jpg', oferta:false },
+  { nombre:'Red Bull 250ml',            precio:38, precioOld:null, desc:'Bebida energizante lata 250ml.',                               img:'https://i5.walmartimages.com.mx/mg/gm/3pp/asr/a29a56da-a432-4737-9216-d017981a4c9e.ab4ce6a74cb0f2077ada87ee1a78e81a.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF', oferta:false },
+  { nombre:'Monster Energy Verde',      precio:42, precioOld:null, desc:'Bebida energizante Monster Original lata 473ml.',              img:'https://i5.walmartimages.com.mx/mg/gm/3pp/asr/c0076ab0-e12e-47d3-9653-ad31f8f6b6cd.d8f00da1bf20f9eaf5ee1d0e39322270.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF', oferta:false },
+  { nombre:'Café Nescafé Clásico',      precio:55, precioOld:65,   desc:'Café soluble instantáneo frasco 100g.',                        img:'https://www.costco.com.mx/medias/sys_master/products/h3e/h39/326968845926430.jpg', oferta:true  },
+  { nombre:'Café Dolca 200g',           precio:75, precioOld:null, desc:'Café molido tostado mediano bolsa 200g.',                      img:'https://res.cloudinary.com/riqra/image/upload/w_656,h_656,c_limit,q_auto,f_auto/v1764950307/merco-monterrey/products/e44f9af368a233b0.png', oferta:false },
+  { nombre:'Pepsi 2L',                  precio:33, precioOld:null, desc:'Refresco de cola Pepsi botella 2 litros.',                     img:'https://i5.walmartimages.com/asr/5994ff97-c874-4063-a2da-e5a9d8af5de2.6dfb91f11200970234fae20a09eaf328.jpeg?odnHeight=612&odnWidth=612&odnBg=FFFFFF', oferta:false },
+  { nombre:'Sprite 1.5L',               precio:30, precioOld:null, desc:'Refresco de limón sin cafeína botella 1.5L.',                  img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxWdjvj2YIXOGWiFdZDGFdu0MSrTxYkmsONQ&s', oferta:false },
+  { nombre:'Leche con Chocolate Nesquik',precio:22, precioOld:null, desc:'Bebida de leche con chocolate Nesquik 1 litro.',              img:'https://i5.walmartimages.com.mx/gr/images/product-images/img_large/00750105861185L.jpg?odnHeight=612&odnWidth=612&odnBg=FFFFFF', oferta:false },
+  { nombre:'Té Lipton Durazno 500ml',   precio:18, precioOld:22,   desc:'Bebida de té helado sabor durazno botella 500ml.',             img:'https://inversionesloan.com/cdn/shop/files/TE010.jpg?v=1741889824&width=1080', oferta:true  },
+  { nombre:'Agua de Horchata 1L',        precio:25, precioOld:null, desc:'Agua fresca de jamaica lista para servir 1 litro.',           img:'https://chedrauimx.vteximg.com.br/arquivos/ids/65439611/7503045646002_01.jpg?v=639093937561800000', oferta:false },
+  { nombre:'Sangría Señorial 330ml',    precio:15, precioOld:null, desc:'Refresco sabor sangría lata 355ml. Clásico mexicano.',         img:'https://mexicomagico.de/cdn/shop/files/s897309111128769345_p117_i1_w2000.jpg?v=1731755516&width=1946', oferta:false },
+]
+
   },
   {
     id:'snacks', nombre:'Snacks', emoji:'🍿',
