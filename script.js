@@ -1191,7 +1191,7 @@ Tu ÚNICA función es ayudar con todo lo relacionado a Abarrotes San Juan: produ
 - Horario: Lunes a Sábado 8:00am – 9:00pm (domingos cerrado)
 - Entregas a domicilio dentro de la colonia: mínimo $150, costo de envío $30 (gratis en compras de $200 o más)
 - Formas de pago: efectivo, transferencia bancaria, WhatsApp Pay (no se aceptan tarjetas por el momento)
-- Pedidos por WhatsApp: +52 55 0000 0000
+- Pedidos por WhatsApp: +52 55 8585 3852
 - Entrega el mismo día si el pedido entra antes de las 7:00pm
 
 ━━━ FUNCIONES DE LA PÁGINA ━━━
