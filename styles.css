@@ -1764,18 +1764,23 @@ body.dark .cart-drawer-footer {
   color: var(--sage);
   padding: 4px 0;
 }
+.cart-total-divider {
+  border: none;
+  border-top: 1px dashed var(--sand);
+  margin: 6px 0;
+}
 .cart-total-main {
   font-family: var(--font-d);
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--g900);
   padding-top: 8px;
-  border-top: 1px solid var(--sand);
   margin-top: 4px;
 }
 .cart-total-main span:last-child { color: var(--g600); }
 body.dark .cart-total-row { color: rgba(255,215,0,.4); }
-body.dark .cart-total-main { color: #d4a820; border-top-color: #1a1400; }
+body.dark .cart-total-divider { border-top-color: #2a2000; }
+body.dark .cart-total-main { color: #d4a820; }
 body.dark .cart-total-main span:last-child { color: #b8901a; }
 
 .cart-drawer-ctas {
