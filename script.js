@@ -1137,7 +1137,7 @@ document.addEventListener('mousedown', e => {
 //  CHATBOT CON GROQ IA — Abarrotes San Juan
 // ═══════════════════════════════════════════════════════
 
-const GROQ_MODEL = 'llama3-8b-8192';
+const GROQ_MODEL = 'llama-3.3-70b-versatile';
 
 const SYSTEM_PROMPT = `Eres el asistente virtual de Abarrotes San Juan, una tienda de abarrotes en México.
 Tu única función es responder preguntas relacionadas con la tienda: productos, precios, categorías, horarios, entregas, formas de pago y todo lo relacionado con el negocio.
@@ -1347,13 +1347,15 @@ async function enviarMensaje() {
     quitarTypingIndicator();
 
     if (!res.ok) {
+      const errBody = await res.json().catch(() => ({}));
+      console.error('Groq error:', res.status, errBody);
       if (res.status === 401) {
         groqApiKey = '';
         localStorage.removeItem('sj_groq_key');
         agregarMensajeBot('⚠️ Tu API Key ya no es válida. Por favor ingresa una nueva.', true);
         setTimeout(() => mostrarPantallaKey(), 2000);
       } else {
-        agregarMensajeBot('⚠️ Problema de conexión. Intenta de nuevo en un momento.', true);
+        agregarMensajeBot(`⚠️ Error ${res.status}: ${errBody?.error?.message || 'Intenta de nuevo en un momento.'}`, true);
       }
     } else {
       const data = await res.json();
