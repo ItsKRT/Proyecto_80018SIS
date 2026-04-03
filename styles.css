@@ -1891,3 +1891,44 @@ body.dark .btn-pdf { background: #1a1400; color: #b8901a; border-color: #2a2000;
   /* ── SECCIÓN GENERAL ── */
   .section-title { font-size: clamp(1.4rem, 6vw, 2rem); }
 }
+
+/* ── FIX CARRITO MÓVIL — footer siempre visible ── */
+@media (max-width: 600px) {
+  .cart-drawer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh; /* dynamic viewport height — fix para móvil */
+    overflow: hidden;
+  }
+  .cart-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0; /* importante para que flex no lo expanda de más */
+  }
+  .cart-drawer-footer {
+    flex-shrink: 0;
+    padding: 10px 14px 14px;
+  }
+  .cart-drawer-totals {
+    margin-bottom: 10px;
+  }
+  .cart-total-row {
+    padding: 2px 0;
+    font-size: .78rem;
+  }
+  .cart-total-main {
+    font-size: .95rem;
+    padding-top: 6px;
+  }
+  .cart-drawer-ctas {
+    flex-direction: column;
+    gap: 7px;
+  }
+  .btn-pdf, .btn-whatsapp {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+    font-size: .83rem;
+  }
+}
