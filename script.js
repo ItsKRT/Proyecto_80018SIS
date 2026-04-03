@@ -1231,47 +1231,23 @@ function cambiarApiKey() {
 async function activarGroq() {
   const input = document.getElementById('groqApiKeyInput');
   const key = input.value.trim();
-  if (!key) {
+  if (!key || !key.startsWith('gsk_')) {
     input.classList.add('chat-key-input--error');
-    setTimeout(() => input.classList.remove('chat-key-input--error'), 1000);
-    return;
-  }
-  const btn = document.querySelector('.chat-key-btn');
-  btn.textContent = 'Verificando...';
-  btn.disabled = true;
-
-  const ok = await verificarKeyGroq(key);
-  if (ok) {
-    groqApiKey = key;
-    localStorage.setItem('sj_groq_key', key);
-    chatHistorial = [];
-    mostrarPantallaChat();
-    setTimeout(() => {
-      agregarMensajeBot('¡Hola! 👋 Soy el asistente de **Abarrotes San Juan** con IA. Puedo ayudarte con productos, precios, horarios y más. ¿En qué te ayudo?');
-      renderSugerencias();
-    }, 300);
-  } else {
-    input.classList.add('chat-key-input--error');
-    input.value = '';
-    input.placeholder = 'API Key inválida, intenta de nuevo';
+    input.placeholder = 'Debe empezar con gsk_...';
     setTimeout(() => {
       input.classList.remove('chat-key-input--error');
       input.placeholder = 'gsk_xxxxxxxxxxxxxxxxxxxx';
     }, 2500);
+    return;
   }
-  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Activar asistente';
-  btn.disabled = false;
-}
-
-async function verificarKeyGroq(key) {
-  try {
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
-      body: JSON.stringify({ model: GROQ_MODEL, max_tokens: 5, messages: [{ role: 'user', content: 'hola' }] })
-    });
-    return res.ok;
-  } catch { return false; }
+  groqApiKey = key;
+  localStorage.setItem('sj_groq_key', key);
+  chatHistorial = [];
+  mostrarPantallaChat();
+  setTimeout(() => {
+    agregarMensajeBot('¡Hola! 👋 Soy el asistente de **Abarrotes San Juan** con IA. Puedo ayudarte con productos, precios, horarios y más. ¿En qué te ayudo?');
+    renderSugerencias();
+  }, 300);
 }
 
 function toggleVerApiKey() {
