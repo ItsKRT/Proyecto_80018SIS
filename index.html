@@ -696,28 +696,86 @@
 <div class="toast" id="toast"></div>
 
 <!-- ============ CHATBOT ============ -->
+<!-- ═══════════════════════════════════════
+     CHATBOT FAB
+════════════════════════════════════════ -->
 <div class="chatbot-fab" id="chatbotFab" onclick="toggleChatbot()">
   <div class="chatbot-fab-icon">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.7 1.26 5.12 3.28 6.8L4 22l4.5-2.12C9.59 20.28 10.77 20.5 12 20.5c5.52 0 10-4.03 10-9s-4.48-9-10-9z"/></svg>
   </div>
   <div class="chatbot-fab-pulse"></div>
-  <span class="chatbot-badge" id="chatbotBadge">1</span>
+  <span class="chatbot-badge" id="chatbotBadge">IA</span>
 </div>
 
+<!-- ═══════════════════════════════════════
+     CHATBOT WINDOW
+════════════════════════════════════════ -->
 <div class="chatbot-window" id="chatbotWindow">
-  <div class="chatbot-header">
-    <div class="chatbot-avatar">SJ</div>
-    <div class="chatbot-info"><strong>Asistente San Juan</strong><span>● En línea</span></div>
-    <button onclick="toggleChatbot()" class="chatbot-close">✕</button>
+
+  <!-- PANTALLA: PEDIR API KEY -->
+  <div class="chat-screen" id="chatScreenKey">
+    <div class="chat-key-header">
+      <button onclick="toggleChatbot()" class="chatbot-close-x">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="chat-key-body">
+      <div class="chat-key-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.7 1.26 5.12 3.28 6.8L4 22l4.5-2.12C9.59 20.28 10.77 20.5 12 20.5c5.52 0 10-4.03 10-9s-4.48-9-10-9z"/></svg>
+      </div>
+      <h3 class="chat-key-title">Asistente San Juan <span>IA</span></h3>
+      <p class="chat-key-desc">Pregúntale cualquier cosa sobre nuestra tienda, productos, precios y más. Necesitas una API Key de Groq para activarlo.</p>
+      <div class="chat-key-field-wrap">
+        <label class="chat-key-label">Tu API Key de Groq</label>
+        <div class="chat-key-input-row">
+          <input type="password" id="groqApiKeyInput" class="chat-key-input" placeholder="gsk_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" onkeydown="if(event.key==='Enter')activarGroq()">
+          <button class="chat-key-toggle" onclick="toggleVerApiKey()" title="Mostrar/ocultar key" id="keyToggleBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="eyeIcon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <p class="chat-key-privacy">🔒 Tu key solo se guarda en tu navegador, nunca se envía a nuestros servidores.</p>
+      </div>
+      <button class="chat-key-btn" onclick="activarGroq()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        Activar asistente
+      </button>
+      <a href="https://console.groq.com/keys" target="_blank" rel="noopener" class="chat-key-link">
+        ¿No tienes API Key? Consigue una gratis →
+      </a>
+    </div>
   </div>
-  <div class="chatbot-messages" id="chatbotMessages"></div>
-  <div class="chatbot-suggestions" id="chatbotSuggestions"></div>
-  <div class="chatbot-input-area">
-    <input type="text" id="chatbotInput" placeholder="Escribe tu pregunta..." onkeydown="if(event.key==='Enter')enviarMensaje()">
-    <button onclick="enviarMensaje()" class="chatbot-send">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
+
+  <!-- PANTALLA: CHAT ACTIVO -->
+  <div class="chat-screen" id="chatScreenChat" style="display:none;flex-direction:column;">
+    <div class="chatbot-header">
+      <div class="chatbot-avatar-wrap">
+        <div class="chatbot-avatar-dot"></div>
+        <span>SJ</span>
+      </div>
+      <div class="chatbot-info">
+        <strong>Asistente San Juan</strong>
+        <span id="chatStatusLabel">● Con IA activa</span>
+      </div>
+      <div class="chatbot-header-actions">
+        <button onclick="cambiarApiKey()" class="chat-header-btn" title="Cambiar API Key">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button onclick="toggleChatbot()" class="chat-header-btn" title="Cerrar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages"></div>
+    <div class="chatbot-suggestions" id="chatbotSuggestions"></div>
+    <div class="chatbot-input-area">
+      <input type="text" id="chatbotInput" placeholder="Pregúntame sobre la tienda..." onkeydown="if(event.key==='Enter')enviarMensaje()" maxlength="300">
+      <button onclick="enviarMensaje()" class="chatbot-send" id="chatSendBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
   </div>
+
+</div>
 </div>
 
 <!-- VOLVER ARRIBA -->
