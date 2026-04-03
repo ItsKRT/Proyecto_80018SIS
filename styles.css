@@ -1831,3 +1831,63 @@ body.dark .btn-pdf { background: #1a1400; color: #b8901a; border-color: #2a2000;
 @media (max-width: 480px) {
   .cart-drawer { width: 100vw; }
 }
+
+/* ============================================
+   MOBILE FIXES — Motorola / pantallas ≤ 600px
+   Solo afecta celular, PC queda intacto
+============================================ */
+@media (max-width: 600px) {
+
+  /* ── NAVBAR ── */
+  nav {
+    grid-template-columns: auto 1fr auto;
+    padding: 10px 14px;
+    gap: 8px;
+  }
+  /* Ocultar badge "Abarrotes San Juan" — ocupa demasiado en móvil */
+  .nav-brand-badge { display: none; }
+  /* Buscador siempre visible y usable */
+  .nav-search-wrap { max-width: 100%; }
+  .search-trigger { padding: 8px; }
+  /* Botón de carrito más compacto */
+  .cart-btn { padding: 8px 12px; font-size: .8rem; gap: 6px; }
+  /* Botón de login más compacto */
+  .nav-icon-btn { padding: 7px 10px; font-size: .75rem; }
+
+  /* ── OFERTAS DE LA SEMANA ── */
+  .ofertas-section { padding: 60px 16px; }
+  .ofertas-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .oferta-card img { height: 120px; }
+  .oferta-info { padding: 10px; }
+  .oferta-info h4 { font-size: .8rem; }
+  .oferta-info p { font-size: .72rem; margin-bottom: 8px; }
+  .oferta-add { font-size: .72rem; padding: 6px 12px; }
+
+  /* ── CARRITO — botones siempre visibles ── */
+  .cart-drawer { width: 100vw; }
+  .cart-drawer-footer { padding: 12px 14px 16px; }
+  .cart-drawer-ctas {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .btn-pdf, .btn-whatsapp {
+    width: 100%;
+    justify-content: center;
+    padding: 13px;
+    font-size: .85rem;
+  }
+  .cart-total-row { font-size: .8rem; }
+  .cart-total-main { font-size: 1rem; }
+
+  /* ── HERO ── */
+  .hero { padding-top: 80px; }
+
+  /* ── PASILLOS / CARRUSEL ── */
+  .pasillos-section { padding: 60px 16px; }
+
+  /* ── SECCIÓN GENERAL ── */
+  .section-title { font-size: clamp(1.4rem, 6vw, 2rem); }
+}
