@@ -914,9 +914,15 @@ function renderCarrito() {
     `).join('');
   }
 
-  const sub = carrito.reduce((a, i) => a + i.precio * i.qty, 0);
+  const sub    = carrito.reduce((a, i) => a + i.precio * i.qty, 0);
+  const envio  = sub >= META_ENVIO ? 0 : (sub === 0 ? 0 : 30);
+  const iva    = Math.round(sub * 0.16);
+  const total  = sub + envio + iva;
+
   document.getElementById('cartSubtotal').innerText = '$' + sub;
-  document.getElementById('cartTotal').innerText    = '$' + sub;
+  document.getElementById('cartEnvio').innerText    = envio === 0 && sub > 0 ? '🎉 Gratis' : (sub === 0 ? '$0' : '$30');
+  document.getElementById('cartIva').innerText      = '$' + iva;
+  document.getElementById('cartTotal').innerText    = '$' + total;
 
   // Actualizar contador del drawer
   const totalItems = carrito.reduce((a, i) => a + i.qty, 0);
@@ -963,8 +969,14 @@ function enviarWhatsApp() {
   const cliente = usuarioActual ? `Cliente: *${usuarioActual.nombre}*\n` : '';
   let msg = `🛒 *Pedido ${NOMBRE_TIENDA}*\n${cliente}\n`;
   carrito.forEach(i => msg += `• ${i.nombre} × ${i.qty} = $${i.precio * i.qty}\n`);
-  const total = carrito.reduce((a, i) => a + i.precio * i.qty, 0);
-  msg += `\n*Total: $${total}*\n📍 Por favor confirme disponibilidad y envío.`;
+  const sub   = carrito.reduce((a, i) => a + i.precio * i.qty, 0);
+  const envio = sub >= 200 ? 0 : 30;
+  const iva   = Math.round(sub * 0.16);
+  const total = sub + envio + iva;
+  msg += `\n📦 Productos: $${sub}`;
+  msg += `\n🚚 Envío: ${envio === 0 ? 'Gratis 🎉' : '$' + envio}`;
+  msg += `\n🧾 IVA (16%): $${iva}`;
+  msg += `\n*💰 Total: $${total}*\n📍 Por favor confirme disponibilidad y envío.`;
   const num = usuarioActual ? '52' + usuarioActual.telefono : WHATSAPP_TIENDA;
   window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');
 }
@@ -1014,14 +1026,30 @@ function generarPDF() {
     y += (lines.length * 4) + 2;
   });
 
-  // Total
+  // Desglose de totales
   y += 2; doc.line(5, y, ancho - 5, y); y += 5;
-  const total = carrito.reduce((a, i) => a + i.precio * i.qty, 0);
+  const sub   = carrito.reduce((a, i) => a + i.precio * i.qty, 0);
+  const envio = sub >= 200 ? 0 : 30;
+  const iva   = Math.round(sub * 0.16);
+  const total = sub + envio + iva;
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(60, 60, 60);
+  doc.text('Productos:', 6, y);
+  doc.text(`$${sub}`, ancho - 6, y, { align: 'right' }); y += 5;
+  doc.text('Envio:', 6, y);
+  doc.text(envio === 0 ? 'Gratis' : `$${envio}`, ancho - 6, y, { align: 'right' }); y += 5;
+  doc.text('IVA (16%):', 6, y);
+  doc.text(`$${iva}`, ancho - 6, y, { align: 'right' }); y += 5;
+
+  doc.line(5, y, ancho - 5, y); y += 5;
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(10);
+  doc.setTextColor(30, 30, 30);
   doc.text('TOTAL:', 6, y);
   doc.setTextColor(30, 84, 55);
-  doc.text(`$${total}`, 60, y);
+  doc.text(`$${total}`, ancho - 6, y, { align: 'right' });
   y += 8;
 
   // Footer
