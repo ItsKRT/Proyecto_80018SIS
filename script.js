@@ -1133,39 +1133,161 @@ document.addEventListener('mousedown', e => {
 });
 
 // ─── CHATBOT ─────────────────────────────
-const CHATBOT_RESPUESTAS = [
-  { palabras:['hola','buenas','hey','saludos'],           resp:'¡Hola! 👋 Bienvenido a Abarrotes San Juan. ¿En qué puedo ayudarte?' },
-  { palabras:['horario','hora','abren','cierran','abierto'], resp:'🕐 Abrimos de lunes a sábado de 8:00am a 9:00pm. ¡Te esperamos!' },
-  { palabras:['envío','entrega','domicilio','llevan'],     resp:'🚴 Sí, hacemos entregas a domicilio en la colonia. Pedido mínimo $150, costo de envío $30. ¡Gratis en compras +$200!' },
-  { palabras:['precio','costo','cuánto','barato'],        resp:'💰 Tenemos los mejores precios del vecindario. Explora nuestros pasillos o usa el buscador para ver precios exactos.' },
-  { palabras:['oferta','descuento','promoción','sale'],   resp:'🔥 ¡Tenemos ofertas increíbles! Consulta la sección "Ofertas de la Semana" justo abajo del hero.' },
-  { palabras:['whatsapp','pedir','pedido','orden'],       resp:'📱 Puedes hacer tu pedido directamente desde el carrito con el botón de WhatsApp, o escríbenos al +52 55 0000 0000.' },
-  { palabras:['pago','efectivo','tarjeta','transferencia'],resp:'💳 Aceptamos efectivo, transferencia y pago por WhatsApp Pay. ¡Próximamente tarjeta en línea!' },
-  { palabras:['bebida','refresco','agua','jugo'],         resp:'🥤 Tenemos todo en bebidas: refrescos, agua, jugos, energizantes y café. Revisa el pasillo de Bebidas.' },
-  { palabras:['snack','botana','papas','galleta'],        resp:'🍿 Gran variedad de botanas: Sabritas, Doritos, Oreo, Ruffles y más. ¡Revisa el pasillo de Snacks!' },
-  { palabras:['leche','yogurt','queso','lácteo'],         resp:'🥛 Contamos con leche, yogurt, queso, mantequilla y crema de las mejores marcas.' },
-  { palabras:['mascota','perro','gato','alimento animal'],resp:'🐾 Tenemos croquetas, arena para gatos y snacks para mascotas. Revisa el pasillo de Mascotas.' },
-  { palabras:['lucha','máscara','mascara','vikingo','penta','mistico','místico','bandido','dominik','luchador','camisa','ring','aaa','cmll','wwe'], resp:'🎭 ¡Fuego puro! Tenemos la sección **Lucha Libre 2026** con la sangre nueva que está rompiendo el ring: Hijo del Vikingo (AAA), Penta Zero Miedo (WWE), Místico (CMLL Top 10), Bandido (Campeón ROH) y Dominik Mysterio. Máscaras, camisas y coleccionables edición 2026. ¡Busca el pasillo de Lucha Libre!' },
-  { palabras:['gracias','thank','ok','perfecto'],         resp:'¡Con gusto! ¿Necesitas algo más? 😊' },
-  { palabras:['pdf','ticket','recibo','comprobante'],     resp:'📄 Sí, puedes generar tu ticket en PDF desde el carrito. Solo haz clic en "Ticket PDF" al momento de revisar tu pedido.' },
-  { palabras:['login','sesion','cuenta','registrar'],     resp:'👤 Puedes iniciar sesión con tu nombre y número de WhatsApp. Haz clic en "Entrar" en la parte superior derecha.' },
-];
-const SUGERENCIAS = ['¿Tienen entrega a domicilio?', 'Ver ofertas', '¿Cuáles son sus horarios?', '¿Cómo pago mi pedido?'];
+// ═══════════════════════════════════════════════════════
+//  CHATBOT CON GROQ IA — Abarrotes San Juan
+// ═══════════════════════════════════════════════════════
 
+const GROQ_MODEL = 'llama3-8b-8192';
+
+const SYSTEM_PROMPT = `Eres el asistente virtual de Abarrotes San Juan, una tienda de abarrotes en México.
+Tu única función es responder preguntas relacionadas con la tienda: productos, precios, categorías, horarios, entregas, formas de pago y todo lo relacionado con el negocio.
+
+PRODUCTOS DISPONIBLES (por categoría):
+- Bebidas: Agua Bonafont 1.5L, Agua Ciel 500ml x6, Coca-Cola 2L, Coca-Cola Zero 600ml, Gatorade, Jugo Del Valle 1L, Jugo Jumex Mango 1L, Pepsi 2L, Red Bull 250ml, Sangría Señorial, Sprite 1.5L, Té Lipton Durazno 500ml
+- Snacks: Barcel Chips Habanero, Cacahuates Enchilados, Cacahuates Japoneses, Cheetos Flamin Hot, Doritos Flamin Hot, Doritos Nacho, Gomitas Ricolino 200g, Palomitas Boing Caramelo, Ruffles Queso, Sabritas Adobadas, Sabritas Clásicas, Takis Fuego
+- Lácteos: Crema Lala 200ml, Crema Ácida Nestlé, Jocoque Lala, Queso Crema Philadelphia, Queso Manchego Lala, Queso Oaxaca 400g, Queso Panela 400g, Yogurt Danone, Yogurt Griego Fage, Yoplait Fresa
+- Limpieza: Ariel Líquido/Polvo, Axion, Cloralex, Desinfectante Pinol 1L, Downy 1.8L, Escoba, Esponja Scotch-Brite, Fabuloso 1L, Papel Higiénico Elite x12, Papel Higiénico Regio x4, Toallas Kirkland, Trapero
+- Enlatados: Atún Dolores/Herdez, Champiñones La Costeña, Chiles Chipotle, Chícharos Herdez, Durazno en Almíbar, Elote Del Fuerte, Frijoles Bayos Herdez, Frijoles Isadora, Piña Del Monte, Sardinas Calmex, Sopa Campbell
+- Panadería: Bolillos Frescos x6, Conchas Marinela x6, Cuernos Bimbo x4, Donas Bimbo x6, Galletas Marías Gamesa, Gansitos Marinela x3, Pan Bimbo Blanco/Integral, Pan Árabe Pita x6, Roles de Canela, Submarinos Marinela, Tostadas Charras x40
+- Carnes Frías: Chorizo San Manuel, Jamón FUD 200g, Jamón de Pavo Zwan, Pastrami Zwan, Pepperoni San Rafael, Salchicha FUD x8, Salchicha Hot Dog x10, Tocino Bud 200g
+- Salud Natural: Almendras 200g, Avena Quaker, Café Dolca/Nescafé, Chía Orgánica, Granola Natural/Chocolate, Proteína Whey, Té Manzanilla/Verde, Tortillas Maíz/Harina, Vitamina C 500mg
+- Mascotas: Croquetas Pedigree/Whiskas/Pro Plan/Purina, Arena para gato, Alimento húmedo, Premios, Shampoo para perro
+- Lucha Libre/WWE: Máscaras Rey Fenix, Camisas Vikingo/Penta/Místico/Bandido/Dominik, WWE 2K26 varias ediciones, Figuras, Pósters, Tazas
+- Dragon Ball: Figuras S.H.Figuarts Goku/Vegeta/Gohan/Broly/Goku Black, Tamashii Effects
+
+INFORMACIÓN DE LA TIENDA:
+- Horario: Lunes a Sábado 8:00am - 9:00pm
+- Entregas a domicilio en la colonia, mínimo $150, envío $30 (gratis en compras +$200)
+- Pagos: efectivo, transferencia, WhatsApp Pay
+- Pedidos por WhatsApp: +52 55 0000 0000
+- Tickets PDF disponibles desde el carrito
+
+REGLAS ESTRICTAS:
+1. SOLO responde preguntas relacionadas con Abarrotes San Juan y sus productos/servicios.
+2. Si te preguntan algo que no tiene que ver con la tienda (política, chistes, código, temas externos, etc.), responde EXACTAMENTE: "Solo puedo ayudarte con información sobre Abarrotes San Juan 🛒 ¿Tienes alguna pregunta sobre nuestros productos, precios u horarios?"
+3. Sé amable, conciso y usa algún emoji ocasionalmente.
+4. No inventes precios exactos; di que pueden variar y que revisen los pasillos.
+5. Responde siempre en español.`;
+
+const SUGERENCIAS = [
+  '¿Tienen entrega a domicilio?',
+  '¿Qué bebidas tienen?',
+  '¿Cuáles son sus horarios?',
+  '¿Cómo hago mi pedido?'
+];
+
+let groqApiKey = '';
+let chatHistorial = [];
+let enviandoMensaje = false;
+
+// ── INIT ──────────────────────────────────────────────
+(function initChatbot() {
+  const savedKey = localStorage.getItem('sj_groq_key');
+  if (savedKey) groqApiKey = savedKey;
+})();
+
+// ── TOGGLE ────────────────────────────────────────────
 function toggleChatbot() {
   chatbotAbierto = !chatbotAbierto;
   const win = document.getElementById('chatbotWindow');
   win.classList.toggle('open', chatbotAbierto);
   document.getElementById('chatbotBadge').style.display = chatbotAbierto ? 'none' : 'flex';
-  if (chatbotAbierto && document.getElementById('chatbotMessages').childElementCount === 0) {
-    setTimeout(() => {
-      agregarMensajeBot('¡Hola! 👋 Soy el asistente de **Abarrotes San Juan**. ¿En qué puedo ayudarte hoy?');
-      renderSugerencias();
-    }, 300);
+  if (chatbotAbierto) {
+    if (groqApiKey) {
+      mostrarPantallaChat();
+      if (document.getElementById('chatbotMessages').childElementCount === 0) {
+        setTimeout(() => {
+          agregarMensajeBot('¡Hola! 👋 Soy el asistente de **Abarrotes San Juan** con IA. Puedo ayudarte con productos, precios, horarios y más. ¿En qué te ayudo?');
+          renderSugerencias();
+        }, 300);
+      }
+    } else {
+      mostrarPantallaKey();
+    }
   }
 }
 
-function agregarMensajeBot(texto) {
+// ── PANTALLAS ─────────────────────────────────────────
+function mostrarPantallaKey() {
+  document.getElementById('chatScreenKey').style.display = 'flex';
+  document.getElementById('chatScreenChat').style.display = 'none';
+  setTimeout(() => document.getElementById('groqApiKeyInput')?.focus(), 200);
+}
+
+function mostrarPantallaChat() {
+  document.getElementById('chatScreenKey').style.display = 'none';
+  document.getElementById('chatScreenChat').style.display = 'flex';
+  setTimeout(() => document.getElementById('chatbotInput')?.focus(), 200);
+}
+
+function cambiarApiKey() {
+  groqApiKey = '';
+  localStorage.removeItem('sj_groq_key');
+  mostrarPantallaKey();
+  document.getElementById('groqApiKeyInput').value = '';
+}
+
+// ── ACTIVAR GROQ ──────────────────────────────────────
+async function activarGroq() {
+  const input = document.getElementById('groqApiKeyInput');
+  const key = input.value.trim();
+  if (!key) {
+    input.classList.add('chat-key-input--error');
+    setTimeout(() => input.classList.remove('chat-key-input--error'), 1000);
+    return;
+  }
+  const btn = document.querySelector('.chat-key-btn');
+  btn.textContent = 'Verificando...';
+  btn.disabled = true;
+
+  const ok = await verificarKeyGroq(key);
+  if (ok) {
+    groqApiKey = key;
+    localStorage.setItem('sj_groq_key', key);
+    chatHistorial = [];
+    mostrarPantallaChat();
+    setTimeout(() => {
+      agregarMensajeBot('¡Hola! 👋 Soy el asistente de **Abarrotes San Juan** con IA. Puedo ayudarte con productos, precios, horarios y más. ¿En qué te ayudo?');
+      renderSugerencias();
+    }, 300);
+  } else {
+    input.classList.add('chat-key-input--error');
+    input.value = '';
+    input.placeholder = 'API Key inválida, intenta de nuevo';
+    setTimeout(() => {
+      input.classList.remove('chat-key-input--error');
+      input.placeholder = 'gsk_xxxxxxxxxxxxxxxxxxxx';
+    }, 2500);
+  }
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Activar asistente';
+  btn.disabled = false;
+}
+
+async function verificarKeyGroq(key) {
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+      body: JSON.stringify({ model: GROQ_MODEL, max_tokens: 5, messages: [{ role: 'user', content: 'hola' }] })
+    });
+    return res.ok;
+  } catch { return false; }
+}
+
+function toggleVerApiKey() {
+  const input = document.getElementById('groqApiKeyInput');
+  const icon = document.getElementById('eyeIcon');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  } else {
+    input.type = 'password';
+    icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  }
+}
+
+// ── MENSAJES ──────────────────────────────────────────
+function agregarMensajeBot(texto, esError = false) {
   const msgs = document.getElementById('chatbotMessages');
   const typing = document.createElement('div');
   typing.className = 'chat-msg bot';
@@ -1173,10 +1295,10 @@ function agregarMensajeBot(texto) {
   msgs.appendChild(typing);
   msgs.scrollTop = msgs.scrollHeight;
   setTimeout(() => {
-    typing.className = 'chat-msg bot';
+    typing.className = 'chat-msg bot' + (esError ? ' chat-msg--error' : '');
     typing.innerHTML = texto.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     msgs.scrollTop = msgs.scrollHeight;
-  }, 700);
+  }, 600);
 }
 
 function agregarMensajeUser(texto) {
@@ -1186,6 +1308,21 @@ function agregarMensajeUser(texto) {
   div.textContent = texto;
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
+}
+
+function mostrarTypingIndicator() {
+  const msgs = document.getElementById('chatbotMessages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg bot';
+  div.id = 'typingIndicator';
+  div.innerHTML = `<div class="chat-typing"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function quitarTypingIndicator() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
 }
 
 function renderSugerencias() {
@@ -1200,22 +1337,69 @@ function usarSugerencia(txt) {
   enviarMensaje();
 }
 
-function enviarMensaje() {
+// ── ENVIAR MENSAJE ────────────────────────────────────
+async function enviarMensaje() {
+  if (enviandoMensaje) return;
   const input = document.getElementById('chatbotInput');
   const txt = input.value.trim();
   if (!txt) return;
+
   agregarMensajeUser(txt);
   input.value = '';
   document.getElementById('chatbotSuggestions').innerHTML = '';
+  enviandoMensaje = true;
+  const sendBtn = document.getElementById('chatSendBtn');
+  if (sendBtn) sendBtn.disabled = true;
 
-  const lower = txt.toLowerCase();
-  const match = CHATBOT_RESPUESTAS.find(r => r.palabras.some(p => lower.includes(p)));
-  const resp = match
-    ? match.resp
-    : '🤔 No estoy seguro de eso. Puedes contactarnos directamente por WhatsApp al **+52 55 0000 0000** o explorar nuestros pasillos.';
+  chatHistorial.push({ role: 'user', content: txt });
+  if (chatHistorial.length > 10) chatHistorial = chatHistorial.slice(-10);
 
-  setTimeout(() => agregarMensajeBot(resp), 400);
+  mostrarTypingIndicator();
+
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${groqApiKey}` },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        max_tokens: 300,
+        temperature: 0.4,
+        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...chatHistorial]
+      })
+    });
+
+    quitarTypingIndicator();
+
+    if (!res.ok) {
+      if (res.status === 401) {
+        groqApiKey = '';
+        localStorage.removeItem('sj_groq_key');
+        agregarMensajeBot('⚠️ Tu API Key ya no es válida. Por favor ingresa una nueva.', true);
+        setTimeout(() => mostrarPantallaKey(), 2000);
+      } else {
+        agregarMensajeBot('⚠️ Problema de conexión. Intenta de nuevo en un momento.', true);
+      }
+    } else {
+      const data = await res.json();
+      const respuesta = data.choices?.[0]?.message?.content || 'No pude generar una respuesta, intenta de nuevo.';
+      chatHistorial.push({ role: 'assistant', content: respuesta });
+      const msgs = document.getElementById('chatbotMessages');
+      const div = document.createElement('div');
+      div.className = 'chat-msg bot';
+      div.innerHTML = respuesta.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      msgs.appendChild(div);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+  } catch {
+    quitarTypingIndicator();
+    agregarMensajeBot('⚠️ Sin conexión. Revisa tu internet e intenta de nuevo.', true);
+  }
+
+  enviandoMensaje = false;
+  if (sendBtn) sendBtn.disabled = false;
+  input.focus();
 }
+
 
 // ─── INTERSECTION OBSERVER (optimizado) ──
 const revealEls = document.querySelectorAll('.card,.pasillo-card,.opcion-card,.oferta-card');
@@ -1281,14 +1465,6 @@ function agregarAlCarrito() {
   animarContador();
   lanzarConfetti();
 }
-
-// ─── CHATBOT RESPUESTAS EXTRA ─────────────
-// (ya inicializado arriba, solo añadimos al array en runtime)
-CHATBOT_RESPUESTAS.push(
-  { palabras:['wwe 2k26','2k26','videojuego','juego','cm punk','ps5','xbox','switch'], resp:'🎮 ¡Sí tenemos WWE 2K26! Salió el 13 de marzo 2026 con CM Punk de portada y +400 luchadores. Disponible en PS5, Xbox Series X|S y Nintendo Switch 2. ¡Busca el pasillo de WWE 2K26!' },
-  { palabras:['dragon ball','goku','vegeta','figuarts','figura','sh figuarts','coleccionable','bandai'], resp:'🐉 ¡Kamehameha! Tenemos S.H. Figuarts Dragon Ball: Goku "Kind-hearted Saiyan" 2026 con cuerpo 4.0, SSJ Goku "Warrior of Rage", Vegeta DAIMA, Bardock y más. ¡Pura colección de primera!' },
-  { palabras:['modo oscuro','oscuro','dark','claro','tema'], resp:'🌙 Puedes cambiar entre modo oscuro y claro con el botón de luna 🌙 en la esquina superior derecha del menú.' }
-);
 
 // ─── INIT ────────────────────────────────
 generarOfertas();
