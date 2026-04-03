@@ -3,7 +3,7 @@
 ============================================ */
 
 // ─── CONFIG ───────────────────────────────
-const WHATSAPP_TIENDA = '5215500000000'; // ← Cambia aquí tu número (sin +, sin espacios)
+const WHATSAPP_TIENDA = '525585853424'; // ← Cambia aquí tu número (sin +, sin espacios)
 const NOMBRE_TIENDA   = 'Abarrotes San Juan';
 
 // ─── ESTADO GLOBAL ────────────────────────
