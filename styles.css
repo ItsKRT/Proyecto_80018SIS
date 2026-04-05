@@ -637,9 +637,19 @@ nav.scrolled{padding:8px 32px;background:rgba(248,244,235,.98);box-shadow:0 4px 
 
 /* ===== LUCHA LIBRE ===== */
 .lucha-banner{position:relative;padding:100px 60px;background:var(--g900);overflow:hidden;}
-.lucha-bg-pattern,.lucha-bg-fire{position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(93,191,137,.04) 0px,rgba(93,191,137,.04) 2px,transparent 2px,transparent 20px),repeating-linear-gradient(-45deg,rgba(93,191,137,.04) 0px,rgba(93,191,137,.04) 2px,transparent 2px,transparent 20px);}
-.lucha-bg-pattern::after,.lucha-bg-fire::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(58,158,106,.15),transparent 60%);}
-.lucha-content,.lucha-inner{position:relative;z-index:1;display:flex;align-items:center;gap:60px;max-width:1200px;margin
+.lucha-bg-pattern{position:absolute;inset:0;background-image:repeating-linear-gradient(45deg,rgba(93,191,137,.04) 0px,rgba(93,191,137,.04) 2px,transparent 2px,transparent 20px),repeating-linear-gradient(-45deg,rgba(93,191,137,.04) 0px,rgba(93,191,137,.04) 2px,transparent 2px,transparent 20px);}
+.lucha-bg-pattern::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(58,158,106,.15),transparent 60%);}
+.lucha-content{position:relative;z-index:1;display:flex;align-items:center;gap:60px;max-width:1200px;margin:0 auto;flex-wrap:wrap;}
+.lucha-left{flex:1;min-width:300px;}
+.lucha-tag{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:var(--g400);font-weight:700;display:block;margin-bottom:18px;}
+.lucha-title{font-family:var(--font-d);font-size:clamp(2.5rem,5vw,4.5rem);font-weight:900;color:var(--cream);line-height:1;margin-bottom:18px;letter-spacing:-.02em;}
+.lucha-title span{color:var(--g400);display:block;text-shadow:0 0 40px rgba(93,191,137,.4);}
+.lucha-sub{color:rgba(248,244,235,.6);font-family:var(--font-s);font-size:1.1rem;line-height:1.7;margin-bottom:28px;}
+.lucha-badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px;}
+.lucha-badges span{background:rgba(93,191,137,.12);border:1px solid rgba(93,191,137,.25);color:var(--g300);padding:7px 16px;border-radius:50px;font-size:.8rem;font-weight:600;}
+.lucha-cta{display:inline-block;background:var(--g400);color:var(--g900);padding:14px 32px;border-radius:50px;font-family:var(--font-d);font-size:.82rem;font-weight:700;text-decoration:none;letter-spacing:.05em;transition:all .3s var(--ease);}
+.lucha-cta:hover{background:var(--g300);transform:translateY(-3px);box-shadow:0 12px 30px rgba(93,191,137,.4);}
+.lucha-right{flex:1;min-width:300px;}
 .lucha-mask-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:end;}
 .lucha-mask-card{background:rgba(255,255,255,.05);border:1px solid rgba(93,191,137,.15);border-radius:18px;overflow:hidden;cursor:pointer;transition:all .4s var(--ease);text-align:center;}
 .lucha-mask-card:hover{transform:translateY(-10px);border-color:var(--g400);box-shadow:0 20px 50px rgba(13,43,30,.5);}
@@ -2215,23 +2225,7 @@ body.dark .pv-finalizar-btn:hover {
   .pasillo-view-body { flex-direction: column; }
 }
 
-/* ============================================
-   FIX SIDEBAR — sticky dentro de pasillo-view
-============================================ */
-
-/* El scroll debe ocurrir en pasillo-view-body, no en pasillo-view */
-.pasillo-view {
-  overflow-y: hidden !important;
-}
-.pasillo-view-body {
-  overflow-y: auto;
-  height: calc(100vh - 70px); /* altura = pantalla menos el header fijo del pasillo */
-}
-
-/* El sidebar ahora sí puede ser sticky dentro del body scrollable */
-.pv-sidebar {
-  position: sticky;
-  top: 0;             /* relativo al scroll de pasillo-view-body */
-  height: calc(100vh - 70px);
-  align-self: flex-start;
-}
+/* FIX SIDEBAR STICKY */
+.pasillo-view { overflow-y: hidden !important; }
+.pasillo-view-body { overflow-y: auto; height: calc(100vh - 70px); }
+.pv-sidebar { position: sticky; top: 0; height: calc(100vh - 70px); align-self: flex-start; }
