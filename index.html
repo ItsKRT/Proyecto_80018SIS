@@ -1,1 +1,869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abarrotes San Juan — Tienda en línea</title>
+<link rel="icon" type="image/png" href="img/sj.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<!-- ============ SPLASH / ANUNCIO INICIAL ============ -->
+<div class="splash" id="splash">
+  <div class="splash-bg"></div>
+  <div class="splash-content">
+    <div class="splash-badge">✦ NOVEDAD ✦</div>
+    <h1 class="splash-title">¡Bienvenido a<br><span>San Juan¡</span></h1>
+    <p class="splash-sub">Ahora con pedidos en línea, entrega a domicilio y pago por WhatsApp</p>
+    <div class="splash-offers">
+      <div class="splash-offer-card">
+        <span class="offer-emoji">🥤</span>
+        <strong>Bebidas 2x1</strong>
+        <small>Solo esta semana</small>
+      </div>
+      <div class="splash-offer-card featured">
+        <span class="offer-emoji">🛒</span>
+        <strong>Envío GRATIS</strong>
+        <small>En compras +$200</small>
+      </div>
+      <div class="splash-offer-card">
+        <span class="offer-emoji">🎁</span>
+        <strong>Puntos extra</strong>
+        <small>Por cada compra</small>
+      </div>
+    </div>
+    <button class="splash-btn" onclick="cerrarSplash()">Entrar a la tienda →</button>
+    <button class="splash-skip" onclick="cerrarSplash()">Omitir</button>
+  </div>
+</div>
+
+<!-- ============ NAVBAR — NMHP Layout ============ -->
+<!-- Izquierda: Usuario + Carrito | Centro: Logo + Links | Derecha: San Juan badge + Buscador icono -->
+<nav id="navbar">
+
+  <!-- LADO IZQUIERDO: Usuario + Carrito -->
+  <div class="nav-left">
+    <div class="user-btn-wrap" id="userBtnWrap">
+      <button class="nav-icon-btn" onclick="toggleUserMenu()" id="loginBtn" title="Mi cuenta">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span id="loginLabel">Entrar</span>
+      </button>
+      <button class="nav-avatar-btn" onclick="toggleUserMenu()" id="navAvatarBtn" title="Mi cuenta" style="display:none">
+        <div class="nav-avatar-circle" id="navAvatarCircle">?</div>
+      </button>
+      <!-- MENÚ FLOTANTE USUARIO -->
+      <div class="user-menu" id="userMenu">
+        <div id="userMenuGuest">
+          <div class="user-menu-header-guest">
+            <div class="user-menu-icon-big">◈</div>
+            <p>Inicia sesión para ver tu información y pedidos</p>
+          </div>
+          <div class="login-form" style="padding:0 0 4px;">
+            <div class="input-group">
+              <label>Nombre</label>
+              <input type="text" id="loginNombre" placeholder="Ej: María García">
+            </div>
+            <div class="input-group">
+              <label>WhatsApp</label>
+              <div class="phone-input">
+                <span class="phone-prefix">+52</span>
+                <input type="tel" id="loginTelefono" placeholder="55 1234 5678" maxlength="10">
+              </div>
+            </div>
+            <button class="btn-primary btn-full" onclick="iniciarSesion()">Conectar con WhatsApp</button>
+          </div>
+        </div>
+        <div id="userMenuLogged" style="display:none">
+          <div class="user-menu-profile">
+            <div class="user-avatar-wrap" onclick="document.getElementById('avatarInput').click()" title="Cambiar foto">
+              <div class="user-menu-avatar" id="userAvatar">?</div>
+              <div class="avatar-edit-overlay">📷</div>
+              <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="cambiarFotoPerfil(this)">
+            </div>
+            <div class="user-menu-info">
+              <strong id="userMenuNombre">—</strong>
+              <span id="userMenuTel">—</span>
+              <small class="avatar-hint">Toca la foto para cambiarla</small>
+            </div>
+          </div>
+          <div class="user-menu-divider"></div>
+          <div class="user-menu-stats">
+            <div class="user-stat"><span id="userMenuItems">0</span><small>en carrito</small></div>
+            <div class="user-stat-sep"></div>
+            <div class="user-stat"><span id="userMenuTotal">$0</span><small>total</small></div>
+          </div>
+          <div class="user-menu-divider"></div>
+          <div class="user-menu-actions">
+            <button class="user-menu-btn" onclick="abrirCarrito();cerrarUserMenu()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+              Ver mi carrito
+            </button>
+            <button class="user-menu-btn" onclick="generarPDF();cerrarUserMenu()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Descargar ticket PDF
+            </button>
+            <button class="user-menu-btn" onclick="enviarWhatsApp();cerrarUserMenu()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.115 1.522 5.85L.057 23.867a.5.5 0 00.614.613l6.079-1.456A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.792 9.792 0 01-5.017-1.378l-.36-.213-3.712.89.917-3.638-.234-.375A9.795 9.795 0 012.182 12C2.182 6.574 6.574 2.182 12 2.182S21.818 6.574 21.818 12 17.426 21.818 12 21.818z"/></svg>
+              Enviar pedido por WhatsApp
+            </button>
+          </div>
+          <div class="user-menu-divider"></div>
+          <button class="user-menu-btn-logout" onclick="cerrarSesion()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Cerrar sesión
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARRITO - posición izquierda según NMHP -->
+    <div class="carrito-icono" onclick="abrirCarrito()">
+      <div class="cart-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span id="contadorCarrito">0</span>
+      </div>
+    </div>
+
+    <!-- DARK MODE -->
+    <button class="nav-icon-btn dark-toggle" id="darkModeBtn" onclick="toggleDarkMode()" title="Modo oscuro">🌙</button>
+  </div>
+
+  <!-- CENTRO: Logo + Links -->
+  <div class="nav-center">
+    <div class="nav-logo" onclick="irArriba()" style="cursor:pointer;">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">San Juan</span>
+    </div>
+    <div class="nav-links">
+      <a href="#inicio" class="nav-link">Inicio</a>
+      <a href="#ofertas" class="nav-link">Ofertas</a>
+      <a href="#videoBanner" class="nav-link nav-link-neon" onclick="event.preventDefault();document.getElementById('videoBanner').scrollIntoView({behavior:'smooth'});setTimeout(abrirVideoModal,600)">▶ Conócenos</a>
+      <div class="dropdown">
+        <a href="#servicio" class="nav-link">Pasillos <span class="arrow">↓</span></a>
+        <div class="dropdown-content">
+          <a href="#pasillos">🥤 Bebidas</a>
+          <a href="#pasillos">🍿 Snacks</a>
+          <a href="#pasillos">🥛 Lácteos</a>
+          <a href="#pasillos">🧹 Limpieza</a>
+          <a href="#pasillos">🥫 Enlatados</a>
+          <a href="#pasillos">🍞 Panadería</a>
+          <a href="#pasillos">🥩 Carnes Frías</a>
+          <a href="#pasillos">🌿 Salud Natural</a>
+          <a href="#pasillos">🐾 Mascotas</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LADO DERECHO: Badge San Juan + Buscador icono -->
+  <div class="nav-right">
+    <div class="nav-brand-badge">
+      <span class="brand-badge-icon">◈</span>
+      <span class="brand-badge-text">Abarrotes San Juan</span>
+    </div>
+
+    <!-- BUSCADOR como icono con expansión al click/hover -->
+    <div class="nav-search-wrap" id="navSearchWrap">
+      <div class="search-trigger" id="searchTrigger" onclick="abrirBuscador()">
+        <svg class="search-trigger-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <div class="search-expand" id="searchExpand">
+        <div class="search-box">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="searchInput" placeholder="Buscar productos..." oninput="buscarProductos(this.value)" onkeydown="if(event.key==='Escape')cerrarBusqueda()">
+          <button class="search-clear" id="searchClear" onclick="limpiarBusqueda()">✕</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="inicio" onclick="expandHero()">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <!-- Partículas flotantes NMHP -->
+  <div class="hero-particle p1"></div>
+  <div class="hero-particle p2"></div>
+  <div class="hero-particle p3"></div>
+  <div class="hero-particle p4"></div>
+  <div class="hero-content">
+    <div class="hero-badge">✦ Desde 1995 · Tu tienda de confianza ✦</div>
+    <h1 class="hero-title">
+      <span class="title-line">Abarrotes</span>
+      <span class="title-line accent">San Juan</span>
+    </h1>
+    <p class="hero-sub">Calidad y confianza en cada producto</p>
+    <div class="hero-stats">
+      <div class="stat"><strong>+500</strong><span>productos</span></div>
+      <div class="stat-sep">|</div>
+      <div class="stat"><strong>30 min</strong><span>entrega</span></div>
+      <div class="stat-sep">|</div>
+      <div class="stat"><strong>9 pasillos</strong><span>categorías</span></div>
+    </div>
+    <!-- CTA guiado NMHP con flecha verde neón -->
+    <div class="hero-cta-nmhp">
+      <a href="#carruselPasillos" class="hero-cta-btn" onclick="event.stopPropagation();setTimeout(()=>{document.getElementById('carruselPasillos').scrollIntoView({behavior:'smooth'})},50)">
+        <span>Ver todos los pasillos</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#ofertas" class="hero-cta-btn-outline" onclick="event.stopPropagation()">
+        🔥 Ver ofertas
+      </a>
+    </div>
+    <div class="hero-cta"><span class="cta-text">Haz clic para explorar</span><div class="cta-arrow">↓</div></div>
+  </div>
+  <div class="hero-scroll-hint">scroll</div>
+</section>
+
+<div class="fullscreen" id="heroFullscreen" onclick="closeHero()">
+  <div class="fullscreen-inner">
+    <img src="Gemini_Generated_Image_zeih6ezeih6ezeih.png" alt="Abarrotes San Juan">
+    <p class="fullscreen-close">← Cerrar</p>
+  </div>
+</div>
+
+<!-- LED -->
+<div class="led-container">
+  <div class="led-label">NOVEDADES</div>
+  <div class="led-track-wrap">
+    <div class="led-track">
+      <div class="led-text">✦ ¡Bebidas 2x1 esta semana! &nbsp;&nbsp; ◈ Envío gratis en compras +$200 &nbsp;&nbsp; ✦ Productos frescos diariamente &nbsp;&nbsp; ◈ Pedidos por WhatsApp 24/7 &nbsp;&nbsp; ✦ ¡Nuevos productos en Panadería! &nbsp;&nbsp; ◈ Descuentos en Limpieza &nbsp;&nbsp;</div>
+      <div class="led-text">✦ ¡Bebidas 2x1 esta semana! &nbsp;&nbsp; ◈ Envío gratis en compras +$200 &nbsp;&nbsp; ✦ Productos frescos diariamente &nbsp;&nbsp; ◈ Pedidos por WhatsApp 24/7 &nbsp;&nbsp; ✦ ¡Nuevos productos en Panadería! &nbsp;&nbsp; ◈ Descuentos en Limpieza &nbsp;&nbsp;</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ GUÍA VISUAL NMHP - ACCESOS RÁPIDOS ============ -->
+<section class="nmhp-quickaccess" id="quickAccess">
+  <div class="nmhp-qa-inner">
+    <div class="nmhp-qa-title">¿Qué buscas hoy?</div>
+    <div class="nmhp-qa-grid">
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('bebidas')">
+        <span class="nmhp-qa-emoji">🥤</span>
+        <span>Bebidas</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('snacks')">
+        <span class="nmhp-qa-emoji">🍿</span>
+        <span>Snacks</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('lacteos')">
+        <span class="nmhp-qa-emoji">🥛</span>
+        <span>Lácteos</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('limpieza')">
+        <span class="nmhp-qa-emoji">🧹</span>
+        <span>Limpieza</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('enlatados')">
+        <span class="nmhp-qa-emoji">🥫</span>
+        <span>Enlatados</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('panaderia')">
+        <span class="nmhp-qa-emoji">🍞</span>
+        <span>Panadería</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('carnesfrías')">
+        <span class="nmhp-qa-emoji">🥩</span>
+        <span>Carnes Frías</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('salud')">
+        <span class="nmhp-qa-emoji">🌿</span>
+        <span>Salud</span>
+      </button>
+      <button class="nmhp-qa-card" onclick="scrollToAndOpen('mascotas')">
+        <span class="nmhp-qa-emoji">🐾</span>
+        <span>Mascotas</span>
+      </button>
+      <button class="nmhp-qa-card nmhp-qa-special" onclick="scrollToAndOpen('luchaLibre')">
+        <span class="nmhp-qa-emoji">🎭</span>
+        <span>Lucha Libre</span>
+      </button>
+      <button class="nmhp-qa-card nmhp-qa-special" onclick="scrollToAndOpen('wwe2k26')">
+        <span class="nmhp-qa-emoji">🎮</span>
+        <span>WWE 2K26</span>
+      </button>
+      <button class="nmhp-qa-card nmhp-qa-special" onclick="scrollToAndOpen('dragonball')">
+        <span class="nmhp-qa-emoji">🐉</span>
+        <span>Dragon Ball</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OFERTAS DESTACADAS ============ -->
+<section class="ofertas-section" id="ofertas">
+  <div class="section-header">
+    <div class="section-tag">— Promociones activas</div>
+    <h2 class="section-title">Ofertas de la Semana</h2>
+  </div>
+  <div class="ofertas-grid" id="ofertasGrid"></div>
+</section>
+
+<!-- ============ CONOCENOS ============ -->
+<section class="conocenos" id="conocenos">
+  <div class="conocenos-inner">
+    <div class="section-tag">— Nuestra historia</div>
+    <h2 class="section-title" onclick="toggleMenu()">
+      Conócenos <span class="toggle-icon" id="toggleIcon">+</span>
+    </h2>
+    <div class="opciones" id="menu">
+      <div class="opcion-card" onclick="showPopup('mision')"><div class="opcion-num">01</div><div class="opcion-info"><h4>Misión</h4><p>Lo que nos mueve cada día</p></div><span class="opcion-arrow">→</span></div>
+      <div class="opcion-card" onclick="showPopup('vision')"><div class="opcion-num">02</div><div class="opcion-info"><h4>Visión</h4><p>Hacia dónde vamos</p></div><span class="opcion-arrow">→</span></div>
+      <div class="opcion-card" onclick="showPopup('objetivo')"><div class="opcion-num">03</div><div class="opcion-info"><h4>Objetivo</h4><p>Nuestro compromiso contigo</p></div><span class="opcion-arrow">→</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CARRUSEL PASILLOS RÁPIDO ============ -->
+<section class="carrusel-pasillos-section" id="carruselPasillos">
+  <div class="carrusel-header">
+    <div class="section-tag">— Acceso rápido</div>
+    <h2 class="section-title">Explorar Pasillos</h2>
+  </div>
+  <div class="carrusel-scroll-wrap" id="carruselScrollWrap">
+    <div class="carrusel-track" id="carruselTrack"></div>
+  </div>
+  <div class="carrusel-scrollbar-wrap">
+    <div class="carrusel-scrollbar-track" id="carruselScrollTrack">
+      <div class="carrusel-scrollbar-thumb" id="carruselScrollThumb"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VISTA PASILLO INDIVIDUAL ============ -->
+<div class="pasillo-view" id="pasilloView">
+
+  <!-- HEADER -->
+  <div class="pasillo-view-header">
+    <button class="pasillo-view-back" onclick="cerrarPasilloView()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Volver
+    </button>
+    <div class="pasillo-view-title" id="pasilloViewTitle">Pasillo</div>
+    <div class="pasillo-view-count" id="pasilloViewCount"></div>
+  </div>
+
+  <!-- BODY: sidebar + grid -->
+  <div class="pasillo-view-body">
+
+    <!-- PANEL LATERAL -->
+    <aside class="pv-sidebar" id="pvSidebar">
+
+      <div class="pv-sidebar-label">Otros pasillos</div>
+      <nav class="pv-sidebar-nav" id="pvSidebarNav"></nav>
+
+      <!-- MINI RESUMEN CARRITO -->
+      <div class="pv-sidebar-resumen" id="pvSidebarResumen">
+        <div class="pv-resumen-title">🛒 Tu carrito</div>
+        <div class="pv-resumen-row">
+          <span>Subtotal</span>
+          <span id="pvSubtotal">$0</span>
+        </div>
+        <!-- Barra envío gratis -->
+        <div class="pv-envio-wrap" id="pvEnvioWrap">
+          <div class="pv-envio-text" id="pvEnvioText">
+            <span>🚚 Te faltan <strong id="pvEnvioFalta">$200</strong> para envío gratis</span>
+          </div>
+          <div class="pv-envio-track">
+            <div class="pv-envio-fill" id="pvEnvioFill" style="width:0%"></div>
+          </div>
+        </div>
+        <button class="pv-finalizar-btn" onclick="cerrarPasilloView();abrirCarrito()">
+          Finalizar compra →
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- GRID DE PRODUCTOS -->
+    <div class="pasillo-view-grid" id="pasilloViewGrid"></div>
+
+  </div>
+</div>
+
+<button class="pv-fab-back" id="pvFabBack" onclick="cerrarPasilloView()" title="Volver al menú principal">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+  <span class="pv-fab-label">Menú principal</span>
+</button>
+
+<!-- ============ SERVICIOS ============ -->
+<section class="premium-section" id="servicio">
+  <div class="premium-header"><div class="section-tag">— Por qué elegirnos</div><h2 class="section-title">Nuestro Servicio</h2></div>
+  <div class="premium-layout">
+    <div class="side-cards">
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400" alt="Entrega" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">01</span><h3>Entrega Rápida</h3><p>Pedidos a domicilio en menos de 30 minutos.</p><div class="card-line"></div></div></div>
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400" alt="WhatsApp" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">02</span><h3>Pedidos WhatsApp</h3><p>Ordena fácil y rápido desde tu celular.</p><div class="card-line"></div></div></div>
+    </div>
+    <div class="main-feature">
+      <span class="main-feature-tag">✦ Nuestra promesa</span>
+      <h2 class="main-feature-title">Calidad que se<br>siente en cada compra</h2>
+      <p>Más de 30 años llevando lo mejor de la tienda a tu hogar. Productos frescos, precios justos y atención personalizada.</p>
+      <a href="#pasillos" class="main-feature-cta">Explorar productos →</a>
+    </div>
+    <div class="side-cards">
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=400" alt="Frescura" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">03</span><h3>Productos Frescos</h3><p>Surtido diario con los mejores proveedores locales.</p><div class="card-line"></div></div></div>
+      <div class="card"><div class="card-img-wrap"><img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400" alt="Pago" loading="lazy"><div class="card-img-overlay"></div></div><div class="card-content"><span class="card-num">04</span><h3>Pago Fácil</h3><p>Efectivo, transferencia o WhatsApp Pay.</p><div class="card-line"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BANNER VIDEO + REDES ============ -->
+<section class="video-banner" id="videoBanner">
+  <div class="video-banner-bg"></div>
+  <div class="video-banner-inner">
+
+    <!-- CÍRCULOS REDES SOCIALES IZQUIERDA -->
+    <div class="social-column">
+      <div class="social-label">Síguenos</div>
+      <a href="https://www.facebook.com" target="_blank" rel="noopener" class="social-circle facebook" title="Facebook">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+      </a>
+      <a href="https://www.twitter.com" target="_blank" rel="noopener" class="social-circle twitter" title="Twitter / X">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="https://www.instagram.com" target="_blank" rel="noopener" class="social-circle instagram" title="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="https://www.tiktok.com" target="_blank" rel="noopener" class="social-circle tiktok" title="TikTok">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+      </a>
+    </div>
+
+    <!-- VIDEO CENTRAL -->
+    <div class="video-container">
+      <div class="video-header-badge">▶ CONOCE SAN JUAN</div>
+      <div class="video-frame-wrap video-thumb-wrap" onclick="abrirVideoModal()">
+        <img
+          class="video-thumb"
+          src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=800"
+          alt="Conoce Abarrotes San Juan"
+        >
+        <div class="video-play-btn">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </div>
+        <div class="video-neon-border"></div>
+      </div>
+      <p class="video-caption">Tu tienda de abarrotes de confianza desde 1995 · Calidad en cada pasillo</p>
+    </div>
+
+    <!-- CÍRCULOS REDES SOCIALES DERECHA (espejo) -->
+    <div class="social-column social-column-right">
+      <div class="social-label">Encuéntranos</div>
+      <a href="https://www.facebook.com" target="_blank" rel="noopener" class="social-circle facebook" title="Facebook">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+      </a>
+      <a href="https://www.twitter.com" target="_blank" rel="noopener" class="social-circle twitter" title="Twitter / X">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="https://www.instagram.com" target="_blank" rel="noopener" class="social-circle instagram" title="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="https://www.tiktok.com" target="_blank" rel="noopener" class="social-circle tiktok" title="TikTok">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ PASILLOS ============ -->
+<section class="pasillos-section" id="pasillos">
+  <div class="pasillos-header">
+    <div class="section-tag">— Explorar categorías</div>
+    <h2 class="section-title">Nuestros Pasillos</h2>
+    <div class="filtros-categorias" id="filtrosCategorias"></div>
+  </div>
+  <div class="pasillos-grid" id="contenedorPasillos"></div>
+</section>
+
+<!-- ============ LUCHA LIBRE BANNER ============ -->
+<section class="lucha-banner" id="luchaBanner">
+  <div class="lucha-bg-fire"></div>
+  <div class="lucha-inner">
+    <div class="lucha-left">
+      <span class="lucha-tag">🎭 LUCHA LIBRE · COLECCIÓN 2026 🎭</span>
+      <h2 class="lucha-title">La Nueva Era<br><span>del Ring</span></h2>
+      <p class="lucha-sub">Hijo del Vikingo, Penta Zero Miedo, Místico y más. Máscaras, camisas y coleccionables edición 2026. La sangre nueva que está cambiando el mundo de la lucha libre.</p>
+      <div class="lucha-tags">
+        <span>🦅 Vikingo · AAA Rey del Aire</span>
+        <span>💀 Penta · WWE Zero Miedo</span>
+        <span>✨ Místico · CMLL</span>
+        <span>🏆 Bandido · ROH Champ</span>
+      </div>
+      <a href="#pasillos" class="lucha-cta" onclick="setTimeout(()=>{document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector('[onclick*=luchaLibre]');if(btn){btn.classList.add('active');aplicarFiltro('luchaLibre',btn);}},100)">
+        Ver colección completa →
+      </a>
+    </div>
+    <div class="lucha-right">
+      <div class="lucha-mask-grid">
+        <div class="lucha-mask-card" onclick="abrirModal('Máscara Bandido ROH Champ',220,270,'Réplica oficial máscara negra y dorada del most wanted Bandido.','https://i.etsystatic.com/15460636/r/il/c53666/3920765830/il_794xN.3920765830_soyy.jpg','Lucha Libre 2026')">
+          <img src="https://i.etsystatic.com/15460636/r/il/c53666/3920765830/il_794xN.3920765830_soyy.jpg" alt="Bandido" loading="lazy">
+          <span>Bandido ROH</span>
+          <strong>$220 <del style="font-size:.7rem;opacity:.5;font-weight:400">$270</del></strong>
+        </div>
+        <div class="lucha-mask-card featured" onclick="abrirModal('Máscara Penta Zero Miedo',240,null,'Réplica máscara WM 41 Penta Zero Miedo. Ahora en WWE. ¡Zero Miedo!','https://i.etsystatic.com/15460636/r/il/7ff2d0/6943465808/il_794xN.6943465808_5thw.jpg','Lucha Libre 2026')">
+          <img src="https://i.etsystatic.com/15460636/r/il/7ff2d0/6943465808/il_794xN.6943465808_5thw.jpg" alt="Penta" loading="lazy">
+          <span>Penta Zero Miedo Edicion Wrestlemania 41</span>
+          <strong>$240 ⚡</strong>
+        </div>
+        <div class="lucha-mask-card" onclick="abrirModal('Máscara Místico Edicion Dark & Golden',210,null,'Réplica máscara Místico negra y dorada. Campeón Grand Prix 2025.','https://i.etsystatic.com/15460636/r/il/be01c0/3787898033/il_794xN.3787898033_cuhs.jpg','Lucha Libre 2026')">
+          <img src="https://i.etsystatic.com/15460636/r/il/be01c0/3787898033/il_794xN.3787898033_cuhs.jpg" alt="Místico" loading="lazy">
+          <span>Místico</span>
+          <strong>$210</strong>
+        </div>
+      </div>
+      <div class="lucha-fighters-strip">
+        <span>🔥 Vikingo · WWE AAA</span>
+        <span>⚡ Penta · WWE</span>
+        <span>✦ Místico · CMLL Top 10</span>
+        <span>🏆 Bandido · ROH Champ</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WWE 2K26 BANNER ============ -->
+<section class="wwe-banner">
+  <div class="wwe-bg"></div>
+  <div class="wwe-content">
+    <div class="wwe-left">
+      <span class="wwe-tag">⚡ YA DISPONIBLE · 13 MARZO 2026 ⚡</span>
+      <h2 class="wwe-title">WWE<br><span>2K26</span></h2>
+      <p class="wwe-sub">CM Punk en la portada. +400 luchadores. Nuevos modos: I Quit, Inferno, Dumpster. La franquicia más grande del wrestling regresa más brutal que nunca.</p>
+      <div class="wwe-editions">
+        <div class="wwe-ed"><strong>Standard</strong><span>$1,399</span></div>
+        <div class="wwe-ed hot"><strong>King of Kings</strong><span>$1,999</span></div>
+        <div class="wwe-ed"><strong>Attitude Era</strong><span>$2,599</span></div>
+        <div class="wwe-ed"><strong>Mon. Night War</strong><span>$2,999</span></div>
+      </div>
+      <div class="wwe-platforms">
+        <span>PS5</span><span>Xbox S|X</span><span>PC Steam</span><span>Switch 2</span>
+      </div>
+      <a href="#pasillos" class="wwe-cta" onclick="setTimeout(()=>{document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector('[onclick*=wwe2k26]');if(btn){btn.classList.add('active');aplicarFiltro('wwe2k26',btn);}},100)">
+        Comprar ahora →
+      </a>
+    </div>
+    <div class="wwe-right">
+      <div class="wwe-cover-wrap">
+        <img src="https://assets.2k.com/1a6ngf98576c/7FH3LtoKMvnjI01P2eDT4X/8d67be3e99321723c420ffe233967b1d/WWE_Mobile_Cover-Superstar_Standard_1920x1080__1_.jpg" alt="WWE 2K26" class="wwe-cover" loading="lazy">
+        <div class="wwe-cover-badge">CM PUNK<br><small>Cover Star</small></div>
+        <div class="wwe-roster-strip">
+          <span>The Rock</span><span>Triple H</span><span>Penta</span><span>Rey Fénix</span><span>CM Punk</span><span>Seth Rollins</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DRAGON BALL BANNER ============ -->
+<section class="db-banner">
+  <div class="db-bg-aura"></div>
+  <div class="db-content">
+    <div class="db-left">
+      <span class="db-tag">✦ TAMASHII NATIONS · BANDAI 2026 ✦</span>
+      <h2 class="db-title">S.H. Figuarts<br><span>Dragon Ball</span></h2>
+      <p class="db-sub">Las figuras articuladas más detalladas del mundo. Cuerpo 4.0, rostros y manos intercambiables. Colección 2026 con los lanzamientos más recientes de Tamashii Nations.</p>
+      <div class="db-badges">
+        <span>⚡ Cuerpo 4.0 nuevo</span>
+        <span>🎌 Tamashii Nations</span>
+        <span>🏆 Ediciones exclusivas</span>
+        <span>🐉 40 Aniversario</span>
+      </div>
+      <a href="#pasillos" class="db-cta" onclick="setTimeout(()=>{document.querySelectorAll('.filtro-btn').forEach(b=>b.classList.remove('active'));const btn=document.querySelector('[onclick*=dragonball]');if(btn){btn.classList.add('active');aplicarFiltro('dragonball',btn);}},100)">
+        Ver colección completa →
+      </a>
+    </div>
+    <div class="db-right">
+      <div class="db-figures-grid">
+        <div class="db-fig-card" onclick="abrirModal('SHF Goku Kind-hearted Saiyan',950,null,'NUEVO 2026. Son Goku base saga Androides/Cell. Cuerpo 4.0. 2 cabelleras + rostros intercambiables.','https://p-bandai.com/files/seller-products/FSP0002842001/1IalnL2NS8WmJMJ5fJBW.webp?w=1440&h=1440','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-orange"></div>
+          <img src="https://p-bandai.com/files/seller-products/FSP0002842001/1IalnL2NS8WmJMJ5fJBW.webp?w=1440&h=1440" alt="Goku" loading="lazy">
+          <div class="db-fig-info"><span>Son Goku</span><small>Kind-hearted Saiyan · 2026</small><strong>$950</strong></div>
+        </div>
+        <div class="db-fig-card featured" onclick="abrirModal('SHF SSJ Goku Warrior of Rage',1150,1350,'NUEVO 2026. Goku SSJ primera transformación vs Freezer en Namek. Cuerpo 4.0.','https://p-bandai.com/files/seller-products/FSP0002658001/YYZPDAh3Uof8RH4Ede9c.webp?w=1440&h=1440','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-gold"></div>
+          <div class="db-new-badge">🔥 NUEVO</div>
+          <img src="https://p-bandai.com/files/seller-products/FSP0002658001/YYZPDAh3Uof8RH4Ede9c.webp?w=1440&h=1440" alt="SSJ Goku" loading="lazy">
+          <div class="db-fig-info"><span>SSJ Goku</span><small>Warrior of Rage · 4.0</small><strong>$1,150 <del>$1,350</del></strong></div>
+        </div>
+        <div class="db-fig-card" onclick="abrirModal('SHF Vegeta SSj Ver.',980,null,'Vegeta versión Dragon Ball Z 14cm. Tamashii Nations.','https://p-bandai.com/files/seller-products/FSP0002871001/vzryuOimyZ4rxVeBgXx5.webp?w=1440&h=1440','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-blue"></div>
+          <img src="https://p-bandai.com/files/seller-products/FSP0002871001/vzryuOimyZ4rxVeBgXx5.webp?w=1440&h=1440" alt="Vegeta" loading="lazy">
+          <div class="db-fig-info"><span>SSJ Vegeta</span><small>Dangerous Pride</small><strong>$980</strong></div>
+        </div>
+        <div class="db-fig-card" onclick="abrirModal('SHF Bardock DBZ',1100,1299,'Bardock El padre de Goku Dragon Ball Z. Nuevo lanzamiento.','https://p-bandai.com/files/seller-products/FSP0002661001/KWvWpRNc9gbKsccWrlPb.webp','S.H. Figuarts Dragon Ball')">
+          <div class="db-fig-glow glow-orange"></div>
+          <img src="https://p-bandai.com/files/seller-products/FSP0002661001/KWvWpRNc9gbKsccWrlPb.webp" alt="Bardock" loading="lazy">
+          <div class="db-fig-info"><span>Bardock</span><small>Dragon Ball Z</small><strong>$1,100</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MODAL PRODUCTO ============ -->
+<div class="modal" id="modalProducto">
+  <div class="modal-content">
+    <button class="modal-close" onclick="cerrarModal()">✕</button>
+    <div class="modal-img-wrap"><img id="modal-img" alt="Producto"></div>
+    <div class="modal-body">
+      <div class="modal-tag" id="modal-tag">Categoría</div>
+      <h3 id="modal-nombre"></h3>
+      <p id="modal-desc"></p>
+      <div class="modal-price-row">
+        <div>
+          <span class="modal-precio-old" id="modal-precio-old"></span>
+          <h4 id="modal-precio"></h4>
+        </div>
+        <div class="modal-qty">
+          <button onclick="cambiarCantidadModal(-1)">−</button>
+          <span id="modal-qty-val">1</span>
+          <button onclick="cambiarCantidadModal(1)">+</button>
+        </div>
+      </div>
+      <button class="btn-primary btn-full" onclick="agregarAlCarrito()">Agregar al carrito ✦</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DRAWER CARRITO ============ -->
+<!-- Overlay oscuro -->
+<div class="cart-overlay" id="cartOverlay" onclick="cerrarCarrito()"></div>
+
+<!-- Panel drawer lateral -->
+<div class="cart-drawer" id="cartDrawer">
+
+  <!-- Header del drawer -->
+  <div class="cart-drawer-header">
+    <div class="cart-drawer-title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Tu Carrito
+      <span class="cart-drawer-count" id="cartDrawerCount">0</span>
+    </div>
+    <div class="cart-drawer-actions-top">
+      <button class="cart-drawer-vaciar" onclick="vaciarCarrito()" title="Vaciar carrito">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+        Vaciar
+      </button>
+      <button class="cart-drawer-close" onclick="cerrarCarrito()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Barra de progreso envío gratis -->
+  <div class="cart-shipping-bar" id="cartShippingBar">
+    <div class="shipping-bar-text" id="shippingBarText">
+      <span>🚚 Te faltan <strong id="shippingFaltante">$200</strong> para envío gratis</span>
+    </div>
+    <div class="shipping-bar-track">
+      <div class="shipping-bar-fill" id="shippingBarFill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- Lista de productos -->
+  <div class="cart-drawer-body" id="listaCarrito"></div>
+
+  <!-- Footer con total y CTAs -->
+  <div class="cart-drawer-footer">
+    <div class="cart-drawer-totals">
+      <div class="cart-total-row"><span>Productos</span><span id="cartSubtotal">$0</span></div>
+      <div class="cart-total-row"><span>Envío</span><span id="cartEnvio">$30</span></div>
+      <div class="cart-total-row"><span>IVA (16%)</span><span id="cartIva">$0</span></div>
+      <div class="cart-total-divider"></div>
+      <div class="cart-total-row cart-total-main"><span>Total</span><span id="cartTotal">$0</span></div>
+    </div>
+    <div class="cart-drawer-ctas">
+      <button class="btn-pdf" onclick="generarPDF()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Ticket PDF
+      </button>
+      <button class="btn-whatsapp" onclick="enviarWhatsApp()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.115 1.522 5.85L.057 23.867a.5.5 0 00.614.613l6.079-1.456A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.792 9.792 0 01-5.017-1.378l-.36-.213-3.712.89.917-3.638-.234-.375A9.795 9.795 0 012.182 12C2.182 6.574 6.574 2.182 12 2.182S21.818 6.574 21.818 12 17.426 21.818 12 21.818z"/></svg>
+        Pedir por WhatsApp
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============ MODAL LOGIN ============ -->
+<div class="modal" id="modalLogin">
+  <div class="modal-content modal-login">
+    <button class="modal-close" onclick="cerrarLogin()">✕</button>
+    <div class="login-icon">◈</div>
+    <h3>Iniciar Sesión</h3>
+    <p>Ingresa tu número de WhatsApp para recibir tu orden de compra</p>
+    <div class="login-form">
+      <div class="input-group">
+        <label>Nombre</label>
+        <input type="text" id="loginNombreModal" placeholder="Ej: María García">
+      </div>
+      <div class="input-group">
+        <label>Número WhatsApp</label>
+        <div class="phone-input">
+          <span class="phone-prefix">+52</span>
+          <input type="tel" id="loginTelefonoModal" placeholder="55 1234 5678" maxlength="10">
+        </div>
+      </div>
+      <button class="btn-primary btn-full" onclick="iniciarSesion()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.553 4.115 1.522 5.85L.057 23.867a.5.5 0 00.614.613l6.079-1.456A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.792 9.792 0 01-5.017-1.378l-.36-.213-3.712.89.917-3.638-.234-.375A9.795 9.795 0 012.182 12C2.182 6.574 6.574 2.182 12 2.182S21.818 6.574 21.818 12 17.426 21.818 12 21.818z"/></svg>
+        Conectar con WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ POPUP INFO ============ -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <button class="modal-close" onclick="closePopup()">✕</button>
+    <div class="popup-icon">◈</div>
+    <h3 id="popup-title"></h3>
+    <p id="popup-text"></p>
+  </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast"></div>
+
+<!-- ============ CHATBOT ============ -->
+<!-- ═══════════════════════════════════════
+     CHATBOT FAB
+════════════════════════════════════════ -->
+<div class="chatbot-fab" id="chatbotFab" onclick="toggleChatbot()">
+  <div class="chatbot-fab-icon">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.7 1.26 5.12 3.28 6.8L4 22l4.5-2.12C9.59 20.28 10.77 20.5 12 20.5c5.52 0 10-4.03 10-9s-4.48-9-10-9z"/></svg>
+  </div>
+  <div class="chatbot-fab-pulse"></div>
+  <span class="chatbot-badge" id="chatbotBadge">IA</span>
+</div>
+
+<!-- ═══════════════════════════════════════
+     CHATBOT WINDOW
+════════════════════════════════════════ -->
+<div class="chatbot-window" id="chatbotWindow">
+
+  <!-- PANTALLA: PEDIR API KEY -->
+  <div class="chat-screen" id="chatScreenKey">
+    <div class="chat-key-header">
+      <button onclick="toggleChatbot()" class="chatbot-close-x">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="chat-key-body">
+      <div class="chat-key-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.7 1.26 5.12 3.28 6.8L4 22l4.5-2.12C9.59 20.28 10.77 20.5 12 20.5c5.52 0 10-4.03 10-9s-4.48-9-10-9z"/></svg>
+      </div>
+      <h3 class="chat-key-title">Asistente Juanito <span>IA</span></h3>
+      <p class="chat-key-desc">Pregúntale cualquier cosa sobre nuestra tienda, productos, precios y más. Necesitas una API Key de Groq para activarlo.</p>
+      <div class="chat-key-field-wrap">
+        <label class="chat-key-label">Tu API Key de Groq</label>
+        <div class="chat-key-input-row">
+          <input type="password" id="groqApiKeyInput" class="chat-key-input" placeholder="gsk_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" onkeydown="if(event.key==='Enter')activarGroq()">
+          <button class="chat-key-toggle" onclick="toggleVerApiKey()" title="Mostrar/ocultar key" id="keyToggleBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="eyeIcon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <p class="chat-key-privacy">🔒 Tu key solo se guarda en tu navegador, nunca se envía a nuestros servidores.</p>
+      </div>
+      <button class="chat-key-btn" onclick="activarGroq()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        Activar asistente
+      </button>
+      <a href="https://console.groq.com/keys" target="_blank" rel="noopener" class="chat-key-link">
+        ¿No tienes API Key? Consigue una gratis →
+      </a>
+    </div>
+  </div>
+
+  <!-- PANTALLA: CHAT ACTIVO -->
+  <div class="chat-screen" id="chatScreenChat" style="display:none;flex-direction:column;">
+    <div class="chatbot-header">
+      <div class="chatbot-avatar-wrap">
+        <div class="chatbot-avatar-dot"></div>
+        <span>SJ</span>
+      </div>
+      <div class="chatbot-info">
+        <strong>Asistente Juanito</strong>
+        <span id="chatStatusLabel">● Con IA activa</span>
+      </div>
+      <div class="chatbot-header-actions">
+        <button onclick="cambiarApiKey()" class="chat-header-btn" title="Cambiar API Key">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button onclick="toggleChatbot()" class="chat-header-btn" title="Cerrar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chatbot-messages" id="chatbotMessages"></div>
+    <div class="chatbot-suggestions" id="chatbotSuggestions"></div>
+    <div class="chatbot-input-area">
+      <input type="text" id="chatbotInput" placeholder="Pregúntame sobre la tienda..." onkeydown="if(event.key==='Enter')enviarMensaje()" maxlength="300">
+      <button onclick="enviarMensaje()" class="chatbot-send" id="chatSendBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- VOLVER ARRIBA -->
+<button class="back-to-top" id="backToTop" onclick="irArriba()" title="Volver arriba">↑</button>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo"><span class="logo-icon">◈</span><span>Abarrotes San Juan</span></div>
+      <p>Calidad y confianza desde 1995</p>
+    </div>
+    <div class="footer-links">
+      <h4>Pasillos</h4>
+      <a href="#pasillos">Bebidas · Snacks · Lácteos</a>
+      <a href="#pasillos">Limpieza · Enlatados</a>
+      <a href="#pasillos">Panadería · Carnes Frías</a>
+    </div>
+    <div class="footer-contact">
+      <h4>Contacto</h4>
+      <p>📱 WhatsApp: +52 55 8585 3423</p>
+      <p>🕐 Lun–Sáb: 8am – 9pm</p>
+      <p>📍 Tu colonia, Ciudad</p>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2025 Abarrotes San Juan · Todos los derechos reservados</div>
+</footer>
+
+<script src="script.js"></script>
+<!-- ============ MODAL VIDEO ============ -->
+<div class="modal video-modal" id="modalVideo" onclick="cerrarVideoModal(event)">
+  <div class="video-modal-content">
+    <button class="video-modal-close" onclick="cerrarVideoModal()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <video
+      id="videoModalPlayer"
+      class="video-modal-player"
+      src="https://www.w3schools.com/html/mov_bbb.mp4"
+      controls
+      preload="none"
+    ></video>
+    <p class="video-modal-caption">🛒 Abarrotes San Juan · Tu tienda de confianza desde 1995</p>
+  </div>
+</div>
+
+</body>
+</html>
