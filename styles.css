@@ -2048,25 +2048,22 @@ body.dark .video-modal-player {
 .pasillo-view-body {
   display: flex;
   flex: 1;
-  overflow: hidden;
   min-height: 0;
+  overflow: hidden;
 }
 
 /* ── SIDEBAR ── */
 .pv-sidebar {
-  width: 240px;
+  width: 220px;
   flex-shrink: 0;
   height: 100%;
   overflow-y: auto;
   border-right: 1.5px solid rgba(93,191,137,.25);
-  background: #ffffff;
-  background-color: #ffffff;
+  background: var(--white);
   padding: 20px 0 30px;
   display: flex;
   flex-direction: column;
   gap: 0;
-  z-index: 10;
-  isolation: isolate;
   /* Borde neón sutil */
   box-shadow: 2px 0 18px rgba(93,191,137,.08), inset -1px 0 0 rgba(93,191,137,.15);
 }
@@ -2092,30 +2089,24 @@ body.dark .pv-sidebar-label { color: rgba(255,215,0,.35); border-bottom-color: #
 .pv-sidebar-nav {
   flex: 1;
   overflow-y: auto;
-  padding: 0 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  padding: 0 8px;
 }
 .pv-sidebar-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   width: 100%;
   background: none;
   border: none;
-  padding: 10px 12px;
+  padding: 9px 10px;
   border-radius: 10px;
   cursor: pointer;
   transition: all .25s var(--ease);
   text-align: left;
   color: var(--g800);
-  font-size: .83rem;
+  font-size: .82rem;
   font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex-shrink: 0;
+  margin-bottom: 2px;
 }
 .pv-sidebar-item:hover {
   background: var(--g100);
@@ -2131,15 +2122,12 @@ body.dark .pv-sidebar-item:hover { background: rgba(255,215,0,.06); color: #d4a8
 
 /* ── MINI RESUMEN CARRITO ── */
 .pv-sidebar-resumen {
-  margin: 16px 12px;
+  margin: 14px 10px 0;
   background: var(--g100);
   border: 1.5px solid rgba(93,191,137,.3);
-  border-radius: 16px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  flex-shrink: 0;
+  border-radius: 14px;
+  padding: 14px;
+  /* Neón suave en el borde */
   box-shadow: 0 0 14px rgba(93,191,137,.12), inset 0 0 10px rgba(93,191,137,.04);
 }
 body.dark .pv-sidebar-resumen {
@@ -2149,42 +2137,38 @@ body.dark .pv-sidebar-resumen {
 }
 
 .pv-resumen-title {
-  font-size: .72rem;
+  font-size: .75rem;
   font-weight: 700;
   color: var(--g700);
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(93,191,137,.25);
-  margin: 0;
+  margin-bottom: 10px;
+  letter-spacing: .03em;
 }
 body.dark .pv-resumen-title { color: #d4a820; }
 
 .pv-resumen-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  font-size: .83rem;
+  font-size: .8rem;
   color: var(--g800);
   font-weight: 600;
-  margin: 0;
+  margin-bottom: 10px;
 }
 body.dark .pv-resumen-row { color: rgba(255,215,0,.8); }
 
 /* Barra envío gratis */
-.pv-envio-wrap { display: flex; flex-direction: column; gap: 7px; margin: 0; }
+.pv-envio-wrap { margin-bottom: 12px; }
 .pv-envio-text {
   font-size: .72rem;
   color: var(--sage);
-  line-height: 1.5;
-  margin: 0;
+  margin-bottom: 6px;
+  line-height: 1.4;
 }
 body.dark .pv-envio-text { color: rgba(255,215,0,.45); }
 .pv-envio-free { color: var(--g600); font-weight: 700; }
 body.dark .pv-envio-free { color: #d4a820; }
 
 .pv-envio-track {
-  height: 6px;
+  height: 5px;
   background: var(--sand);
   border-radius: 50px;
   overflow: hidden;
@@ -2205,15 +2189,14 @@ body.dark .pv-envio-fill { background: linear-gradient(90deg, #d4a820, #f0c840);
   background: var(--g700);
   color: white;
   border: none;
-  padding: 12px;
-  border-radius: 12px;
-  font-size: .8rem;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: .78rem;
   font-weight: 700;
   cursor: pointer;
   transition: all .3s var(--ease);
-  letter-spacing: .04em;
+  letter-spacing: .03em;
   box-shadow: 0 4px 12px rgba(26,84,55,.3);
-  margin: 0;
 }
 .pv-finalizar-btn:hover {
   background: var(--g500);
