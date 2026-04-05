@@ -1498,3 +1498,30 @@ generarOfertas();
 generarFiltros();
 generarPasillos();
 generarCarrusel();
+
+// ─── VIDEO MODAL ─────────────────────────
+function abrirVideoModal() {
+  const modal = document.getElementById('modalVideo');
+  const video = document.getElementById('videoModalPlayer');
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  video.play();
+}
+
+function cerrarVideoModal(e) {
+  // Si se hizo click en el overlay (fondo) o en el botón cerrar
+  if (e && e.target !== document.getElementById('modalVideo') && !e.target.closest('.video-modal-close')) return;
+  const modal = document.getElementById('modalVideo');
+  const video = document.getElementById('videoModalPlayer');
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+  video.pause();
+  video.currentTime = 0;
+}
+
+// Cerrar con Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('modalVideo').classList.contains('active')) {
+    cerrarVideoModal({ target: document.getElementById('modalVideo') });
+  }
+});
