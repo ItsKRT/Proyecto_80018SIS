@@ -2060,6 +2060,9 @@ body.dark .video-modal-player {
   overflow-y: auto;
   border-right: 1.5px solid rgba(93,191,137,.25);
   background: var(--white);
+  background-color: #ffffff;
+  z-index: 10;
+  isolation: isolate;
   padding: 20px 0 30px;
   display: flex;
   flex-direction: column;
