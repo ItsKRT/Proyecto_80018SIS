@@ -2224,8 +2224,3 @@ body.dark .pv-finalizar-btn:hover {
   .pv-sidebar { display: none; }
   .pasillo-view-body { flex-direction: column; }
 }
-
-/* FIX SIDEBAR STICKY */
-.pasillo-view { overflow-y: hidden !important; }
-.pasillo-view-body { overflow-y: auto; height: calc(100vh - 70px); }
-.pv-sidebar { position: sticky; top: 0; height: calc(100vh - 70px); align-self: flex-start; }
