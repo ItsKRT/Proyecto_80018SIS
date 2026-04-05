@@ -155,6 +155,22 @@ function abrirPasilloView(pasilloId) {
     grid.appendChild(card);
   });
 
+  // ── SIDEBAR: lista de otros pasillos ──
+  const nav = document.getElementById('pvSidebarNav');
+  if (nav) {
+    nav.innerHTML = PASILLOS.filter(p => p && p.id !== pasilloId).map(p => `
+      <button class="pv-sidebar-item" onclick="abrirPasilloView('${p.id}')">
+        <span class="pv-sidebar-emoji">${p.emoji}</span>
+        <span class="pv-sidebar-name">${p.nombre}</span>
+        ${p.productos.filter(pr => pr.oferta).length > 0
+          ? `<span class="pv-sidebar-badge">🔥</span>` : ''}
+      </button>
+    `).join('');
+  }
+
+  // ── SIDEBAR: mini resumen carrito ──
+  actualizarResumenPV();
+
   // Marcar activo en carrusel
   document.querySelectorAll('.carrusel-item').forEach(el => el.classList.remove('active'));
   const activeItem = document.getElementById(`citem-${pasilloId}`);
@@ -163,8 +179,29 @@ function abrirPasilloView(pasilloId) {
   view.scrollTop = 0;
   view.classList.add('open');
   document.body.style.overflow = 'hidden';
-  // Mostrar FAB con pequeño delay para que entre con la animación del pasillo
   setTimeout(() => { const fab = document.getElementById('pvFabBack'); if (fab) fab.classList.add('visible'); }, 300);
+}
+
+function actualizarResumenPV() {
+  const sub     = carrito.reduce((a, i) => a + i.precio * i.qty, 0);
+  const META    = 200;
+  const subtEl  = document.getElementById('pvSubtotal');
+  const fillEl  = document.getElementById('pvEnvioFill');
+  const textEl  = document.getElementById('pvEnvioText');
+  const faltaEl = document.getElementById('pvEnvioFalta');
+  if (!subtEl) return;
+
+  subtEl.textContent = '$' + sub;
+
+  const pct = Math.min(100, (sub / META) * 100);
+  if (fillEl) fillEl.style.width = pct + '%';
+
+  if (sub >= META) {
+    if (textEl) textEl.innerHTML = '<span class="pv-envio-free">🎉 ¡Envío gratis desbloqueado!</span>';
+  } else {
+    const falta = META - sub;
+    if (textEl) textEl.innerHTML = `<span>🚚 Te faltan <strong id="pvEnvioFalta">$${falta}</strong> para envío gratis</span>`;
+  }
 }
 
 function cerrarPasilloView() {
@@ -1491,6 +1528,7 @@ function agregarAlCarrito() {
   mostrarToast(`✦ ${productoActual.nombre} agregado`);
   animarContador();
   lanzarConfetti();
+  actualizarResumenPV();
 }
 
 // ─── INIT ────────────────────────────────
