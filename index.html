@@ -144,7 +144,7 @@
     <div class="nav-links">
       <a href="#inicio" class="nav-link">Inicio</a>
       <a href="#ofertas" class="nav-link">Ofertas</a>
-      <a href="#videoBanner" class="nav-link nav-link-neon" onclick="event.preventDefault();document.getElementById('videoBanner').scrollIntoView({behavior:'smooth'});setTimeout(abrirVideoModal,600)">▶ Conócenos</a>
+      <a href="#videoBanner" class="nav-link nav-link-neon" onclick="event.preventDefault();document.getElementById('videoBanner').scrollIntoView({behavior:'smooth'})">▶ Conócenos</a>
       <div class="dropdown">
         <a href="#servicio" class="nav-link">Pasillos <span class="arrow">↓</span></a>
         <div class="dropdown-content">
@@ -343,8 +343,6 @@
 
 <!-- ============ VISTA PASILLO INDIVIDUAL ============ -->
 <div class="pasillo-view" id="pasilloView">
-
-  <!-- HEADER -->
   <div class="pasillo-view-header">
     <button class="pasillo-view-back" onclick="cerrarPasilloView()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
@@ -353,43 +351,7 @@
     <div class="pasillo-view-title" id="pasilloViewTitle">Pasillo</div>
     <div class="pasillo-view-count" id="pasilloViewCount"></div>
   </div>
-
-  <!-- BODY: sidebar + grid -->
-  <div class="pasillo-view-body">
-
-    <!-- PANEL LATERAL -->
-    <aside class="pv-sidebar" id="pvSidebar">
-
-      <div class="pv-sidebar-label">Otros pasillos</div>
-      <nav class="pv-sidebar-nav" id="pvSidebarNav"></nav>
-
-      <!-- MINI RESUMEN CARRITO -->
-      <div class="pv-sidebar-resumen" id="pvSidebarResumen">
-        <div class="pv-resumen-title">🛒 Tu carrito</div>
-        <div class="pv-resumen-row">
-          <span>Subtotal</span>
-          <span id="pvSubtotal">$0</span>
-        </div>
-        <!-- Barra envío gratis -->
-        <div class="pv-envio-wrap" id="pvEnvioWrap">
-          <div class="pv-envio-text" id="pvEnvioText">
-            <span>🚚 Te faltan <strong id="pvEnvioFalta">$200</strong> para envío gratis</span>
-          </div>
-          <div class="pv-envio-track">
-            <div class="pv-envio-fill" id="pvEnvioFill" style="width:0%"></div>
-          </div>
-        </div>
-        <button class="pv-finalizar-btn" onclick="cerrarPasilloView();abrirCarrito()">
-          Finalizar compra →
-        </button>
-      </div>
-
-    </aside>
-
-    <!-- GRID DE PRODUCTOS -->
-    <div class="pasillo-view-grid" id="pasilloViewGrid"></div>
-
-  </div>
+  <div class="pasillo-view-grid" id="pasilloViewGrid"></div>
 </div>
 
 <button class="pv-fab-back" id="pvFabBack" onclick="cerrarPasilloView()" title="Volver al menú principal">
