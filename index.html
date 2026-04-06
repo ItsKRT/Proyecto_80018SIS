@@ -350,21 +350,18 @@
     </button>
     <div class="pasillo-view-title" id="pasilloViewTitle">Pasillo</div>
     <div class="pasillo-view-count" id="pasilloViewCount"></div>
+
+    <!-- DROPDOWN CAMBIAR PASILLO -->
+    <div class="pv-dropdown" id="pvDropdown">
+      <button class="pv-dropdown-btn" onclick="togglePasilloDropdown()" id="pvDropdownBtn">
+        <span class="pv-dropdown-icon">🛖</span>
+        Ir a otro pasillo
+        <svg class="pv-dropdown-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="pv-dropdown-menu" id="pvDropdownMenu"></div>
+    </div>
   </div>
   <div class="pasillo-view-grid" id="pasilloViewGrid"></div>
-</div>
-
-<!-- SIDEBAR PASILLOS — elemento fijo independiente -->
-<div class="pv-sidebar" id="pvSidebar">
-  <p class="pv-sidebar-label">Otros pasillos</p>
-  <nav id="pvSidebarNav"></nav>
-  <div class="pv-sidebar-resumen">
-    <div class="pv-resumen-title">🛒 Tu carrito</div>
-    <div class="pv-resumen-row"><span>Subtotal</span><span id="pvSubtotal">$0</span></div>
-    <div class="pv-envio-track"><div class="pv-envio-fill" id="pvEnvioFill" style="width:0%"></div></div>
-    <p class="pv-envio-text" id="pvEnvioText">🚚 Te faltan <strong>$200</strong> para envío gratis</p>
-    <button class="pv-finalizar-btn" onclick="cerrarPasilloView();abrirCarrito()">Finalizar compra →</button>
-  </div>
 </div>
 
 <button class="pv-fab-back" id="pvFabBack" onclick="cerrarPasilloView()" title="Volver al menú principal">
