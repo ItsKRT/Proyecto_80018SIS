@@ -164,53 +164,43 @@ function abrirPasilloView(pasilloId) {
   view.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  // ── SIDEBAR ──
-  const sidebar = document.getElementById('pvSidebar');
-  const nav     = document.getElementById('pvSidebarNav');
-  if (sidebar && nav) {
-    nav.innerHTML = PASILLOS.filter(p => p && p.id !== pasilloId).map(p => `
-      <button class="pv-sidebar-item" onclick="abrirPasilloView('${p.id}')">
-        <span class="pv-sidebar-emoji">${p.emoji}</span>
-        <span class="pv-sidebar-name">${p.nombre}</span>
-        ${p.productos.filter(pr => pr.oferta).length > 0 ? '<span class="pv-sidebar-oferta">🔥</span>' : ''}
-      </button>
-    `).join('');
-    setTimeout(() => {
-      sidebar.classList.add('visible');
-      view.classList.add('sidebar-open');
-    }, 100);
-    actualizarResumenPV();
+  // ── POBLAR DROPDOWN ──
+  const menu = document.getElementById('pvDropdownMenu');
+  if (menu) {
+    menu.innerHTML = PASILLOS.filter(p => p && p.id !== pasilloId).map(p => {
+      const ofertas = p.productos.filter(pr => pr.oferta).length;
+      return `<button class="pv-dropdown-item" onclick="togglePasilloDropdown(false);abrirPasilloView('${p.id}')">
+        <span class="pv-dd-emoji">${p.emoji}</span>
+        <span class="pv-dd-name">${p.nombre}</span>
+        ${ofertas > 0 ? `<span class="pv-dd-badge">🔥 ${ofertas}</span>` : ''}
+      </button>`;
+    }).join('');
   }
+  // Cerrar dropdown si estaba abierto
+  togglePasilloDropdown(false);
 
   setTimeout(() => { const fab = document.getElementById('pvFabBack'); if (fab) fab.classList.add('visible'); }, 300);
 }
 
-function actualizarResumenPV() {
-  const sub    = carrito.reduce((a, i) => a + i.precio * i.qty, 0);
-  const META   = 200;
-  const subtEl = document.getElementById('pvSubtotal');
-  const fillEl = document.getElementById('pvEnvioFill');
-  const textEl = document.getElementById('pvEnvioText');
-  if (!subtEl) return;
-  subtEl.textContent = '$' + sub;
-  if (fillEl) fillEl.style.width = Math.min(100, (sub / META) * 100) + '%';
-  if (textEl) {
-    if (sub >= META) {
-      textEl.innerHTML = '<span class="pv-envio-free">🎉 Envío gratis desbloqueado!</span>';
-    } else {
-      textEl.innerHTML = '🚚 Te faltan <strong>$' + (META - sub) + '</strong> para envío gratis';
-    }
-  }
+function togglePasilloDropdown(force) {
+  const dd = document.getElementById('pvDropdown');
+  if (!dd) return;
+  const isOpen = dd.classList.contains('open');
+  const shouldOpen = force !== undefined ? force : !isOpen;
+  dd.classList.toggle('open', shouldOpen);
 }
 
+// Cerrar dropdown al hacer click fuera
+document.addEventListener('click', e => {
+  const dd = document.getElementById('pvDropdown');
+  if (dd && !dd.contains(e.target)) togglePasilloDropdown(false);
+});
+
 function cerrarPasilloView() {
-  const view    = document.getElementById('pasilloView');
-  const fab     = document.getElementById('pvFabBack');
-  const sidebar = document.getElementById('pvSidebar');
-  if (fab)     fab.classList.remove('visible');
-  if (sidebar) sidebar.classList.remove('visible');
+  const view = document.getElementById('pasilloView');
+  const fab  = document.getElementById('pvFabBack');
+  if (fab) fab.classList.remove('visible');
   view.classList.remove('open');
-  view.classList.remove('sidebar-open');
   document.body.style.overflow = '';
   document.querySelectorAll('.carrusel-item').forEach(el => el.classList.remove('active'));
 }
@@ -1530,7 +1520,6 @@ function agregarAlCarrito() {
   mostrarToast(`✦ ${productoActual.nombre} agregado`);
   animarContador();
   lanzarConfetti();
-  actualizarResumenPV();
 }
 
 // ─── INIT ────────────────────────────────
