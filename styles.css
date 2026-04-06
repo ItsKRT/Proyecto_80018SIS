@@ -2039,3 +2039,137 @@ body.dark .btn-pdf { background: #1a1400; color: #b8901a; border-color: #2a2000;
 body.dark .video-modal-player {
   box-shadow: 0 30px 80px rgba(0,0,0,.8), 0 0 0 1px rgba(255,215,0,.15);
 }
+
+/* ============================================
+   SIDEBAR DE PASILLOS — FIXED INDEPENDIENTE
+============================================ */
+.pv-sidebar {
+  position: fixed;
+  top: 0;
+  left: -220px; /* oculto por defecto */
+  width: 210px;
+  height: 100vh;
+  z-index: 600; /* encima del pasillo-view (500) */
+  background: var(--white);
+  border-right: 2px solid rgba(93,191,137,.35);
+  box-shadow: 4px 0 24px rgba(93,191,137,.15);
+  display: flex;
+  flex-direction: column;
+  padding: 80px 0 20px; /* 80px para no tapar el header del pasillo */
+  transition: left .45s cubic-bezier(.23,1,.32,1);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.pv-sidebar.visible {
+  left: 0;
+}
+body.dark .pv-sidebar {
+  background: #0c0a00;
+  border-right-color: rgba(255,215,0,.2);
+  box-shadow: 4px 0 24px rgba(255,215,0,.07);
+}
+
+/* Etiqueta */
+.pv-sidebar-label {
+  font-size: .63rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--sage);
+  padding: 0 14px 10px;
+  border-bottom: 1px solid var(--sand);
+  margin: 0 0 6px;
+}
+body.dark .pv-sidebar-label { color: rgba(255,215,0,.4); border-color: #1a1400; }
+
+/* Lista */
+#pvSidebarNav { padding: 4px 8px; flex: 1; }
+
+.pv-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 9px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--g800);
+  text-align: left;
+  transition: background .18s, color .18s, padding-left .18s;
+  margin-bottom: 2px;
+}
+.pv-sidebar-item:hover {
+  background: var(--g100);
+  color: var(--g600);
+  padding-left: 15px;
+}
+body.dark .pv-sidebar-item { color: rgba(255,215,0,.7); }
+body.dark .pv-sidebar-item:hover { background: rgba(255,215,0,.08); color: #d4a820; }
+
+.pv-sidebar-emoji { font-size: .95rem; flex-shrink: 0; }
+.pv-sidebar-name  { flex: 1; }
+.pv-sidebar-oferta { font-size: .68rem; }
+
+/* Resumen carrito */
+.pv-sidebar-resumen {
+  margin: 14px 10px 0;
+  padding: 14px;
+  background: var(--g100);
+  border: 1.5px solid rgba(93,191,137,.4);
+  border-radius: 14px;
+  box-shadow: 0 0 16px rgba(93,191,137,.12);
+  flex-shrink: 0;
+}
+body.dark .pv-sidebar-resumen {
+  background: rgba(255,215,0,.04);
+  border-color: rgba(255,215,0,.2);
+  box-shadow: 0 0 14px rgba(255,215,0,.06);
+}
+
+.pv-resumen-title { font-size: .75rem; font-weight: 700; color: var(--g700); margin-bottom: 8px; }
+body.dark .pv-resumen-title { color: #d4a820; }
+
+.pv-resumen-row { display: flex; justify-content: space-between; font-size: .8rem; font-weight: 600; color: var(--g800); margin-bottom: 10px; }
+body.dark .pv-resumen-row { color: rgba(255,215,0,.85); }
+
+.pv-envio-track { height: 5px; background: var(--sand); border-radius: 50px; overflow: hidden; margin-bottom: 6px; }
+body.dark .pv-envio-track { background: #1a1400; }
+.pv-envio-fill { height: 100%; background: linear-gradient(90deg, var(--g500), var(--g300)); border-radius: 50px; transition: width .5s var(--ease); }
+body.dark .pv-envio-fill { background: linear-gradient(90deg, #d4a820, #f0c840); }
+
+.pv-envio-text { font-size: .7rem; color: var(--sage); line-height: 1.4; margin-bottom: 12px; }
+body.dark .pv-envio-text { color: rgba(255,215,0,.45); }
+.pv-envio-free { color: var(--g600); font-weight: 700; }
+body.dark .pv-envio-free { color: #d4a820; }
+
+.pv-finalizar-btn {
+  width: 100%;
+  background: var(--g700);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: .78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .25s;
+  box-shadow: 0 4px 12px rgba(26,84,55,.3);
+}
+.pv-finalizar-btn:hover { background: var(--g500); transform: translateY(-2px); box-shadow: 0 0 18px rgba(93,191,137,.5); }
+body.dark .pv-finalizar-btn { background: #d4a820; color: #080808; }
+body.dark .pv-finalizar-btn:hover { background: #f0c840; }
+
+/* Empujar el grid para que no quede tapado por el sidebar */
+.pasillo-view.sidebar-open .pasillo-view-grid {
+  padding-left: 230px;
+}
+
+/* Ocultar en pantallas pequeñas */
+@media (max-width: 900px) {
+  .pv-sidebar { display: none !important; }
+  .pasillo-view.sidebar-open .pasillo-view-grid { padding-left: 40px; }
+}
