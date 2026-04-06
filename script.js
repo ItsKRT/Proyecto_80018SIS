@@ -163,15 +163,54 @@ function abrirPasilloView(pasilloId) {
   view.scrollTop = 0;
   view.classList.add('open');
   document.body.style.overflow = 'hidden';
-  // Mostrar FAB con pequeño delay para que entre con la animación del pasillo
+
+  // ── SIDEBAR ──
+  const sidebar = document.getElementById('pvSidebar');
+  const nav     = document.getElementById('pvSidebarNav');
+  if (sidebar && nav) {
+    nav.innerHTML = PASILLOS.filter(p => p && p.id !== pasilloId).map(p => `
+      <button class="pv-sidebar-item" onclick="abrirPasilloView('${p.id}')">
+        <span class="pv-sidebar-emoji">${p.emoji}</span>
+        <span class="pv-sidebar-name">${p.nombre}</span>
+        ${p.productos.filter(pr => pr.oferta).length > 0 ? '<span class="pv-sidebar-oferta">🔥</span>' : ''}
+      </button>
+    `).join('');
+    setTimeout(() => {
+      sidebar.classList.add('visible');
+      view.classList.add('sidebar-open');
+    }, 100);
+    actualizarResumenPV();
+  }
+
   setTimeout(() => { const fab = document.getElementById('pvFabBack'); if (fab) fab.classList.add('visible'); }, 300);
 }
 
+function actualizarResumenPV() {
+  const sub    = carrito.reduce((a, i) => a + i.precio * i.qty, 0);
+  const META   = 200;
+  const subtEl = document.getElementById('pvSubtotal');
+  const fillEl = document.getElementById('pvEnvioFill');
+  const textEl = document.getElementById('pvEnvioText');
+  if (!subtEl) return;
+  subtEl.textContent = '$' + sub;
+  if (fillEl) fillEl.style.width = Math.min(100, (sub / META) * 100) + '%';
+  if (textEl) {
+    if (sub >= META) {
+      textEl.innerHTML = '<span class="pv-envio-free">🎉 Envío gratis desbloqueado!</span>';
+    } else {
+      textEl.innerHTML = '🚚 Te faltan <strong>$' + (META - sub) + '</strong> para envío gratis';
+    }
+  }
+}
+
 function cerrarPasilloView() {
-  const view = document.getElementById('pasilloView');
-  const fab  = document.getElementById('pvFabBack');
-  if (fab) fab.classList.remove('visible');
+  const view    = document.getElementById('pasilloView');
+  const fab     = document.getElementById('pvFabBack');
+  const sidebar = document.getElementById('pvSidebar');
+  if (fab)     fab.classList.remove('visible');
+  if (sidebar) sidebar.classList.remove('visible');
   view.classList.remove('open');
+  view.classList.remove('sidebar-open');
   document.body.style.overflow = '';
   document.querySelectorAll('.carrusel-item').forEach(el => el.classList.remove('active'));
 }
@@ -1491,6 +1530,7 @@ function agregarAlCarrito() {
   mostrarToast(`✦ ${productoActual.nombre} agregado`);
   animarContador();
   lanzarConfetti();
+  actualizarResumenPV();
 }
 
 // ─── INIT ────────────────────────────────
