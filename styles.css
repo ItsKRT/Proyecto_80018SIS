@@ -2167,3 +2167,17 @@ body.dark .pv-dd-badge { background: rgba(255,215,0,.1); color: #d4a820; }
   .pv-dropdown-menu { width: 200px; }
   .pv-dropdown-btn  { padding: 8px 12px; font-size: .75rem; }
 }
+
+/* ── FIX: header siempre visible, dropdown no se corta ── */
+.pasillo-view-header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 20 !important;
+  overflow: visible !important;
+}
+.pv-dropdown-menu {
+  z-index: 9999 !important;
+}
+
+/* Fix contain que rompe sticky */
+.pasillo-view { contain: none !important; }
