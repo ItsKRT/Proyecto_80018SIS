@@ -133,8 +133,10 @@
 
     <!-- DARK MODE -->
     <button class="nav-icon-btn dark-toggle" id="darkModeBtn" onclick="toggleDarkMode()" title="Modo oscuro">🌙</button>
-    <!-- SONIDOS -->
-    <button class="nav-icon-btn sound-toggle" id="soundToggleBtn" onclick="toggleSonidos()" title="Silenciar sonidos">🔊</button>
+    <!-- EFECTOS DE SONIDO -->
+    <button class="nav-icon-btn sound-toggle" id="soundToggleBtn" onclick="toggleSonidos()" title="Silenciar efectos">🔊</button>
+    <!-- MÚSICA AMBIENTAL -->
+    <button class="nav-icon-btn ambient-toggle" id="ambientToggleBtn" onclick="toggleAmbient()" title="Activar música ambiental">🎵</button>
   </div>
 
   <!-- CENTRO: Logo + Links -->
@@ -827,56 +829,24 @@
 
 <!-- ============ MODAL AVISO DE PRIVACIDAD ============ -->
 <div class="privacy-overlay" id="privacyOverlay" onclick="cerrarAvisoPrivacidad(event)">
-  <div class="privacy-modal" id="privacyModal">
+  <div class="privacy-modal">
     <div class="privacy-modal-header">
       <div class="privacy-header-icon">◈</div>
-      <div>
-        <h2 class="privacy-title">Aviso de Privacidad</h2>
-        <p class="privacy-subtitle">Abarrotes San Juan — Conforme a la LFPDPPP</p>
-      </div>
-      <button class="privacy-close-btn" onclick="cerrarAvisoPrivacidad()" title="Cerrar">
+      <div><h2 class="privacy-title">Aviso de Privacidad</h2><p class="privacy-subtitle">Abarrotes San Juan — Conforme a la LFPDPPP</p></div>
+      <button class="privacy-close-btn" onclick="cerrarAvisoPrivacidad()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
     <div class="privacy-modal-body">
-      <section class="privacy-section">
-        <h3>1. Identidad del Responsable</h3>
-        <p><strong>Abarrotes San Juan</strong>, con domicilio en [Calle, Número, Colonia, Ciudad, C.P.], es responsable del tratamiento de sus datos personales conforme a lo establecido en la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP).</p>
-      </section>
-      <section class="privacy-section">
-        <h3>2. Datos Personales que Recabamos</h3>
-        <p>Para llevar a cabo las finalidades descritas en el presente aviso de privacidad, podemos recabar los siguientes datos personales:</p>
-        <ul><li>Nombre completo</li><li>Número de teléfono / WhatsApp</li><li>Dirección de entrega</li><li>Historial de compras y preferencias de productos</li></ul>
-        <p>No recabamos datos personales sensibles.</p>
-      </section>
-      <section class="privacy-section">
-        <h3>3. Finalidades del Tratamiento</h3>
-        <p><strong>Finalidades primarias (necesarias):</strong></p>
-        <ul><li>Procesar y gestionar sus pedidos en línea</li><li>Coordinar la entrega a domicilio</li><li>Enviar confirmaciones de compra por WhatsApp</li><li>Atención a clientes y resolución de dudas</li></ul>
-        <p><strong>Finalidades secundarias (opcionales):</strong></p>
-        <ul><li>Envío de promociones, ofertas y descuentos especiales</li><li>Notificaciones sobre nuevos productos disponibles</li></ul>
-      </section>
-      <section class="privacy-section">
-        <h3>4. Transferencia de Datos</h3>
-        <p>Abarrotes San Juan no comparte, vende ni transfiere sus datos personales a terceros, salvo que sea requerido por autoridad competente conforme a la legislación aplicable.</p>
-      </section>
-      <section class="privacy-section">
-        <h3>5. Derechos ARCO</h3>
-        <p>Usted tiene derecho a <strong>Acceder, Rectificar, Cancelar u Oponerse</strong> al tratamiento de sus datos personales (Derechos ARCO). Para ejercerlos: 📱 WhatsApp: +52 55 8585 3423 · Lun–Sáb 8am – 9pm. Responderemos en un plazo máximo de <strong>20 días hábiles</strong>.</p>
-      </section>
-      <section class="privacy-section">
-        <h3>6. Uso de Cookies y Tecnologías Web</h3>
-        <p>Este sitio puede utilizar almacenamiento local del navegador (<em>localStorage</em>) para guardar su sesión e información del carrito. Esta información no es enviada a ningún servidor externo.</p>
-      </section>
-      <section class="privacy-section">
-        <h3>7. Cambios al Aviso de Privacidad</h3>
-        <p>Abarrotes San Juan se reserva el derecho de modificar el presente aviso en cualquier momento.</p>
-        <p class="privacy-date">Última actualización: Enero 2025</p>
-      </section>
+      <section class="privacy-section"><h3>1. Identidad del Responsable</h3><p><strong>Abarrotes San Juan</strong>, con domicilio en [Calle, Número, Colonia, Ciudad, C.P.], es responsable del tratamiento de sus datos personales conforme a la LFPDPPP.</p></section>
+      <section class="privacy-section"><h3>2. Datos Personales que Recabamos</h3><p>Recabamos: nombre completo, número de teléfono / WhatsApp, dirección de entrega e historial de compras. No recabamos datos personales sensibles.</p></section>
+      <section class="privacy-section"><h3>3. Finalidades del Tratamiento</h3><p><strong>Primarias:</strong> procesar pedidos, coordinar entregas, enviar confirmaciones por WhatsApp y atención a clientes.</p><p><strong>Secundarias:</strong> promociones y notificaciones de nuevos productos. Puede negarse enviándonos un mensaje.</p></section>
+      <section class="privacy-section"><h3>4. Transferencia de Datos</h3><p>No compartimos ni vendemos sus datos a terceros, salvo requerimiento de autoridad competente.</p></section>
+      <section class="privacy-section"><h3>5. Derechos ARCO</h3><p>Puede <strong>Acceder, Rectificar, Cancelar u Oponerse</strong> al tratamiento de sus datos contactándonos: 📱 WhatsApp +52 55 8585 3423 · Lun–Sáb 8am–9pm. Respondemos en máximo <strong>20 días hábiles</strong>.</p></section>
+      <section class="privacy-section"><h3>6. Cookies y Almacenamiento Local</h3><p>Usamos <em>localStorage</em> para guardar su sesión y carrito. Esta información no se envía a servidores externos y permanece en su dispositivo.</p></section>
+      <section class="privacy-section"><h3>7. Cambios al Aviso</h3><p>Nos reservamos el derecho de modificar este aviso en cualquier momento.</p><p class="privacy-date">Última actualización: Enero 2025</p></section>
     </div>
-    <div class="privacy-modal-footer">
-      <button class="privacy-accept-btn" onclick="cerrarAvisoPrivacidad()">Entendido ✓</button>
-    </div>
+    <div class="privacy-modal-footer"><button class="privacy-accept-btn" onclick="cerrarAvisoPrivacidad()">Entendido ✓</button></div>
   </div>
 </div>
 
