@@ -1554,3 +1554,24 @@ document.addEventListener('keydown', e => {
     cerrarVideoModal({ target: document.getElementById('modalVideo') });
   }
 });
+
+/* ============ AVISO DE PRIVACIDAD ============ */
+function abrirAvisoPrivacidad() {
+  const overlay = document.getElementById('privacyOverlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarAvisoPrivacidad(e) {
+  if (e && e.target !== document.getElementById('privacyOverlay') && !e.target.closest('.privacy-close-btn') && !e.target.closest('.privacy-accept-btn')) return;
+  const overlay = document.getElementById('privacyOverlay');
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Cerrar Aviso con Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('privacyOverlay').classList.contains('open')) {
+    cerrarAvisoPrivacidad({ target: document.getElementById('privacyOverlay') });
+  }
+});
