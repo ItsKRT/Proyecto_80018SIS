@@ -23,7 +23,7 @@ const SJ_SOUNDS = (() => {
     if (ctx.state === 'suspended') ctx.resume();
     return ctx;
   }
-  function master(vol = 0.35) {
+  function master(vol = 0.2) {
     const g = getCtx().createGain(); g.gain.value = vol;
     g.connect(getCtx().destination); return g;
   }
@@ -31,7 +31,7 @@ const SJ_SOUNDS = (() => {
   // ── Agregar al carrito — "ka-ching" retro ──
   function addToCart() {
     if (!enabled) return;
-    const ac = getCtx(), m = master(0.4);
+    const ac = getCtx(), m = master(0.2);
     [[880,0,0.08],[1320,0.07,0.14]].forEach(([freq,delay,dur]) => {
       const osc = ac.createOscillator(), env = ac.createGain();
       osc.type = 'triangle'; osc.frequency.setValueAtTime(freq, ac.currentTime+delay);
@@ -47,7 +47,7 @@ const SJ_SOUNDS = (() => {
   // ── Eliminar — "plop" descendente ──
   function removeFromCart() {
     if (!enabled) return;
-    const ac = getCtx(), m = master(0.3), osc = ac.createOscillator(), env = ac.createGain();
+    const ac = getCtx(), m = master(0.2), osc = ac.createOscillator(), env = ac.createGain();
     osc.type='sine'; osc.frequency.setValueAtTime(440,ac.currentTime);
     osc.frequency.exponentialRampToValueAtTime(200,ac.currentTime+0.18);
     env.gain.setValueAtTime(0.6,ac.currentTime);
@@ -58,7 +58,7 @@ const SJ_SOUNDS = (() => {
   // ── Abrir carrito — whoosh ──
   function openCart() {
     if (!enabled) return;
-    const ac = getCtx(), m = master(0.18);
+    const ac = getCtx(), m = master(0.2);
     const buf = ac.createBuffer(1,ac.sampleRate*0.15,ac.sampleRate);
     const data = buf.getChannelData(0);
     for (let i=0;i<data.length;i++) data[i]=(Math.random()*2-1);
@@ -76,7 +76,7 @@ const SJ_SOUNDS = (() => {
   // ── WhatsApp — ding ──
   function whatsapp() {
     if (!enabled) return;
-    const ac = getCtx(), m = master(0.35);
+    const ac = getCtx(), m = master(0.2);
     [[1046,0],[1318,0.1],[1568,0.19]].forEach(([freq,delay]) => {
       const osc=ac.createOscillator(), env=ac.createGain();
       osc.type='sine'; osc.frequency.value=freq;
@@ -91,7 +91,7 @@ const SJ_SOUNDS = (() => {
   // ── Dark ON — nocturno ──
   function darkOn() {
     if (!enabled) return;
-    const ac = getCtx(), m = master(0.22);
+    const ac = getCtx(), m = master(0.2);
     [220,165].forEach((freq,i) => {
       const osc=ac.createOscillator(), env=ac.createGain();
       osc.type='sine'; osc.frequency.value=freq;
@@ -106,7 +106,7 @@ const SJ_SOUNDS = (() => {
   // ── Dark OFF — amanecer ──
   function darkOff() {
     if (!enabled) return;
-    const ac = getCtx(), m = master(0.22);
+    const ac = getCtx(), m = master(0.2);
     [523,659,784].forEach((freq,i) => {
       const osc=ac.createOscillator(), env=ac.createGain();
       osc.type='triangle'; osc.frequency.value=freq;
@@ -121,7 +121,7 @@ const SJ_SOUNDS = (() => {
   // ── Envío gratis — fanfarria ──
   function freeShipping() {
     if (!enabled) return;
-    const ac = getCtx(), m = master(0.38);
+    const ac = getCtx(), m = master(0.2);
     [[523,0],[659,.08],[784,.16],[1046,.24],[784,.32],[1046,.4]].forEach(([freq,delay]) => {
       const osc=ac.createOscillator(), env=ac.createGain(), filt=ac.createBiquadFilter();
       osc.type='square'; osc.frequency.value=freq;
@@ -137,7 +137,7 @@ const SJ_SOUNDS = (() => {
   // ── Vaciar carrito — error suave ──
   function clearCart() {
     if (!enabled) return;
-    const ac = getCtx(), m = master(0.28);
+    const ac = getCtx(), m = master(0.2);
     [[300,0],[220,0.12]].forEach(([freq,delay]) => {
       const osc=ac.createOscillator(), env=ac.createGain(), filt=ac.createBiquadFilter();
       osc.type='sawtooth'; filt.type='lowpass'; filt.frequency.value=800; osc.frequency.value=freq;
@@ -151,7 +151,7 @@ const SJ_SOUNDS = (() => {
   // ── Login OK — bienvenida ──
   function loginOk() {
     if (!enabled) return;
-    const ac = getCtx(), m = master(0.3);
+    const ac = getCtx(), m = master(0.2);
     [[523,0],[659,.06],[784,.12],[1046,.18]].forEach(([freq,delay]) => {
       const osc=ac.createOscillator(), env=ac.createGain();
       osc.type='sine'; osc.frequency.value=freq;
@@ -166,7 +166,7 @@ const SJ_SOUNDS = (() => {
   // ── Toast genérico — tick ──
   function toast() {
     if (!enabled) return;
-    const ac = getCtx(), m = master(0.18), osc = ac.createOscillator(), env = ac.createGain();
+    const ac = getCtx(), m = master(0.2), osc = ac.createOscillator(), env = ac.createGain();
     osc.type='sine'; osc.frequency.value=740;
     env.gain.setValueAtTime(0.5,ac.currentTime);
     env.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.14);
@@ -176,7 +176,7 @@ const SJ_SOUNDS = (() => {
   // ── 🚪 Entrar a pasillo — "chime" suave de campanita ──
   function enterPasillo() {
     if (!enabled) return;
-    const ac = getCtx(), m = master(0.28);
+    const ac = getCtx(), m = master(0.2);
     // Acorde pentatónico suave: dos notas como campanitas de tienda
     [[1760,0,0.35],[2093,0.08,0.3]].forEach(([freq,delay,dur]) => {
       const osc = ac.createOscillator(), env = ac.createGain();
@@ -285,7 +285,7 @@ const SJ_SOUNDS = (() => {
     getCtx();
     ambientGain = ctx.createGain();
     ambientGain.gain.setValueAtTime(0, ctx.currentTime);
-    ambientGain.gain.linearRampToValueAtTime(0.55, ctx.currentTime+3); // fade in 3s
+    ambientGain.gain.linearRampToValueAtTime(0.30, ctx.currentTime+3); // fade in 3s
     ambientGain.connect(ctx.destination);
     ambientPlaying = true;
     ambientNextNote = ctx.currentTime + 0.1;
