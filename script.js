@@ -13,238 +13,326 @@ let cantidadModal  = 1;
 let usuarioActual  = null;    // {nombre, telefono}
 let chatbotAbierto = false;
 
-// ─── 🔊 SJ SOUND ENGINE (Web Audio API — sin archivos externos) ───────────────
+// ─── 🔊 SJ SOUND ENGINE ───────────────────────────────────────────────────────
 const SJ_SOUNDS = (() => {
   let ctx = null;
-  let enabled = localStorage.getItem('sjSounds') !== 'false'; // ON por default
+  let enabled = localStorage.getItem('sjSounds') !== 'false';
 
   function getCtx() {
     if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === 'suspended') ctx.resume();
     return ctx;
   }
-
-  // Nodo maestro de volumen
-  function master(volume = 0.35) {
-    const g = getCtx().createGain();
-    g.gain.value = volume;
-    g.connect(getCtx().destination);
-    return g;
+  function master(vol = 0.35) {
+    const g = getCtx().createGain(); g.gain.value = vol;
+    g.connect(getCtx().destination); return g;
   }
 
-  // Envolvente ADSR básica
-  function adsr(gainNode, atk, dec, sus, rel, peak = 1) {
-    const now = getCtx().currentTime;
-    gainNode.gain.setValueAtTime(0, now);
-    gainNode.gain.linearRampToValueAtTime(peak, now + atk);
-    gainNode.gain.linearRampToValueAtTime(sus, now + atk + dec);
-    gainNode.gain.setValueAtTime(sus, now + atk + dec + 0.05);
-    gainNode.gain.linearRampToValueAtTime(0, now + atk + dec + rel);
+  // ── Agregar al carrito — "ka-ching" retro ──
+  function addToCart() {
+    if (!enabled) return;
+    const ac = getCtx(), m = master(0.4);
+    [[880,0,0.08],[1320,0.07,0.14]].forEach(([freq,delay,dur]) => {
+      const osc = ac.createOscillator(), env = ac.createGain();
+      osc.type = 'triangle'; osc.frequency.setValueAtTime(freq, ac.currentTime+delay);
+      osc.frequency.exponentialRampToValueAtTime(freq*1.02, ac.currentTime+delay+dur*0.3);
+      env.gain.setValueAtTime(0,ac.currentTime+delay);
+      env.gain.linearRampToValueAtTime(0.8,ac.currentTime+delay+0.015);
+      env.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+delay+dur);
+      osc.connect(env); env.connect(m);
+      osc.start(ac.currentTime+delay); osc.stop(ac.currentTime+delay+dur+0.05);
+    });
   }
 
-  const sounds = {
+  // ── Eliminar — "plop" descendente ──
+  function removeFromCart() {
+    if (!enabled) return;
+    const ac = getCtx(), m = master(0.3), osc = ac.createOscillator(), env = ac.createGain();
+    osc.type='sine'; osc.frequency.setValueAtTime(440,ac.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(200,ac.currentTime+0.18);
+    env.gain.setValueAtTime(0.6,ac.currentTime);
+    env.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.2);
+    osc.connect(env); env.connect(m); osc.start(); osc.stop(ac.currentTime+0.22);
+  }
 
-    // ✅ Agregar al carrito — "pop" alegre tipo caja registradora retro
-    addToCart() {
-      if (!enabled) return;
-      const ac = getCtx();
-      const m = master(0.4);
+  // ── Abrir carrito — whoosh ──
+  function openCart() {
+    if (!enabled) return;
+    const ac = getCtx(), m = master(0.18);
+    const buf = ac.createBuffer(1,ac.sampleRate*0.15,ac.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i=0;i<data.length;i++) data[i]=(Math.random()*2-1);
+    const src = ac.createBufferSource(); src.buffer = buf;
+    const filter = ac.createBiquadFilter();
+    filter.type='bandpass'; filter.frequency.setValueAtTime(600,ac.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(2400,ac.currentTime+0.12); filter.Q.value=1.5;
+    const env = ac.createGain();
+    env.gain.setValueAtTime(0,ac.currentTime); env.gain.linearRampToValueAtTime(1,ac.currentTime+0.03);
+    env.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.14);
+    src.connect(filter); filter.connect(env); env.connect(m);
+    src.start(); src.stop(ac.currentTime+0.16);
+  }
 
-      // Dos tonos tipo "ka-ching"
-      [[880, 0, 0.08], [1320, 0.07, 0.14]].forEach(([freq, delay, dur]) => {
-        const osc = ac.createOscillator();
-        const env = ac.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, ac.currentTime + delay);
-        osc.frequency.exponentialRampToValueAtTime(freq * 1.02, ac.currentTime + delay + dur * 0.3);
-        env.gain.setValueAtTime(0, ac.currentTime + delay);
-        env.gain.linearRampToValueAtTime(0.8, ac.currentTime + delay + 0.015);
-        env.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + delay + dur);
-        osc.connect(env); env.connect(m);
-        osc.start(ac.currentTime + delay);
-        osc.stop(ac.currentTime + delay + dur + 0.05);
-      });
-    },
-
-    // 🗑 Eliminar del carrito — "plop" suave descendente
-    removeFromCart() {
-      if (!enabled) return;
-      const ac = getCtx();
-      const m = master(0.3);
-      const osc = ac.createOscillator();
-      const env = ac.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(440, ac.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(200, ac.currentTime + 0.18);
-      env.gain.setValueAtTime(0.6, ac.currentTime);
-      env.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.2);
+  // ── WhatsApp — ding ──
+  function whatsapp() {
+    if (!enabled) return;
+    const ac = getCtx(), m = master(0.35);
+    [[1046,0],[1318,0.1],[1568,0.19]].forEach(([freq,delay]) => {
+      const osc=ac.createOscillator(), env=ac.createGain();
+      osc.type='sine'; osc.frequency.value=freq;
+      env.gain.setValueAtTime(0,ac.currentTime+delay);
+      env.gain.linearRampToValueAtTime(0.7,ac.currentTime+delay+0.015);
+      env.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+delay+0.28);
       osc.connect(env); env.connect(m);
-      osc.start(); osc.stop(ac.currentTime + 0.22);
-    },
+      osc.start(ac.currentTime+delay); osc.stop(ac.currentTime+delay+0.3);
+    });
+  }
 
-    // 🛒 Abrir carrito — "whoosh" suave de apertura
-    openCart() {
-      if (!enabled) return;
-      const ac = getCtx();
-      const m = master(0.18);
-      // Ruido filtrado tipo "swoosh"
-      const buf = ac.createBuffer(1, ac.sampleRate * 0.15, ac.sampleRate);
-      const data = buf.getChannelData(0);
-      for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1);
-      const src = ac.createBufferSource();
-      src.buffer = buf;
-      const filter = ac.createBiquadFilter();
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(600, ac.currentTime);
-      filter.frequency.exponentialRampToValueAtTime(2400, ac.currentTime + 0.12);
-      filter.Q.value = 1.5;
-      const env = ac.createGain();
-      env.gain.setValueAtTime(0, ac.currentTime);
-      env.gain.linearRampToValueAtTime(1, ac.currentTime + 0.03);
-      env.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.14);
-      src.connect(filter); filter.connect(env); env.connect(m);
-      src.start(); src.stop(ac.currentTime + 0.16);
-    },
-
-    // 📱 WhatsApp — "ding" de notificación
-    whatsapp() {
-      if (!enabled) return;
-      const ac = getCtx();
-      const m = master(0.35);
-      [[1046, 0], [1318, 0.1], [1568, 0.19]].forEach(([freq, delay]) => {
-        const osc = ac.createOscillator();
-        const env = ac.createGain();
-        osc.type = 'sine';
-        osc.frequency.value = freq;
-        env.gain.setValueAtTime(0, ac.currentTime + delay);
-        env.gain.linearRampToValueAtTime(0.7, ac.currentTime + delay + 0.015);
-        env.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + delay + 0.28);
-        osc.connect(env); env.connect(m);
-        osc.start(ac.currentTime + delay);
-        osc.stop(ac.currentTime + delay + 0.3);
-      });
-    },
-
-    // 🌙 Dark mode ON — tono "nocturno" grave
-    darkOn() {
-      if (!enabled) return;
-      const ac = getCtx();
-      const m = master(0.22);
-      [220, 165].forEach((freq, i) => {
-        const osc = ac.createOscillator();
-        const env = ac.createGain();
-        osc.type = 'sine';
-        osc.frequency.value = freq;
-        env.gain.setValueAtTime(0, ac.currentTime + i * 0.09);
-        env.gain.linearRampToValueAtTime(0.6, ac.currentTime + i * 0.09 + 0.02);
-        env.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + i * 0.09 + 0.3);
-        osc.connect(env); env.connect(m);
-        osc.start(ac.currentTime + i * 0.09);
-        osc.stop(ac.currentTime + i * 0.09 + 0.32);
-      });
-    },
-
-    // ☀️ Dark mode OFF — tono "amanecer" agudo
-    darkOff() {
-      if (!enabled) return;
-      const ac = getCtx();
-      const m = master(0.22);
-      [523, 659, 784].forEach((freq, i) => {
-        const osc = ac.createOscillator();
-        const env = ac.createGain();
-        osc.type = 'triangle';
-        osc.frequency.value = freq;
-        env.gain.setValueAtTime(0, ac.currentTime + i * 0.07);
-        env.gain.linearRampToValueAtTime(0.5, ac.currentTime + i * 0.07 + 0.015);
-        env.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + i * 0.07 + 0.22);
-        osc.connect(env); env.connect(m);
-        osc.start(ac.currentTime + i * 0.07);
-        osc.stop(ac.currentTime + i * 0.07 + 0.24);
-      });
-    },
-
-    // 🎉 Envío gratis desbloqueado — fanfarria pequeña
-    freeShipping() {
-      if (!enabled) return;
-      const ac = getCtx();
-      const m = master(0.38);
-      [[523,0],[659,.08],[784,.16],[1046,.24],[784,.32],[1046,.4]].forEach(([freq, delay]) => {
-        const osc = ac.createOscillator();
-        const env = ac.createGain();
-        osc.type = 'square';
-        osc.frequency.value = freq;
-        const filt = ac.createBiquadFilter();
-        filt.type = 'lowpass'; filt.frequency.value = 2000;
-        env.gain.setValueAtTime(0, ac.currentTime + delay);
-        env.gain.linearRampToValueAtTime(0.4, ac.currentTime + delay + 0.015);
-        env.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + delay + 0.12);
-        osc.connect(filt); filt.connect(env); env.connect(m);
-        osc.start(ac.currentTime + delay);
-        osc.stop(ac.currentTime + delay + 0.14);
-      });
-    },
-
-    // ❌ Vaciar carrito — "error" suave
-    clearCart() {
-      if (!enabled) return;
-      const ac = getCtx();
-      const m = master(0.28);
-      [[300, 0], [220, 0.12]].forEach(([freq, delay]) => {
-        const osc = ac.createOscillator();
-        const env = ac.createGain();
-        osc.type = 'sawtooth';
-        const filt = ac.createBiquadFilter();
-        filt.type = 'lowpass'; filt.frequency.value = 800;
-        osc.frequency.value = freq;
-        env.gain.setValueAtTime(0.5, ac.currentTime + delay);
-        env.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + delay + 0.18);
-        osc.connect(filt); filt.connect(env); env.connect(m);
-        osc.start(ac.currentTime + delay);
-        osc.stop(ac.currentTime + delay + 0.2);
-      });
-    },
-
-    // 🔑 Login exitoso — acorde de bienvenida
-    loginOk() {
-      if (!enabled) return;
-      const ac = getCtx();
-      const m = master(0.3);
-      [[523,0],[659,.06],[784,.12],[1046,.18]].forEach(([freq, delay]) => {
-        const osc = ac.createOscillator();
-        const env = ac.createGain();
-        osc.type = 'sine';
-        osc.frequency.value = freq;
-        env.gain.setValueAtTime(0, ac.currentTime + delay);
-        env.gain.linearRampToValueAtTime(0.55, ac.currentTime + delay + 0.02);
-        env.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + delay + 0.35);
-        osc.connect(env); env.connect(m);
-        osc.start(ac.currentTime + delay);
-        osc.stop(ac.currentTime + delay + 0.37);
-      });
-    },
-
-    // 🔔 Toast / notificación genérica — "tick" neutro
-    toast() {
-      if (!enabled) return;
-      const ac = getCtx();
-      const m = master(0.18);
-      const osc = ac.createOscillator();
-      const env = ac.createGain();
-      osc.type = 'sine';
-      osc.frequency.value = 740;
-      env.gain.setValueAtTime(0.5, ac.currentTime);
-      env.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.14);
+  // ── Dark ON — nocturno ──
+  function darkOn() {
+    if (!enabled) return;
+    const ac = getCtx(), m = master(0.22);
+    [220,165].forEach((freq,i) => {
+      const osc=ac.createOscillator(), env=ac.createGain();
+      osc.type='sine'; osc.frequency.value=freq;
+      env.gain.setValueAtTime(0,ac.currentTime+i*0.09);
+      env.gain.linearRampToValueAtTime(0.6,ac.currentTime+i*0.09+0.02);
+      env.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+i*0.09+0.3);
       osc.connect(env); env.connect(m);
-      osc.start(); osc.stop(ac.currentTime + 0.15);
-    },
-  };
+      osc.start(ac.currentTime+i*0.09); osc.stop(ac.currentTime+i*0.09+0.32);
+    });
+  }
+
+  // ── Dark OFF — amanecer ──
+  function darkOff() {
+    if (!enabled) return;
+    const ac = getCtx(), m = master(0.22);
+    [523,659,784].forEach((freq,i) => {
+      const osc=ac.createOscillator(), env=ac.createGain();
+      osc.type='triangle'; osc.frequency.value=freq;
+      env.gain.setValueAtTime(0,ac.currentTime+i*0.07);
+      env.gain.linearRampToValueAtTime(0.5,ac.currentTime+i*0.07+0.015);
+      env.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+i*0.07+0.22);
+      osc.connect(env); env.connect(m);
+      osc.start(ac.currentTime+i*0.07); osc.stop(ac.currentTime+i*0.07+0.24);
+    });
+  }
+
+  // ── Envío gratis — fanfarria ──
+  function freeShipping() {
+    if (!enabled) return;
+    const ac = getCtx(), m = master(0.38);
+    [[523,0],[659,.08],[784,.16],[1046,.24],[784,.32],[1046,.4]].forEach(([freq,delay]) => {
+      const osc=ac.createOscillator(), env=ac.createGain(), filt=ac.createBiquadFilter();
+      osc.type='square'; osc.frequency.value=freq;
+      filt.type='lowpass'; filt.frequency.value=2000;
+      env.gain.setValueAtTime(0,ac.currentTime+delay);
+      env.gain.linearRampToValueAtTime(0.4,ac.currentTime+delay+0.015);
+      env.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+delay+0.12);
+      osc.connect(filt); filt.connect(env); env.connect(m);
+      osc.start(ac.currentTime+delay); osc.stop(ac.currentTime+delay+0.14);
+    });
+  }
+
+  // ── Vaciar carrito — error suave ──
+  function clearCart() {
+    if (!enabled) return;
+    const ac = getCtx(), m = master(0.28);
+    [[300,0],[220,0.12]].forEach(([freq,delay]) => {
+      const osc=ac.createOscillator(), env=ac.createGain(), filt=ac.createBiquadFilter();
+      osc.type='sawtooth'; filt.type='lowpass'; filt.frequency.value=800; osc.frequency.value=freq;
+      env.gain.setValueAtTime(0.5,ac.currentTime+delay);
+      env.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+delay+0.18);
+      osc.connect(filt); filt.connect(env); env.connect(m);
+      osc.start(ac.currentTime+delay); osc.stop(ac.currentTime+delay+0.2);
+    });
+  }
+
+  // ── Login OK — bienvenida ──
+  function loginOk() {
+    if (!enabled) return;
+    const ac = getCtx(), m = master(0.3);
+    [[523,0],[659,.06],[784,.12],[1046,.18]].forEach(([freq,delay]) => {
+      const osc=ac.createOscillator(), env=ac.createGain();
+      osc.type='sine'; osc.frequency.value=freq;
+      env.gain.setValueAtTime(0,ac.currentTime+delay);
+      env.gain.linearRampToValueAtTime(0.55,ac.currentTime+delay+0.02);
+      env.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+delay+0.35);
+      osc.connect(env); env.connect(m);
+      osc.start(ac.currentTime+delay); osc.stop(ac.currentTime+delay+0.37);
+    });
+  }
+
+  // ── Toast genérico — tick ──
+  function toast() {
+    if (!enabled) return;
+    const ac = getCtx(), m = master(0.18), osc = ac.createOscillator(), env = ac.createGain();
+    osc.type='sine'; osc.frequency.value=740;
+    env.gain.setValueAtTime(0.5,ac.currentTime);
+    env.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.14);
+    osc.connect(env); env.connect(m); osc.start(); osc.stop(ac.currentTime+0.15);
+  }
+
+  // ── 🚪 Entrar a pasillo — "chime" suave de campanita ──
+  function enterPasillo() {
+    if (!enabled) return;
+    const ac = getCtx(), m = master(0.28);
+    // Acorde pentatónico suave: dos notas como campanitas de tienda
+    [[1760,0,0.35],[2093,0.08,0.3]].forEach(([freq,delay,dur]) => {
+      const osc = ac.createOscillator(), env = ac.createGain();
+      // Mezcla de sine + una pizca de triangle para timbre cálido
+      const osc2 = ac.createOscillator(), env2 = ac.createGain();
+      osc.type='sine'; osc.frequency.value=freq;
+      osc2.type='triangle'; osc2.frequency.value=freq;
+      // Envelope con caída natural como campana
+      env.gain.setValueAtTime(0,ac.currentTime+delay);
+      env.gain.linearRampToValueAtTime(0.6,ac.currentTime+delay+0.01);
+      env.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+delay+dur);
+      env2.gain.setValueAtTime(0,ac.currentTime+delay);
+      env2.gain.linearRampToValueAtTime(0.15,ac.currentTime+delay+0.01);
+      env2.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+delay+dur*0.6);
+      osc.connect(env); env.connect(m);
+      osc2.connect(env2); env2.connect(m);
+      osc.start(ac.currentTime+delay); osc.stop(ac.currentTime+delay+dur+0.05);
+      osc2.start(ac.currentTime+delay); osc2.stop(ac.currentTime+delay+dur*0.6+0.05);
+    });
+    // Nota base muy suave para dar "profundidad"
+    const bass = ac.createOscillator(), bassEnv = ac.createGain();
+    bass.type='sine'; bass.frequency.value=440;
+    bassEnv.gain.setValueAtTime(0,ac.currentTime);
+    bassEnv.gain.linearRampToValueAtTime(0.12,ac.currentTime+0.02);
+    bassEnv.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.25);
+    bass.connect(bassEnv); bassEnv.connect(m);
+    bass.start(); bass.stop(ac.currentTime+0.27);
+  }
+
+  // ── 🎵 MÚSICA AMBIENTAL — "Tienda de barrio" ──────────────────────────────
+  // Genera una melodía procedural cálida en loop con bajo, acordes y melodía
+  let ambientPlaying = false;
+  let ambientGain = null;
+  let ambientScheduler = null;
+  let ambientNextNote = 0;
+  let ambientStep = 0;
+
+  // Escala mayor de Do — notas en Hz (C4–C5 + bajos)
+  const SCALE = [261.63,293.66,329.63,349.23,392.00,440.00,493.88,523.25];
+  // Patrón de melodía (índices en SCALE): motivo tipo "tienda cálida"
+  const MELODY = [4,5,4,2,0,2,4,5, 4,2,0,2,3,5,4,2];
+  // Patrón de bajo (octava baja)
+  const BASS   = [0,0,2,2,3,3,4,4, 0,0,4,4,3,3,2,2];
+
+  function ambientNote(freq, time, dur, type='sine', vol=0.12, detune=0) {
+    if (!ctx) return;
+    const osc = ctx.createOscillator(), env = ctx.createGain();
+    osc.type = type; osc.frequency.value = freq; osc.detune.value = detune;
+    env.gain.setValueAtTime(0, time);
+    env.gain.linearRampToValueAtTime(vol, time+0.04);
+    env.gain.setValueAtTime(vol*0.7, time+dur*0.6);
+    env.gain.linearRampToValueAtTime(0, time+dur);
+    osc.connect(env); env.connect(ambientGain);
+    osc.start(time); osc.stop(time+dur+0.05);
+  }
+
+  function scheduleAmbient() {
+    if (!ambientPlaying || !ctx) return;
+    const lookahead = 0.1;
+    const scheduleAhead = 0.5;
+
+    while (ambientNextNote < ctx.currentTime + scheduleAhead) {
+      const beat = 0.52; // ~115 BPM, tempo tranquilo de tienda
+      const i = ambientStep % MELODY.length;
+      const t = ambientNextNote;
+
+      // Melodía principal — sine suave
+      const mFreq = SCALE[MELODY[i]] * 2; // octava alta
+      ambientNote(mFreq, t, beat*0.55, 'sine', 0.10);
+
+      // Bajo — cada 2 pasos
+      if (i % 2 === 0) {
+        const bFreq = SCALE[BASS[i]] * 0.5; // octava baja
+        ambientNote(bFreq, t, beat*1.1, 'triangle', 0.08);
+      }
+
+      // Acorde pad cada 4 pasos — tres notas simultáneas muy suaves
+      if (i % 4 === 0) {
+        const root = SCALE[BASS[i]];
+        ambientNote(root,       t, beat*3.5, 'sine', 0.04, 0);
+        ambientNote(root*1.25,  t, beat*3.5, 'sine', 0.03, 5);
+        ambientNote(root*1.5,   t, beat*3.5, 'sine', 0.025,-5);
+      }
+
+      // Percusión suave — "tick" de rimshot cada 2 tiempos
+      if (i % 4 === 2) {
+        const buf = ctx.createBuffer(1, ctx.sampleRate*0.04, ctx.sampleRate);
+        const d = buf.getChannelData(0);
+        for (let n=0;n<d.length;n++) d[n]=(Math.random()*2-1)*Math.pow(1-n/d.length,4);
+        const src = ctx.createBufferSource(); src.buffer=buf;
+        const filt = ctx.createBiquadFilter(); filt.type='bandpass'; filt.frequency.value=3000; filt.Q.value=2;
+        const g = ctx.createGain(); g.gain.value=0.04;
+        src.connect(filt); filt.connect(g); g.connect(ambientGain);
+        src.start(t); src.stop(t+0.05);
+      }
+
+      ambientNextNote += beat;
+      ambientStep++;
+    }
+
+    ambientScheduler = setTimeout(scheduleAmbient, lookahead*1000);
+  }
+
+  function startAmbient() {
+    if (ambientPlaying) return;
+    getCtx();
+    ambientGain = ctx.createGain();
+    ambientGain.gain.setValueAtTime(0, ctx.currentTime);
+    ambientGain.gain.linearRampToValueAtTime(0.55, ctx.currentTime+3); // fade in 3s
+    ambientGain.connect(ctx.destination);
+    ambientPlaying = true;
+    ambientNextNote = ctx.currentTime + 0.1;
+    ambientStep = 0;
+    scheduleAmbient();
+  }
+
+  function stopAmbient() {
+    if (!ambientPlaying) return;
+    ambientPlaying = false;
+    if (ambientScheduler) clearTimeout(ambientScheduler);
+    if (ambientGain && ctx) {
+      ambientGain.gain.setValueAtTime(ambientGain.gain.value, ctx.currentTime);
+      ambientGain.gain.linearRampToValueAtTime(0, ctx.currentTime+2); // fade out 2s
+      setTimeout(() => { try { ambientGain.disconnect(); } catch(e){} ambientGain=null; }, 2100);
+    }
+  }
+
+  function setAmbientVolume(v) {
+    if (ambientGain && ctx) {
+      ambientGain.gain.setValueAtTime(ambientGain.gain.value, ctx.currentTime);
+      ambientGain.gain.linearRampToValueAtTime(v, ctx.currentTime+0.5);
+    }
+  }
+
+  let _ambientEnabled = localStorage.getItem('sjAmbient') !== 'false';
 
   return {
-    ...sounds,
-    isEnabled: () => enabled,
+    addToCart, removeFromCart, openCart, whatsapp,
+    darkOn, darkOff, freeShipping, clearCart, loginOk, toast,
+    enterPasillo,
+    // Ambient
+    ambientStart()  { if (_ambientEnabled && enabled) startAmbient(); },
+    ambientStop()   { stopAmbient(); },
+    ambientToggle() {
+      _ambientEnabled = !_ambientEnabled;
+      localStorage.setItem('sjAmbient', _ambientEnabled);
+      _ambientEnabled ? startAmbient() : stopAmbient();
+      return _ambientEnabled;
+    },
+    ambientIsEnabled() { return _ambientEnabled; },
+    setAmbientVolume,
+    isEnabled()  { return enabled; },
     toggle() {
       enabled = !enabled;
       localStorage.setItem('sjSounds', enabled);
+      if (!enabled) stopAmbient();
       return enabled;
     }
   };
@@ -400,6 +488,7 @@ function abrirPasilloView(pasilloId) {
   view.scrollTop = 0;
   view.classList.add('open');
   document.body.style.overflow = 'hidden';
+  SJ_SOUNDS.enterPasillo();
 
   // ── POBLAR DROPDOWN ──
   const menu = document.getElementById('pvDropdownMenu');
@@ -1802,20 +1891,9 @@ document.addEventListener('keydown', e => {
   }
 });
 
-/* ============ TOGGLE SONIDOS ============ */
-function toggleSonidos() {
-  const on = SJ_SOUNDS.toggle();
-  const btn = document.getElementById('soundToggleBtn');
-  if (btn) btn.title = on ? 'Silenciar sonidos' : 'Activar sonidos';
-  if (btn) btn.innerHTML = on ? '🔊' : '🔇';
-  mostrarToast(on ? '🔊 Sonidos activados' : '🔇 Sonidos silenciados');
-  if (on) SJ_SOUNDS.toast();
-}
-
 /* ============ AVISO DE PRIVACIDAD ============ */
 function abrirAvisoPrivacidad() {
-  const overlay = document.getElementById('privacyOverlay');
-  overlay.classList.add('open');
+  document.getElementById('privacyOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 function cerrarAvisoPrivacidad(e) {
@@ -1824,24 +1902,46 @@ function cerrarAvisoPrivacidad(e) {
   document.body.style.overflow = '';
 }
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && document.getElementById('privacyOverlay')?.classList.contains('open')) {
+  if (e.key === 'Escape' && document.getElementById('privacyOverlay')?.classList.contains('open'))
     cerrarAvisoPrivacidad({ target: document.getElementById('privacyOverlay') });
-  }
 });
 
 /* ============ TOGGLE SONIDOS ============ */
 function toggleSonidos() {
   const on = SJ_SOUNDS.toggle();
   const btn = document.getElementById('soundToggleBtn');
-  if (btn) { btn.title = on ? 'Silenciar sonidos' : 'Activar sonidos'; btn.innerHTML = on ? '🔊' : '🔇'; }
+  if (btn) { btn.innerHTML = on ? '🔊' : '🔇'; btn.title = on ? 'Silenciar efectos' : 'Activar efectos'; }
   mostrarToast(on ? '🔊 Sonidos activados' : '🔇 Sonidos silenciados');
   if (on) SJ_SOUNDS.toast();
 }
 
-// Init: sync botón con preferencia guardada
-(function initSoundBtn() {
-  const btn = document.getElementById('soundToggleBtn');
-  if (!btn) return;
-  btn.innerHTML = SJ_SOUNDS.isEnabled() ? '🔊' : '🔇';
-  btn.title = SJ_SOUNDS.isEnabled() ? 'Silenciar sonidos' : 'Activar sonidos';
+/* ============ MÚSICA AMBIENTAL ============ */
+function toggleAmbient() {
+  const on = SJ_SOUNDS.ambientToggle();
+  const btn = document.getElementById('ambientToggleBtn');
+  if (btn) {
+    btn.innerHTML = on ? '🎵' : '🎵';
+    btn.style.opacity = on ? '1' : '0.4';
+    btn.title = on ? 'Pausar música' : 'Activar música ambiental';
+  }
+  mostrarToast(on ? '🎵 Música ambiental activada' : '⏸ Música pausada');
+}
+
+// Iniciar ambient al primer gesto del usuario (requisito browsers)
+let ambientStarted = false;
+function tryStartAmbient() {
+  if (ambientStarted) return;
+  ambientStarted = true;
+  if (SJ_SOUNDS.ambientIsEnabled()) SJ_SOUNDS.ambientStart();
+}
+document.addEventListener('click', tryStartAmbient, { once: true });
+document.addEventListener('keydown', tryStartAmbient, { once: true });
+document.addEventListener('touchstart', tryStartAmbient, { once: true });
+
+// Sync botones al cargar
+(function initSoundBtns() {
+  const sb = document.getElementById('soundToggleBtn');
+  if (sb) { sb.innerHTML = SJ_SOUNDS.isEnabled() ? '🔊' : '🔇'; sb.title = SJ_SOUNDS.isEnabled() ? 'Silenciar efectos' : 'Activar efectos'; }
+  const ab = document.getElementById('ambientToggleBtn');
+  if (ab) { ab.style.opacity = SJ_SOUNDS.ambientIsEnabled() ? '1' : '0.4'; ab.title = SJ_SOUNDS.ambientIsEnabled() ? 'Pausar música' : 'Activar música ambiental'; }
 })();
