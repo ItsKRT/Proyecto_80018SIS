@@ -1132,7 +1132,7 @@ function generarPasillos(filtro = 'todos') {
             ${prod.precioOld ? `<span class="precio-old" style="font-size:.75rem;text-decoration:line-through;color:var(--sage);">$${prod.precioOld}</span>` : ''}
             <span class="producto-card-price">$${prod.precio}</span>
           `;
-          p.onclick = ev => { ev.stopPropagation(); abrirModal(prod.nombre, prod.precio, prod.precioOld, prod.desc, prod.img, pasillo.nombre); };
+          p.onclick = ev => { ev.stopPropagation(); abrirModal(prod.nombre, prod.precio, prod.precioOld, prod.desc, prod.img, pasillo.nombre, prod.stock ?? 99); };
           prodDiv.appendChild(p);
         });
       }
@@ -1155,9 +1155,9 @@ function aplicarFiltro(id, btn) {
 }
 
 // ─── MODAL PRODUCTO ───────────────────────
-function abrirModal(nombre, precio, precioOld, desc, img, categoria) {
+function abrirModal(nombre, precio, precioOld, desc, img, categoria, stock = 99) {
   cantidadModal = 1;
-  productoActual = { nombre, precio, precioOld, desc, img, categoria };
+  productoActual = { nombre, precio, precioOld, desc, img, categoria, stock };
   document.getElementById('modal-img').src          = img;
   document.getElementById('modal-nombre').innerText  = nombre;
   document.getElementById('modal-desc').innerText    = desc;
@@ -1180,9 +1180,11 @@ function cambiarCantidadModal(d) {
 // ─── CARRITO ──────────────────────────────
 function agregarAlCarrito() {
   if (!productoActual) return;
+  if ((productoActual.stock ?? 99) <= 0) { mostrarModalSinStock(); return; }
   const existe = carrito.find(i => i.nombre === productoActual.nombre);
   if (existe) existe.qty += cantidadModal;
   else carrito.push({ ...productoActual, qty: cantidadModal });
+  descontarStockFirestore(productoActual.nombre, cantidadModal);
   actualizarContador();
   cerrarModal();
   mostrarToast(`✦ ${productoActual.nombre} agregado`);
@@ -1844,14 +1846,89 @@ function lanzarConfetti() {
   document.body.appendChild(frag);
 }
 
-// Llamar confetti al agregar al carrito (parchear función)
-const _agregarAlCarritoOriginal = agregarAlCarrito;
-// Ya está integrado abajo — reemplazamos agregarAlCarrito
+// ─── STOCK: descontar en Firestore ───────────────────────────────────────────
+async function descontarStockFirestore(nombreProducto, cantidad = 1) {
+  try {
+    const { collection, getDocs, updateDoc, doc, increment } = await import(
+      "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js"
+    );
+    const db = window._db;
+    if (!db) return;
+    // Buscar el producto en todos los pasillos
+    const pasillosSnap = await getDocs(collection(db, 'pasillos'));
+    for (const pasilloDoc of pasillosSnap.docs) {
+      const productosSnap = await getDocs(collection(db, 'pasillos', pasilloDoc.id, 'productos'));
+      for (const prodDoc of productosSnap.docs) {
+        if (prodDoc.data().nombre === nombreProducto) {
+          await updateDoc(
+            doc(db, 'pasillos', pasilloDoc.id, 'productos', prodDoc.id),
+            { stock: increment(-cantidad) }
+          );
+          // Actualizar stock en memoria también
+          const pasilloLocal = PASILLOS.find(p => p.id === pasilloDoc.id);
+          if (pasilloLocal) {
+            const prodLocal = pasilloLocal.productos.find(p => p.nombre === nombreProducto);
+            if (prodLocal) prodLocal.stock = (prodLocal.stock ?? 30) - cantidad;
+          }
+          return;
+        }
+      }
+    }
+  } catch(e) {
+    console.warn('No se pudo descontar stock en Firestore:', e.message);
+  }
+}
+
+// ─── MODAL SIN STOCK ─────────────────────────────────────────────────────────
+function mostrarModalSinStock() {
+  let modal = document.getElementById('modalSinStock');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'modalSinStock';
+    modal.style.cssText = `
+      position:fixed;inset:0;background:rgba(0,0,0,.75);
+      display:flex;align-items:center;justify-content:center;
+      z-index:9999;animation:fadeIn .2s ease;
+    `;
+    modal.innerHTML = `
+      <div style="
+        background:var(--bg-card,#1a1a1a);
+        border:2px solid var(--accent,#b8963e);
+        border-radius:20px;padding:40px 32px;
+        max-width:340px;width:90%;text-align:center;
+        box-shadow:0 0 40px rgba(184,150,62,.25);
+      ">
+        <div style="font-size:3rem;margin-bottom:12px">😢</div>
+        <h2 style="color:var(--accent,#b8963e);margin-bottom:10px;font-size:1.3rem">
+          ¡Ups! Sin stock
+        </h2>
+        <p style="color:var(--text-secondary,#aaa);font-size:.95rem;margin-bottom:24px;line-height:1.5">
+          Este producto se agotó por el momento.<br>
+          ¡Pronto habrá más disponible!
+        </p>
+        <button onclick="document.getElementById('modalSinStock').remove()" style="
+          background:var(--accent,#b8963e);color:#000;
+          border:none;border-radius:10px;
+          padding:12px 32px;font-size:1rem;
+          font-weight:700;cursor:pointer;width:100%;
+        ">Entendido 👍</button>
+      </div>
+    `;
+    modal.onclick = e => { if (e.target === modal) modal.remove(); };
+    document.body.appendChild(modal);
+  } else {
+    modal.style.display = 'flex';
+  }
+}
+
+// agregarAlCarrito con confetti + stock
 function agregarAlCarrito() {
   if (!productoActual) return;
+  if ((productoActual.stock ?? 99) <= 0) { mostrarModalSinStock(); return; }
   const existe = carrito.find(i => i.nombre === productoActual.nombre);
   if (existe) existe.qty += cantidadModal;
   else carrito.push({ ...productoActual, qty: cantidadModal });
+  descontarStockFirestore(productoActual.nombre, cantidadModal);
   actualizarContador();
   cerrarModal();
   mostrarToast(`✦ ${productoActual.nombre} agregado`);
