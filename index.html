@@ -867,12 +867,15 @@
   const app = initializeApp(firebaseConfig);
   const db  = getFirestore(app);
 
-  // Hacemos db disponible globalmente para script.js
+  // Exponemos db ANTES de cargar script.js
   window._db = db;
   window._firebase = { getFirestore, app };
-</script>
 
-<script src="script.js"></script>
+  // Cargamos script.js dinámicamente para garantizar que _db ya existe
+  const s = document.createElement('script');
+  s.src = './script.js';
+  document.body.appendChild(s);
+</script>
 <!-- ============ MODAL VIDEO ============ -->
 <div class="modal video-modal" id="modalVideo" onclick="cerrarVideoModal(event)">
   <div class="video-modal-content">
