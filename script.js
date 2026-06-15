@@ -1178,19 +1178,6 @@ function cambiarCantidadModal(d) {
 }
 
 // ─── CARRITO ──────────────────────────────
-function agregarAlCarrito() {
-  if (!productoActual) return;
-  if ((productoActual.stock ?? 99) <= 0) { mostrarModalSinStock(); return; }
-  const existe = carrito.find(i => i.nombre === productoActual.nombre);
-  if (existe) existe.qty += cantidadModal;
-  else carrito.push({ ...productoActual, qty: cantidadModal });
-  descontarStockFirestore(productoActual.nombre, cantidadModal);
-  actualizarContador();
-  cerrarModal();
-  mostrarToast(`✦ ${productoActual.nombre} agregado`);
-  animarContador();
-  SJ_SOUNDS.addToCart();
-}
 function agregarDirecto(nombre, precio, img) {
   const existe = carrito.find(i => i.nombre === nombre);
   if (existe) existe.qty += 1;
