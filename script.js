@@ -1166,6 +1166,15 @@ function abrirModal(nombre, precio, precioOld, desc, img, categoria, stock = 99)
   document.getElementById('modal-qty-val').innerText = 1;
   const oldEl = document.getElementById('modal-precio-old');
   oldEl.innerText = precioOld ? `$${precioOld}` : '';
+  // Actualizar botón según stock
+  const btn = document.getElementById('btn-agregar-modal');
+  if (stock <= 0) {
+    btn.textContent = '🚨 Producto no disponible';
+    btn.className = 'btn-sin-stock btn-full';
+  } else {
+    btn.textContent = 'Agregar al carrito ✦';
+    btn.className = 'btn-primary btn-full';
+  }
   document.getElementById('modalProducto').style.display = 'flex';
 }
 function abrirModal_directo(nombre, precio, precioOld, desc, img, categoria) {
