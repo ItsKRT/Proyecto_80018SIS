@@ -780,9 +780,9 @@ function iniciarSesion() {
 }
 
 // ─── DATOS ────────────────────────────────
-// 🔥 PASILLOS y TODOS_PRODUCTOS se cargan desde Firestore (ver cargarDesdeFirestore al final)
-let PASILLOS = []; // antes era un array estático de ~270 líneas
-const _PASILLOS_STATIC = [  // respaldo temporal — se borra cuando Firestore funcione OK
+// 🔥 Se carga desde Firestore (ver cargarDesdeFirestore al final)
+let PASILLOS = [];
+const _PASILLOS_STATIC = [
   {
     id:'bebidas', nombre:'Bebidas', emoji:'🥤',
     imagen:'./img/bebidas.png',
@@ -1059,7 +1059,7 @@ const _PASILLOS_STATIC = [  // respaldo temporal — se borra cuando Firestore f
   }
 ]; // fin _PASILLOS_STATIC
 
-// Índice plano de todos los productos (mutable, se rellena desde Firestore)
+// Índice plano — se llena desde Firestore
 let TODOS_PRODUCTOS = [];
 
 // ─── GENERAR OFERTAS ──────────────────────
@@ -1178,6 +1178,19 @@ function cambiarCantidadModal(d) {
 }
 
 // ─── CARRITO ──────────────────────────────
+function agregarAlCarrito() {
+  if (!productoActual) return;
+  if ((productoActual.stock ?? 99) <= 0) { mostrarModalSinStock(); return; }
+  const existe = carrito.find(i => i.nombre === productoActual.nombre);
+  if (existe) existe.qty += cantidadModal;
+  else carrito.push({ ...productoActual, qty: cantidadModal });
+  descontarStockFirestore(productoActual.nombre, cantidadModal);
+  actualizarContador();
+  cerrarModal();
+  mostrarToast(`✦ ${productoActual.nombre} agregado`);
+  animarContador();
+  SJ_SOUNDS.addToCart();
+}
 function agregarDirecto(nombre, precio, img) {
   const existe = carrito.find(i => i.nombre === nombre);
   if (existe) existe.qty += 1;
@@ -1841,7 +1854,6 @@ async function descontarStockFirestore(nombreProducto, cantidad = 1) {
     );
     const db = window._db;
     if (!db) return;
-    // Buscar el producto en todos los pasillos
     const pasillosSnap = await getDocs(collection(db, 'pasillos'));
     for (const pasilloDoc of pasillosSnap.docs) {
       const productosSnap = await getDocs(collection(db, 'pasillos', pasilloDoc.id, 'productos'));
@@ -1851,7 +1863,6 @@ async function descontarStockFirestore(nombreProducto, cantidad = 1) {
             doc(db, 'pasillos', pasilloDoc.id, 'productos', prodDoc.id),
             { stock: increment(-cantidad) }
           );
-          // Actualizar stock en memoria también
           const pasilloLocal = PASILLOS.find(p => p.id === pasilloDoc.id);
           if (pasilloLocal) {
             const prodLocal = pasilloLocal.productos.find(p => p.nombre === nombreProducto);
@@ -1908,22 +1919,6 @@ function mostrarModalSinStock() {
   }
 }
 
-// agregarAlCarrito con confetti + stock
-function agregarAlCarrito() {
-  if (!productoActual) return;
-  if ((productoActual.stock ?? 99) <= 0) { mostrarModalSinStock(); return; }
-  const existe = carrito.find(i => i.nombre === productoActual.nombre);
-  if (existe) existe.qty += cantidadModal;
-  else carrito.push({ ...productoActual, qty: cantidadModal });
-  descontarStockFirestore(productoActual.nombre, cantidadModal);
-  actualizarContador();
-  cerrarModal();
-  mostrarToast(`✦ ${productoActual.nombre} agregado`);
-  animarContador();
-  lanzarConfetti();
-  SJ_SOUNDS.addToCart();
-}
-
 // ─── INIT ────────────────────────────────
 async function cargarDesdeFirestore() {
   try {
@@ -1931,26 +1926,22 @@ async function cargarDesdeFirestore() {
       "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js"
     );
     const db = window._db;
-
-    if (!db) throw new Error("Firebase no inicializado — revisa que el bloque Firebase esté en index.html antes de script.js");
+    if (!db) throw new Error('Firebase no inicializado');
 
     const pasillosSnap = await getDocs(collection(db, 'pasillos'));
-
     for (const pasilloDoc of pasillosSnap.docs) {
       const productosSnap = await getDocs(
         collection(db, 'pasillos', pasilloDoc.id, 'productos')
       );
       const productos = productosSnap.docs
-        .sort((a, b) => a.id.localeCompare(b.id)) // mantener orden 001, 002...
+        .sort((a, b) => a.id.localeCompare(b.id))
         .map(d => d.data());
       PASILLOS.push({ ...pasilloDoc.data(), id: pasilloDoc.id, productos });
     }
 
-    // Ordenar pasillos igual que antes
     const orden = ['bebidas','snacks','lacteos','limpieza','enlatados','panaderia','carnesFrias','salud','mascotas','luchaLibre','wwe2k26','dragonball'];
     PASILLOS.sort((a, b) => orden.indexOf(a.id) - orden.indexOf(b.id));
 
-    // Reconstruir índice plano
     TODOS_PRODUCTOS.push(
       ...PASILLOS.flatMap(p => p.productos.map(pr => ({ ...pr, categoria: p.nombre, categoriaId: p.id })))
     );
@@ -1959,12 +1950,10 @@ async function cargarDesdeFirestore() {
     generarFiltros();
     generarPasillos();
     generarCarrusel();
-
     console.log(`✅ Firestore OK — ${PASILLOS.length} pasillos, ${TODOS_PRODUCTOS.length} productos cargados`);
 
-  } catch (err) {
-    console.error('❌ Error cargando desde Firestore:', err);
-    // Fallback: usar datos estáticos si Firestore falla
+  } catch(err) {
+    console.error('❌ Error Firestore:', err);
     PASILLOS.push(..._PASILLOS_STATIC);
     TODOS_PRODUCTOS.push(
       ...PASILLOS.flatMap(p => p.productos.map(pr => ({ ...pr, categoria: p.nombre, categoriaId: p.id })))
