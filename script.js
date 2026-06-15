@@ -780,7 +780,9 @@ function iniciarSesion() {
 }
 
 // ─── DATOS ────────────────────────────────
-const PASILLOS = [
+// 🔥 PASILLOS y TODOS_PRODUCTOS se cargan desde Firestore (ver cargarDesdeFirestore al final)
+let PASILLOS = []; // antes era un array estático de ~270 líneas
+const _PASILLOS_STATIC = [  // respaldo temporal — se borra cuando Firestore funcione OK
   {
     id:'bebidas', nombre:'Bebidas', emoji:'🥤',
     imagen:'./img/bebidas.png',
@@ -1055,10 +1057,10 @@ const PASILLOS = [
   { nombre:'Tamashii Effect Set de Efectos Son Goku',          precio:450,  precioOld:null, desc:'Set exclusivo de efectos diseñados para Son Goku: Kamehameha azul, aura dorada SSJ y destellos de Ultra Instinto plateado. 5 piezas en resina translúcida de alta calidad.', img:'https://images-eu.ssl-images-amazon.com/images/I/617Y4hckCbL._AC_UL210_SR210,210_.jpg', oferta:false },
 ]
   }
-];
+]; // fin _PASILLOS_STATIC
 
-// Índice plano de todos los productos
-const TODOS_PRODUCTOS = PASILLOS.filter(Boolean).flatMap(p => p.productos.map(pr => ({ ...pr, categoria: p.nombre, categoriaId: p.id })));
+// Índice plano de todos los productos (mutable, se rellena desde Firestore)
+let TODOS_PRODUCTOS = [];
 
 // ─── GENERAR OFERTAS ──────────────────────
 function generarOfertas() {
@@ -1859,10 +1861,58 @@ function agregarAlCarrito() {
 }
 
 // ─── INIT ────────────────────────────────
-generarOfertas();
-generarFiltros();
-generarPasillos();
-generarCarrusel();
+async function cargarDesdeFirestore() {
+  try {
+    const { collection, getDocs } = await import(
+      "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js"
+    );
+    const db = window._db;
+
+    if (!db) throw new Error("Firebase no inicializado — revisa que el bloque Firebase esté en index.html antes de script.js");
+
+    const pasillosSnap = await getDocs(collection(db, 'pasillos'));
+
+    for (const pasilloDoc of pasillosSnap.docs) {
+      const productosSnap = await getDocs(
+        collection(db, 'pasillos', pasilloDoc.id, 'productos')
+      );
+      const productos = productosSnap.docs
+        .sort((a, b) => a.id.localeCompare(b.id)) // mantener orden 001, 002...
+        .map(d => d.data());
+      PASILLOS.push({ ...pasilloDoc.data(), id: pasilloDoc.id, productos });
+    }
+
+    // Ordenar pasillos igual que antes
+    const orden = ['bebidas','snacks','lacteos','limpieza','enlatados','panaderia','carnesFrias','salud','mascotas','luchaLibre','wwe2k26','dragonball'];
+    PASILLOS.sort((a, b) => orden.indexOf(a.id) - orden.indexOf(b.id));
+
+    // Reconstruir índice plano
+    TODOS_PRODUCTOS.push(
+      ...PASILLOS.flatMap(p => p.productos.map(pr => ({ ...pr, categoria: p.nombre, categoriaId: p.id })))
+    );
+
+    generarOfertas();
+    generarFiltros();
+    generarPasillos();
+    generarCarrusel();
+
+    console.log(`✅ Firestore OK — ${PASILLOS.length} pasillos, ${TODOS_PRODUCTOS.length} productos cargados`);
+
+  } catch (err) {
+    console.error('❌ Error cargando desde Firestore:', err);
+    // Fallback: usar datos estáticos si Firestore falla
+    PASILLOS.push(..._PASILLOS_STATIC);
+    TODOS_PRODUCTOS.push(
+      ...PASILLOS.flatMap(p => p.productos.map(pr => ({ ...pr, categoria: p.nombre, categoriaId: p.id })))
+    );
+    generarOfertas();
+    generarFiltros();
+    generarPasillos();
+    generarCarrusel();
+    console.warn('⚠️ Usando datos estáticos como fallback');
+  }
+}
+cargarDesdeFirestore();
 
 // ─── VIDEO MODAL ─────────────────────────
 function abrirVideoModal() {
