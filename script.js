@@ -475,7 +475,7 @@ function abrirPasilloView(pasilloId) {
           <span class="pv-price-new">$${prod.precio}</span>
         </div>
       </div>
-      <button class="pv-add-btn" onclick="event.stopPropagation();abrirModal('${prod.nombre.replace(/'/g,"\\'")}',${prod.precio},${prod.precioOld||'null'},'${prod.desc.replace(/'/g,"\\'")}','${prod.img}','${pasillo.nombre}')">Ver detalle ✦</button>
+      <button class="pv-add-btn" onclick="event.stopPropagation();abrirModal('${prod.nombre.replace(/'/g,"\\'")}',${prod.precio},${prod.precioOld||'null'},'${prod.desc.replace(/'/g,"\\'")}','${prod.img}','${pasillo.nombre}',${prod.stock ?? 99})">Ver detalle ✦</button>
     `;
     grid.appendChild(card);
   });
@@ -1067,7 +1067,7 @@ function generarOfertas() {
   const ofertasProd = TODOS_PRODUCTOS.filter(p => p.oferta).slice(0, 8);
   const grid = document.getElementById('ofertasGrid');
   grid.innerHTML = ofertasProd.map(p => `
-    <div class="oferta-card" onclick="abrirModal_directo('${p.nombre}',${p.precio},${p.precioOld||'null'},'${p.desc}','${p.img}','${p.categoria}')">
+    <div class="oferta-card" onclick="abrirModal('${p.nombre.replace(/'/g,"\\'")}',${p.precio},${p.precioOld||'null'},'${p.desc.replace(/'/g,"\\'")}','${p.img}','${p.categoria}',${p.stock ?? 99})">
       <div class="oferta-badge">🔥 Oferta</div>
       <img src="${p.img}" alt="${p.nombre}" loading="lazy">
       <div class="oferta-info">
@@ -1077,7 +1077,7 @@ function generarOfertas() {
           ${p.precioOld ? `<span class="precio-old">$${p.precioOld}</span>` : ''}
           <span class="precio-new">$${p.precio}</span>
         </div>
-        <button class="oferta-add" onclick="event.stopPropagation();agregarDirecto('${p.nombre}',${p.precio},'${p.img}')">+ Agregar</button>
+        <button class="oferta-add" onclick="event.stopPropagation();abrirModal('${p.nombre.replace(/'/g,"\\'")}',${p.precio},${p.precioOld||'null'},'${p.desc.replace(/'/g,"\\'")}','${p.img}','${p.categoria}',${p.stock ?? 99})">+ Agregar</button>
       </div>
     </div>
   `).join('');
@@ -1816,7 +1816,9 @@ async function descontarStockFirestore(nombreProducto, cantidad = 1) {
           const pasilloLocal = PASILLOS.find(p => p.id === pasilloDoc.id);
           if (pasilloLocal) {
             const prodLocal = pasilloLocal.productos.find(p => p.nombre === nombreProducto);
-            if (prodLocal) prodLocal.stock = (prodLocal.stock ?? 30) - cantidad;
+            if (prodLocal && prodLocal.stock !== undefined) {
+              prodLocal.stock = prodLocal.stock - cantidad;
+            }
           }
           return;
         }
