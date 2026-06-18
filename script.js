@@ -1601,15 +1601,9 @@ const SUGERENCIAS = [
   '¿Cómo hago mi pedido?'
 ];
 
-let groqApiKey = '';
+const GROQ_API_KEY = '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'; // ← Pega aquí tu API Key de Groq
 let chatHistorial = [];
 let enviandoMensaje = false;
-
-// ── INIT ──────────────────────────────────────────────
-(function initChatbot() {
-  const savedKey = localStorage.getItem('sj_groq_key');
-  if (savedKey) groqApiKey = savedKey;
-})();
 
 // ── TOGGLE ────────────────────────────────────────────
 function toggleChatbot() {
@@ -1618,74 +1612,24 @@ function toggleChatbot() {
   win.classList.toggle('open', chatbotAbierto);
   document.getElementById('chatbotBadge').style.display = chatbotAbierto ? 'none' : 'flex';
   if (chatbotAbierto) {
-    if (groqApiKey) {
-      mostrarPantallaChat();
-      if (document.getElementById('chatbotMessages').childElementCount === 0) {
-        setTimeout(() => {
-          agregarMensajeBot('¡Hola! 👋 Soy el asistente de **Abarrotes San Juan** con IA. Puedo ayudarte con productos, precios, horarios y más. ¿En qué te ayudo?');
-          renderSugerencias();
-        }, 300);
-      }
-    } else {
-      mostrarPantallaKey();
+    mostrarPantallaChat();
+    if (document.getElementById('chatbotMessages').childElementCount === 0) {
+      setTimeout(() => {
+        agregarMensajeBot('¡Hola! 👋 Soy el asistente de **Abarrotes San Juan** con IA. Puedo ayudarte con productos, precios, horarios y más. ¿En qué te ayudo?');
+        renderSugerencias();
+      }, 300);
     }
   }
 }
 
 // ── PANTALLAS ─────────────────────────────────────────
-function mostrarPantallaKey() {
-  document.getElementById('chatScreenKey').style.display = 'flex';
-  document.getElementById('chatScreenChat').style.display = 'none';
-  setTimeout(() => document.getElementById('groqApiKeyInput')?.focus(), 200);
-}
-
 function mostrarPantallaChat() {
   document.getElementById('chatScreenKey').style.display = 'none';
   document.getElementById('chatScreenChat').style.display = 'flex';
   setTimeout(() => document.getElementById('chatbotInput')?.focus(), 200);
 }
 
-function cambiarApiKey() {
-  groqApiKey = '';
-  localStorage.removeItem('sj_groq_key');
-  mostrarPantallaKey();
-  document.getElementById('groqApiKeyInput').value = '';
-}
-
-// ── ACTIVAR GROQ ──────────────────────────────────────
-async function activarGroq() {
-  const input = document.getElementById('groqApiKeyInput');
-  const key = input.value.trim();
-  if (!key || !key.startsWith('gsk_')) {
-    input.classList.add('chat-key-input--error');
-    input.placeholder = 'Debe empezar con gsk_...';
-    setTimeout(() => {
-      input.classList.remove('chat-key-input--error');
-      input.placeholder = 'gsk_xxxxxxxxxxxxxxxxxxxx';
-    }, 2500);
-    return;
-  }
-  groqApiKey = key;
-  localStorage.setItem('sj_groq_key', key);
-  chatHistorial = [];
-  mostrarPantallaChat();
-  setTimeout(() => {
-    agregarMensajeBot('¡Hola! 👋 Soy el asistente de **Abarrotes San Juan** con IA. Puedo ayudarte con productos, precios, horarios y más. ¿En qué te ayudo?');
-    renderSugerencias();
-  }, 300);
-}
-
-function toggleVerApiKey() {
-  const input = document.getElementById('groqApiKeyInput');
-  const icon = document.getElementById('eyeIcon');
-  if (input.type === 'password') {
-    input.type = 'text';
-    icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
-  } else {
-    input.type = 'password';
-    icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
-  }
-}
+// (funciones de API Key eliminadas — la key está fija en el código)
 
 // ── MENSAJES ──────────────────────────────────────────
 function agregarMensajeBot(texto, esError = false) {
@@ -1760,7 +1704,7 @@ async function enviarMensaje() {
   try {
     const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${groqApiKey}` },
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
       body: JSON.stringify({
         model: GROQ_MODEL,
         max_tokens: 300,
@@ -1775,10 +1719,7 @@ async function enviarMensaje() {
       const errBody = await res.json().catch(() => ({}));
       console.error('Groq error:', res.status, errBody);
       if (res.status === 401) {
-        groqApiKey = '';
-        localStorage.removeItem('sj_groq_key');
-        agregarMensajeBot('⚠️ Tu API Key ya no es válida. Por favor ingresa una nueva.', true);
-        setTimeout(() => mostrarPantallaKey(), 2000);
+        agregarMensajeBot('⚠️ La API Key no es válida. Revisa el archivo script.js y asegúrate de que GROQ_API_KEY sea correcta.', true);
       } else {
         agregarMensajeBot(`⚠️ Error ${res.status}: ${errBody?.error?.message || 'Intenta de nuevo en un momento.'}`, true);
       }
