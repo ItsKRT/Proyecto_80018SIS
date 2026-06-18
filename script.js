@@ -1169,7 +1169,7 @@ function abrirModal(nombre, precio, precioOld, desc, img, categoria, stock = 99)
   // Actualizar botón según stock
   const btn = document.getElementById('btn-agregar-modal');
   if (stock <= 0) {
-    btn.textContent = '🚨 Producto no disponible';
+    btn.textContent = '🚨 Producto no disponible 🚨';
     btn.className = 'btn-sin-stock btn-full';
   } else {
     btn.textContent = 'Agregar al carrito ✦';
@@ -1843,13 +1843,13 @@ function mostrarModalSinStock() {
     modal.innerHTML = `
       <div style="
         background:var(--bg-card,#1a1a1a);
-        border:2px solid var(--accent,#b8963e);
+        border:2px solid var(--accent,#40b83e);
         border-radius:20px;padding:40px 32px;
         max-width:340px;width:90%;text-align:center;
         box-shadow:0 0 40px rgba(184,150,62,.25);
       ">
         <div style="font-size:3rem;margin-bottom:12px">😢</div>
-        <h2 style="color:var(--accent,#b8963e);margin-bottom:10px;font-size:1.3rem">
+        <h2 style="color:var(--accent,#40b83e);margin-bottom:10px;font-size:1.3rem">
           ¡Ups! Sin stock
         </h2>
         <p style="color:var(--text-secondary,#aaa);font-size:.95rem;margin-bottom:24px;line-height:1.5">
@@ -1857,7 +1857,7 @@ function mostrarModalSinStock() {
           ¡Pronto habrá más disponible!
         </p>
         <button onclick="document.getElementById('modalSinStock').remove()" style="
-          background:var(--accent,#b8963e);color:#000;
+          background:var(--accent,#6efa6b);color:#000;
           border:none;border-radius:10px;
           padding:12px 32px;font-size:1rem;
           font-weight:700;cursor:pointer;width:100%;
