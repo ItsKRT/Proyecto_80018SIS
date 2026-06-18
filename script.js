@@ -1843,7 +1843,7 @@ function mostrarModalSinStock() {
     modal.innerHTML = `
       <div style="
         background:var(--bg-card,#1a1a1a);
-        border:2px solid var(--accent,#f70713);
+        border:2px solid var(--accent,#c7141d);
         border-radius:20px;padding:40px 32px;
         max-width:340px;width:90%;text-align:center;
         box-shadow:0 0 40px rgba(184,150,62,.25);
