@@ -1601,7 +1601,7 @@ const SUGERENCIAS = [
   '¿Cómo hago mi pedido?'
 ];
 
-const GROQ_API_KEY = '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'; // ← Pega aquí tu API Key de Groq
+const GROQ_API_KEY = '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'; // ← Pega aquí tu API Key de Groq
 let chatHistorial = [];
 let enviandoMensaje = false;
 
